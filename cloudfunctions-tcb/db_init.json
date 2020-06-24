@@ -1,0 +1,21 @@
+// user表
+{
+	"user": {
+		"data": [ // 数据, 有两个字段，
+			{
+				"username": "admin",
+				"password": "123456"
+			}
+		],
+		"index": [{ // 索引
+			"IndexName": "username", // 索引名称
+			"MgoKeySchema": { // 索引规则
+				"MgoIndexKeys": [{
+					"Name": "username", // 索引字段
+					"Direction": "1" // 索引方向，1：ASC-升序，-1：DESC-降序
+				}],
+				"MgoIsUnique": true // 索引是否唯一
+			}
+		}]
+	}
+}

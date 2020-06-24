@@ -6,7 +6,8 @@ module.exports = {
         "sourceType": "module"
     },
 		"globals": {
-		  "uni": "readonly"
+		  "uni": "readonly",
+			"uniCloud": "readonly"
 		},
     "rules":{
         //在computed properties中禁用异步actions

@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import {mapState,mapMutations} from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 
 export default {
   computed: {
@@ -28,7 +28,7 @@ export default {
         url: '../login/login'
       })
     },
-    bindLogout  () {
+    bindLogout () {
       this.logout()
 
       // 如果需要强制登录跳转回登录页面
