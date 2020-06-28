@@ -57,6 +57,7 @@
 // import service from '@/service/service.js'
 import { mapState, mapMutations } from 'vuex'
 import mInput from '@/components/m-input.vue'
+import validate from '@/utils/validate.js'
 
 export default {
   components: {
@@ -73,12 +74,23 @@ export default {
         username: '',
         password: '',
         openid: null
+      },
+      // 表单验证规则
+      rules: {
+        username: {
+          rule: /\S/,
+          msg: '账号不能为空'
+        },
+        password: {
+          rule: /^[0-9a-zA-Z]{6,16}$/,
+          msg: '密码应为6-16位'
+        }
       }
     }
   },
   computed: mapState(['forcedLogin']),
   methods: {
-    ...mapMutations(['login']),
+    ...mapMutations(['saveLoginState']),
     initProvider () {
       const filters = ['weixin', 'qq', 'sinaweibo']
       uni.getProvider({
@@ -110,16 +122,15 @@ export default {
     },
     async cloudLogin () {
       if (!this.form.openid) {
-			  // 不是微信登录，判断输入是否正确
-        if (!this.form.username || !this.form.password) {
-          this.$toast('请填写正确信息')
-          return
-        }
+			  // 不是微信登录，验证表单是否合法
+        if (!validate('username', this.rules, this.form)) return
+        if (!validate('password', this.rules, this.form)) return
       } else {
         this.form.username = ''
         this.form.password = ''
       }
-      const res = await this.$uniCloud('user', this.form)
+      const data = Object.assign({}, this.form, { type: 'get' })
+      const res = await this.$uniCloud('user', data)
       if (res.code === 0) {
         if (res.data && res.data.username) {
           this.account = res.data.username
@@ -181,7 +192,7 @@ export default {
       }
     },
     toMain (userName) {
-      this.login(userName)
+      this.saveLoginState(userName)
       /**
 			 * 强制登录时使用reLaunch方式跳转过来
 			 * 返回首页也使用reLaunch方式

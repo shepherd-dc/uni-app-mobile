@@ -13,7 +13,7 @@ const store = new Vuex.Store({
 		userName: ''
 	},
 	mutations: {
-		login (state, userName) {
+		saveLoginState (state, userName) {
 			state.userName = userName || '新用户'
 			state.hasLogin = true
 		},

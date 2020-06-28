@@ -4,7 +4,7 @@
       <view class="input-row border">
         <text class="title">账号：</text>
         <m-input
-          v-model="account"
+          v-model="form.username"
           type="text"
           focus
           clearable
@@ -13,7 +13,7 @@
       <view class="input-row border">
         <text class="title">密码：</text>
         <m-input
-          v-model="password"
+          v-model="form.password"
           type="password"
           displayable
           placeholder="请输入密码"></m-input>
@@ -21,7 +21,7 @@
       <view class="input-row">
         <text class="title">邮箱：</text>
         <m-input
-          v-model="email"
+          v-model="form.email"
           type="text"
           clearable
           placeholder="请输入邮箱"></m-input>
@@ -37,7 +37,8 @@
 </template>
 
 <script>
-import service from '@/service/service.js'
+// import service from '@/service/service.js'
+import validate from '@/utils/validate.js'
 import mInput from '@/components/m-input.vue'
 
 export default {
@@ -46,51 +47,47 @@ export default {
   },
   data () {
     return {
-      account: '',
-      password: '',
-      email: ''
+      form: {
+        username: '',
+        password: '',
+        email: ''
+      },
+      // 表单验证规则
+      rules: {
+			  username: {
+			    rule: /\S/,
+			    msg: '账号不能为空'
+			  },
+			  password: {
+			    rule: /^[0-9a-zA-Z]{6,16}$/,
+			    msg: '密码应为6-16位'
+			  },
+        email: {
+          rule: /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/,
+          msg: '邮箱格式不正确'
+        }
+      }
     }
   },
   methods: {
-    register () {
-      /**
-				 * 客户端对账号信息进行一些必要的校验。
-				 * 实际开发中，根据业务需要进行处理，这里仅做示例。
-				 */
-      if (this.account.length < 5) {
-        uni.showToast({
-          icon: 'none',
-          title: '账号最短为 5 个字符'
-        })
-        return
+    async register () {
+      if (!validate('username', this.rules, this.form)) return
+      if (!validate('password', this.rules, this.form)) return
+      if (!validate('email', this.rules, this.form)) return
+      // service.addUser(this.form)
+      const data = Object.assign({}, this.form, { type: 'add' })
+      const res = await this.$uniCloud('user', data)
+      if (res.code === 0) {
+        this.$toast('注册成功，请登录')
+        // 跳转
+        setTimeout(() => {
+          uni.navigateBack({
+            delta: 1
+          })
+        }, 1500)
+      } else {
+        this.$toast(res.msg)
       }
-      if (this.password.length < 6) {
-        uni.showToast({
-          icon: 'none',
-          title: '密码最短为 6 个字符'
-        })
-        return
-      }
-      if (this.email.length < 3 || !~this.email.indexOf('@')) {
-        uni.showToast({
-          icon: 'none',
-          title: '邮箱地址不合法'
-        })
-        return
-      }
-
-      const data = {
-        account: this.account,
-        password: this.password,
-        email: this.email
-      }
-      service.addUser(data)
-      uni.showToast({
-        title: '注册成功'
-      })
-      uni.navigateBack({
-        delta: 1
-      })
     }
   }
 }
