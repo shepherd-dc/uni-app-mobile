@@ -1,5 +1,7 @@
 'use strict';
 const db = uniCloud.database()
+const { getVersion, successCode, failCode } = require('validate')
+
 exports.get = async (event, context) => {
   // 获取 user 表的集合对象
   const collection = db.collection('user')
@@ -15,7 +17,7 @@ exports.get = async (event, context) => {
 			})
 		}
 		return {
-			code: 0,
+			code: successCode,
 			msg: 'success'
 		}
 	} else {
@@ -27,16 +29,17 @@ exports.get = async (event, context) => {
 		// 找到的个数
 		if (user.data.length) {
 			return {
-				code: 0,
+				code: successCode,
 				msg: 'success',
 				data: {
-					username: user.data[0].username
+					username: user.data[0].username,
+					version: getVersion()
 				}
 			}
 		} else {
 			// 没有找到
 			return {
-				code: -1,
+				code: failCode,
 				msg: '用户名或密码错误'
 			}
 		}

@@ -131,6 +131,7 @@ export default {
       }
       const data = Object.assign({}, this.form, { type: 'get' })
       const res = await this.$uniCloud('user', data)
+			console.log(res)
       if (res.code === 0) {
         if (res.data && res.data.username) {
           this.account = res.data.username
