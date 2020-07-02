@@ -4,7 +4,7 @@
       v-if="hasLogin"
       class="hello">
       <view class="title">
-        您好 {{ userName }}，您已成功登录。
+        您好 {{ username }}，您已成功登录。
       </view>
       <view class="ul">
         <view>这是 uni-app 的示例App首页</view>
@@ -29,7 +29,7 @@
 import { mapState } from 'vuex'
 
 export default {
-  computed: mapState(['forcedLogin', 'hasLogin', 'userName']),
+  computed: mapState(['forcedLogin', 'hasLogin', 'username']),
   onLoad () {
     if (!this.hasLogin) {
       uni.showModal({

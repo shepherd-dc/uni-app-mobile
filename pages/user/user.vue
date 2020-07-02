@@ -1,5 +1,7 @@
 <template>
   <view class="content">
+    <open-data type="userAvatarUrl"></open-data>
+    <open-data type="userNickName"></open-data>
     <view class="btn-row">
       <button
         v-if="!hasLogin"

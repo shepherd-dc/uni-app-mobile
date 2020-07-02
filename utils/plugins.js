@@ -26,9 +26,10 @@ Vue.prototype.$relaunch = (url) => uni.reLaunch({
 Vue.prototype.$uniCloud = async (name, data) => {
   uni.showLoading()
   try {
+		const token = uni.getStorageSync('sn-token')
     const res = await uniCloud.callFunction({
       name, // 云函数名字
-      data // 传输数据
+      data: Object.assign({}, data, { token }) // 传输数据
     })
     return res.result
   } catch (e) {

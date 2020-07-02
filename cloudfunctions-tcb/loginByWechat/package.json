@@ -1,5 +1,5 @@
 {
-  "name": "user",
+  "name": "loginByWechat",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,9 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "config": "file:../common/config",
-    "jsonwebtoken": "^8.5.1",
-    "validate": "file:../common/validate",
-    "validator": "^13.1.1"
+    "config": "file:../common/config"
   }
 }

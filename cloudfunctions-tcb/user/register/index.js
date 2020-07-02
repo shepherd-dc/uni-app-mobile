@@ -9,7 +9,7 @@ function validateEmail (email) {
 	return validator.isEmail(email)
 }
 
-exports.add = async (data) => {
+exports.register = async (data) => {
 	const collection = db.collection('user')
 	const user = await collection.where({
 		username: data.username

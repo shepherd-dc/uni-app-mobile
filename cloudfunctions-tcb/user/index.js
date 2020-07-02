@@ -1,12 +1,12 @@
 'use strict'; 
-const { add } = require('./add/index.js') 
-const { get } = require('./get/index.js')
+const { register } = require('./register/index.js') 
+const { login } = require('./login/index.js')
  
 exports.main = async (event, context) => { 
 	switch (event.type) { 
-		case 'add':
-			return add(event) 
-		case 'get':
-			return get(event) 
+		case 'register':
+			return register(event) 
+		case 'login':
+			return login(event) 
 	}
 };

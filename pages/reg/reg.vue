@@ -75,7 +75,7 @@ export default {
       if (!validate('password', this.rules, this.form)) return
       if (!validate('email', this.rules, this.form)) return
       // service.addUser(this.form)
-      const data = Object.assign({}, this.form, { type: 'add' })
+      const data = Object.assign({}, this.form, { type: 'register' })
       const res = await this.$uniCloud('user', data)
 			console.log(res)
       if (res.code === 0) {

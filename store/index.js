@@ -5,20 +5,21 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
 	state: {
-		/**
-		 * 是否需要强制登录
-		 */
+		// 是否需要强制登录
 		forcedLogin: false,
 		hasLogin: false,
-		userName: ''
+		username: '',
+		token: ''
 	},
 	mutations: {
-		saveLoginState (state, userName) {
-			state.userName = userName || '新用户'
+		saveLoginState (state, { username, token }) {
+			state.username = username || '新用户'
+			state.token = token
 			state.hasLogin = true
 		},
 		logout (state) {
-			state.userName = ''
+			state.username = ''
+			state.token = ''
 			state.hasLogin = false
 		}
 	}

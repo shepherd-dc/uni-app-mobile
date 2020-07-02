@@ -129,15 +129,13 @@ export default {
         this.form.username = ''
         this.form.password = ''
       }
-      const data = Object.assign({}, this.form, { type: 'get' })
+      const data = Object.assign({}, this.form, { type: 'login' })
       const res = await this.$uniCloud('user', data)
-			console.log(res)
       if (res.code === 0) {
-        if (res.data && res.data.username) {
-          this.account = res.data.username
-        }
+				const { data } = res
+        if (data.username) this.account = data.username
         this.$toast('登陆成功')
-        this.toMain(this.account)
+        this.toMain(this.account, data.token)
       } else {
         this.$toast(res.msg)
       }
@@ -192,8 +190,16 @@ export default {
         this.$toast('登录失败')
       }
     },
-    toMain (userName) {
-      this.saveLoginState(userName)
+		uniSetStorage (token) {
+			try {
+			   uni.setStorageSync('sn-token', token);
+			} catch (e) {
+			  this.$toast(e)
+			}
+		},
+    toMain (username, token) {
+      this.saveLoginState({username, token})
+			this.uniSetStorage(token)
       /**
 			 * 强制登录时使用reLaunch方式跳转过来
 			 * 返回首页也使用reLaunch方式
@@ -217,7 +223,10 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less" scoped>
+	.btn-row button {
+		margin-bottom: 10px;
+	}
 	.action-row {
 		display: flex;
 		flex-direction: row;
