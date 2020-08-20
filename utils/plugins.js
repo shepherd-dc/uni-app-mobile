@@ -8,7 +8,7 @@ Vue.prototype.$toast = (title, duration = 1500) => uni.showToast({
 })
 
 // 封装路由跳转 navigateTo， switchTab，reLaunch
-Vue.prototype.$router = (url) => uni.navigateTo({
+Vue.prototype.$Router = (url) => uni.navigateTo({
   url: '/pages' + url,
   animationType: 'slide-in-left', // 跳转动画
   animationDuration: 800
