@@ -1,20 +1,83 @@
 // user表
 {
 	"user": {
-		"data": [ // 数据, 有两个字段，
+		"data": [ // user数据, 有两个字段，
 			{
 				"username": "admin",
 				"password": "123456"
 			}
-		],
-		"index": [{ // 索引
-			"IndexName": "username", // 索引名称
-			"MgoKeySchema": { // 索引规则
+		]
+	},
+	"uni-id-users": {
+		"data": [{
+			"username": "admin",
+			"password": "317a81614b65fc31573c947874961fa4111f5e00",
+			"token": [],
+			"avatar": "https://img.cdn.aliyun.dcloud.net.cn/uni-app/uniCloud/unicloudlogo.png",
+			"status": 0
+		}],
+		"index": [{
+			"IndexName": "username",
+			"MgoKeySchema": {
 				"MgoIndexKeys": [{
-					"Name": "username", // 索引字段
-					"Direction": "1" // 索引方向，1：ASC-升序，-1：DESC-降序
+					"Name": "username",
+					"Direction": "1"
 				}],
-				"MgoIsUnique": true // 索引是否唯一
+				"MgoIsUnique": false
+			}
+		}, {
+			"IndexName": "mobile",
+			"MgoKeySchema": {
+				"MgoIndexKeys": [{
+					"Name": "mobile",
+					"Direction": "1"
+				}],
+				"MgoIsUnique": false
+			}
+		}, {
+			"IndexName": "email",
+			"MgoKeySchema": {
+				"MgoIndexKeys": [{
+					"Name": "email",
+					"Direction": "1"
+				}],
+				"MgoIsUnique": false
+			}
+		}, {
+			"IndexName": "wx_openid.app-plus",
+			"MgoKeySchema": {
+				"MgoIndexKeys": [{
+					"Name": "wx_openid.app-plus",
+					"Direction": "1"
+				}],
+				"MgoIsUnique": false
+			}
+		}, {
+			"IndexName": "wx_openid.mp-weixin",
+			"MgoKeySchema": {
+				"MgoIndexKeys": [{
+					"Name": "wx_openid.mp-weixin",
+					"Direction": "1"
+				}],
+				"MgoIsUnique": false
+			}
+		}, {
+			"IndexName": "wx_unionid",
+			"MgoKeySchema": {
+				"MgoIndexKeys": [{
+					"Name": "wx_unionid",
+					"Direction": "1"
+				}],
+				"MgoIsUnique": false
+			}
+		}, {
+			"IndexName": "ali_openid",
+			"MgoKeySchema": {
+				"MgoIndexKeys": [{
+					"Name": "ali_openid",
+					"Direction": "1"
+				}],
+				"MgoIsUnique": false
 			}
 		}]
 	}

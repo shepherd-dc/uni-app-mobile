@@ -6,11 +6,11 @@
       <view class="title">
         您好 {{ username }}，您已成功登录。
       </view>
-      <view class="ul">
-        <view>这是 uni-app 的示例App首页</view>
-        <view>在“我的”中点击“退出”可以“注销当前账户”</view>
+      <view class="menus">
+        <menus></menus>
       </view>
     </view>
+		
     <view
       v-if="!hasLogin"
       class="hello">
@@ -33,8 +33,12 @@ export default {
   onLoad () {
     if (!this.hasLogin) {
       uni.showModal({
-        title: '未登录',
-        content: '您未登录，需要登录后才能继续',
+        title: '您还未登录',
+        content: '请先登录后再继续',
+				cancelText: '暂不登录',
+				cancelColor: '#8F8F94',
+				confirmText: '立即登录',
+				confirmColor: '#3CC51F',
         /**
 					 * 如果需要强制登录，不显示取消按钮
 					 */
@@ -46,11 +50,11 @@ export default {
 							 */
             if (this.forcedLogin) {
               uni.reLaunch({
-                url: '../login/login'
+                url: '../auth/auth'
               })
             } else {
               uni.navigateTo({
-                url: '../login/login'
+                url: '../auth/auth'
               })
             }
           }

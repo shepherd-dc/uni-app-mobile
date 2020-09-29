@@ -25,8 +25,13 @@
 			"style": {
 				"navigationBarTitleText": "我的"
 			}
+		}, {
+			"path" : "pages/auth/auth",
+			"style" : {
+				"navigationBarTitleText": "授权登录"
+			}
 		}
-	],
+  ],
 	"tabBar": {
 		"color": "#7a7e83",
 		"selectedColor": "#0faeff",
