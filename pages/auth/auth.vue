@@ -56,19 +56,19 @@ export default {
       const res = await loginByWeixin({ code })
       console.log(res)
       const { token } = res
+			this.uniSetStorage(token)
       this.saveLoginState({
         username: detail.userInfo.nickName,
         token
       })
-      this.uniSetStorage(token)
       this.$toast('登陆成功')
       this.toMain()
     },
     uniSetStorage (token) {
       try {
-				   uni.setStorageSync('uni_id_token', token)
+				uni.setStorageSync('uni_id_token', token)
       } catch (e) {
-				  this.$toast(e)
+				this.$toast(e)
       }
     },
     toMain (username, token) {
