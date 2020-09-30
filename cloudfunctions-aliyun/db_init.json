@@ -80,5 +80,44 @@
 				"MgoIsUnique": false
 			}
 		}]
+	},
+	"uni-roles": {
+		"data": [{
+			"_id": "5ec1f715f8eeb6004dc291f6",
+			"name": "超级权限",
+			"node": [
+				"user",
+				"roles"
+			],
+			"status": 0
+		}]
+	},
+	"uni-verify": {
+		"data": [],
+		"index": [{
+			"IndexName": "mobile",
+			"MgoKeySchema": {
+				"MgoIndexKeys": [{
+					"Name": "mobile",
+					"Direction": "1"
+				}, {
+					"Name": "code",
+					"Direction": "1"
+				}],
+				"MgoIsUnique": false
+			}
+		}, {
+			"IndexName": "email",
+			"MgoKeySchema": {
+				"MgoIndexKeys": [{
+					"Name": "email",
+					"Direction": "1"
+				}, {
+					"Name": "code",
+					"Direction": "1"
+				}],
+				"MgoIsUnique": false
+			}
+		}]
 	}
 }

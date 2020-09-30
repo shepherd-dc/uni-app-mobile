@@ -1,7 +1,7 @@
 <template>
   <view class="content">
     <view
-      v-if="hasLogin"
+      v-if="token"
       class="hello">
       <view class="title">
         您好 {{ username }}，您已成功登录。
@@ -10,9 +10,9 @@
         <menus></menus>
       </view>
     </view>
-		
+
     <view
-      v-if="!hasLogin"
+      v-if="!token"
       class="hello">
       <view class="title">
         您好 游客。
@@ -27,18 +27,19 @@
 
 <script>
 import { mapState } from 'vuex'
+import { uniClientDB, db } from '@/utils/request'
 
 export default {
-  computed: mapState(['forcedLogin', 'hasLogin', 'username']),
+  computed: mapState(['forcedLogin', 'token', 'username']),
   onLoad () {
-    if (!this.hasLogin) {
+    if (!this.token) {
       uni.showModal({
         title: '您还未登录',
         content: '请先登录后再继续',
-				cancelText: '暂不登录',
-				cancelColor: '#8F8F94',
-				confirmText: '立即登录',
-				confirmColor: '#3CC51F',
+        cancelText: '暂不登录',
+        cancelColor: '#8F8F94',
+        confirmText: '立即登录',
+        confirmColor: '#3CC51F',
         /**
 					 * 如果需要强制登录，不显示取消按钮
 					 */
@@ -61,6 +62,20 @@ export default {
         }
       })
     }
+    this.queryMenus()
+  },
+  methods: {
+	  async queryMenus () {
+		  const res = await uniClientDB({
+        name: 'uni-clientDB',
+		    command: db.collection('menus').get()
+		  })
+		  console.log(res)
+		  // uni.showModal({
+		  //   content: JSON.stringify(res.data),
+		  //   showCancel: false
+		  // })
+	  }
   }
 }
 </script>

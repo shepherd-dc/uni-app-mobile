@@ -9,7 +9,7 @@ const store = new Vuex.Store({
 		forcedLogin: false,
 		hasLogin: false,
 		username: '',
-		token: ''
+		token: uni.getStorageSync('uni_id_token')
 	},
 	mutations: {
 		saveLoginState (state, { username, token }) {

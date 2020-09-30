@@ -1,3 +1,28 @@
+import db from '@/js_sdk/uni-clientDB/index.js'
+const dbCmd = db.command
+
+const uniClientDB = async ({ name, command, pagination }) => {
+  uni.showLoading()
+  try {
+    const res = await uniCloud.callFunction({
+      name,
+			data: {
+				command,
+				pagination
+			},
+    })
+    return res.result
+  } catch (e) {
+		console.error(e) // eslint-disable-line
+		uni.showModal({
+			content: e.message || '云函数请求失败',
+			showCancel: false
+		})
+  } finally {
+    uni.hideLoading()
+  }
+}
+
 const uniID = async (action, params = {}) => {
   uni.showLoading()
   try {
@@ -43,5 +68,8 @@ export default async (name, data) => {
 }
 
 export {
-	uniID
+	uniID,
+	uniClientDB,
+	db,
+	dbCmd
 }

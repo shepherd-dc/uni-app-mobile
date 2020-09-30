@@ -1,73 +1,77 @@
 <template>
-	<view class="auth-box">
-		<view class="auth">
-			<view class="logo">
-				<image
-					class="logo-image"
-					src="../../static/img/logo.jpg"></image>
-			</view>
-			<view class="login">
-				<button
-					class="login-button"
-					type="primary"
-					open-type="getUserInfo"
-					@getuserinfo="getUserInfo">微信授权登录</button>
-				<button
-					class="login-button nologin-button"
-					type="default"
-					@tap="cancelLogin">暂不登录</button>
-			</view>
-		</view>
-	</view>
+  <view class="auth-box">
+    <view class="auth">
+      <view class="logo">
+        <image
+          class="logo-image"
+          src="../../static/img/logo.jpg"></image>
+      </view>
+      <view class="login">
+        <button
+          class="login-button"
+          type="primary"
+          open-type="getUserInfo"
+          @getuserinfo="getUserInfo">微信授权登录</button>
+        <button
+          class="login-button nologin-button"
+          type="default"
+          @tap="cancelLogin">暂不登录</button>
+      </view>
+    </view>
+  </view>
 </template>
 
 <script>
-	import { mapState, mapMutations } from 'vuex'
-	import { loginByWeixin } from '@/api/auth'
-	export default {
-		data () {
-			return {}
-		},
-		computed: mapState(['forcedLogin']),
-		methods: {
-			...mapMutations(['saveLoginState']),
-			getWeixinCode() {
-				return new Promise((resolve, reject) => {
-					// #ifdef MP-WEIXIN
-					uni.login({
-						provider: 'weixin',
-						success(res) {
-							resolve(res.code)
-						},
-						fail(err) {
-							reject(new Error('微信登录失败'))
-						}
-					})
-					// #endif
-				})
-			},
-			async getUserInfo ({ detail }) {
-				console.log(detail)
-				const code = await this.getWeixinCode()
-				const res = await loginByWeixin({ code })
-				console.log(res)
-				const { token } = res
-				this.saveLoginState({
-					username: detail.userInfo.nickName,
-					token
-				})
-				this.uniSetStorage(token)
-				this.$toast('登陆成功')
-				this.toMain()
-			},
-			uniSetStorage (token) {
-				try {
-				   uni.setStorageSync('sn-token', token);
-				} catch (e) {
+import { mapState, mapMutations } from 'vuex'
+import { loginByWeixin } from '@/api/auth'
+export default {
+  data () {
+    return {}
+  },
+  computed: mapState(['forcedLogin']),
+  methods: {
+    ...mapMutations(['saveLoginState']),
+    getWeixinCode () {
+      return new Promise((resolve, reject) => {
+        // #ifdef MP-WEIXIN
+        uni.login({
+          provider: 'weixin',
+          success (res) {
+            resolve(res.code)
+          },
+          fail (err) {
+            uni.showModal({
+            	content: err || '云函数请求失败',
+            	showCancel: false
+            })
+            reject(new Error('微信登录失败'))
+          }
+        })
+        // #endif
+      })
+    },
+    async getUserInfo ({ detail }) {
+      console.log(detail)
+      const code = await this.getWeixinCode()
+      const res = await loginByWeixin({ code })
+      console.log(res)
+      const { token } = res
+      this.saveLoginState({
+        username: detail.userInfo.nickName,
+        token
+      })
+      this.uniSetStorage(token)
+      this.$toast('登陆成功')
+      this.toMain()
+    },
+    uniSetStorage (token) {
+      try {
+				   uni.setStorageSync('uni_id_token', token)
+      } catch (e) {
 				  this.$toast(e)
-				}
-			},
-			toMain (username, token) {
+      }
+    },
+    toMain (username, token) {
 			  /**
 				 * 强制登录时使用reLaunch方式跳转过来
 				 * 返回首页也使用reLaunch方式
@@ -79,12 +83,12 @@
 			  } else {
 			    uni.navigateBack()
 			  }
-			},
-			cancelLogin () {
-				uni.navigateBack()
-			}
-		}
-	}
+    },
+    cancelLogin () {
+      uni.navigateBack()
+    }
+  }
+}
 </script>
 
 <style lang="less" scoped>
@@ -103,7 +107,7 @@
 			height: 300rpx;
 			margin: 100rpx auto;
 			border-radius: 16rpx;
-		}		
+		}
 	}
 	.login {
 		display: flex;
