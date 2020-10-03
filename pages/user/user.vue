@@ -1,6 +1,6 @@
 <template>
   <view class="content">
-		<view class="userinfo" v-show="!token">
+		<view class="userinfo" v-show="!hasLogin">
 			<view class="userinfo-media" @tap="bindLogin">
 				<img class="avatar" src="@/static/img/avatar.png"/>
 				<span class="name">游客</span>
@@ -12,7 +12,7 @@
 			    @tap="bindLogin">登录</button>
 			</view>
 		</view>
-		<view class="userinfo" v-if="token">
+		<view class="userinfo" v-if="hasLogin">
 			<view class="userinfo-media">
 				<open-data class="avatar" type="userAvatarUrl"></open-data>
 				<open-data class="name" type="userNickName"></open-data>
@@ -35,13 +35,13 @@ export default {
 		loginCheck()
 	},
   computed: {
-    ...mapState(['token', 'forcedLogin'])
+    ...mapState(['hasLogin', 'forcedLogin'])
   },
   methods: {
     ...mapActions(['logout']),
     bindLogin () {
       uni.navigateTo({
-        url: '../login/login'
+        url: '../auth/auth'
       })
     },
     bindLogout () {
@@ -49,7 +49,7 @@ export default {
       // 如果需要强制登录跳转回登录页面
       if (this.forcedLogin) {
         uni.reLaunch({
-          url: '../login/login'
+          url: '../auth/auth'
         })
       }
     }

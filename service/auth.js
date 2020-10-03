@@ -9,3 +9,8 @@ export const loginByWeixin = async (params) => {
 export const logout = async (params) => {
 	return await uniID('logout', params)
 }
+
+// 校验token
+export const checkToken = async (params) => {
+	return await uniID('checkToken', params)
+}

@@ -23,12 +23,16 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex'
-import { loginByWeixin } from '@/api/auth'
+import { loginByWeixin } from '@/service/auth'
 export default {
-  data () {
-    return {}
-  },
-  computed: mapState(['forcedLogin']),
+	onLoad() {
+		if (this.hasLogin) {
+			uni.redirectTo({
+				url: '/pages/main/main'
+			})
+		}
+	},
+  computed: mapState(['forcedLogin', 'hasLogin']),
   methods: {
     ...mapMutations(['saveLoginState']),
     getWeixinCode () {
@@ -55,21 +59,21 @@ export default {
       const code = await this.getWeixinCode()
       const res = await loginByWeixin({ code })
       console.log(res)
-      const { token } = res
-			this.uniSetStorage(token)
-      this.saveLoginState({
-        username: detail.userInfo.nickName,
-        token
-      })
-      this.$toast('登陆成功')
-      this.toMain()
-    },
-    uniSetStorage (token) {
-      try {
-				uni.setStorageSync('uni_id_token', token)
-      } catch (e) {
-				this.$toast(e)
-      }
+			if (res.code === 0) {
+				const { token, tokenExpired } = res
+				this.saveLoginState({
+				  username: detail.userInfo.nickName,
+				  token,
+					tokenExpired
+				})
+				this.$toast('登陆成功')
+				this.toMain()
+			} else {
+				uni.showModal({
+					content: res.msg,
+					showCancel: false
+				})
+			}
     },
     toMain (username, token) {
 			  /**

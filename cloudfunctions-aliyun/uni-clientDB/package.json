@@ -10,7 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "uni-curd": "file:../common/uni-curd",
     "uni-id": "file:../common/uni-id"
   }
 }

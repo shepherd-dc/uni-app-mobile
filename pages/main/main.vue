@@ -1,7 +1,7 @@
 <template>
   <view class="content">
     <view
-      v-if="token"
+      v-if="hasLogin"
       class="hello">
       <view class="menus">
         <menus></menus>
@@ -9,7 +9,7 @@
     </view>
 
     <view
-      v-if="!token"
+      v-if="!hasLogin"
       class="hello">
       <view class="title">
         您好 游客。
@@ -24,24 +24,20 @@
 
 <script>
 import { mapState } from 'vuex'
-import { uniClientDB, db } from '@/utils/request'
 import { loginCheck } from '@/utils/loginCheck'
 
 export default {
-  computed: mapState(['forcedLogin', 'token', 'username']),
+  computed: mapState(['forcedLogin', 'hasLogin', 'username']),
   onLoad () {
 		loginCheck()
   },
 	onShow () {
-		if (this.token) this.queryMenus()
+		if (this.hasLogin) this.queryMenus()
 	},
   methods: {
 	  async queryMenus () {
-		  const res = await uniClientDB({
-        name: 'menus',
-		    command: db.collection('menus').get()
-		  })
-		  console.log(res)
+		  const { result } = await this.$db.collection('menus').get()
+		  console.log(result.data)
 	  }
   }
 }

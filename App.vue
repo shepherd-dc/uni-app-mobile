@@ -1,6 +1,14 @@
 <script>
 export default {
   onLaunch () {
+		this.$db.auth.on('refreshToken', function({
+			token,
+			tokenExpired
+		}) {
+			console.log('refreshToken', token, tokenExpired)
+			uni.setStorageSync('uni_id_token', token)
+			uni.setStorageSync('uni_id_token_expired', tokenExpired)
+		})
     console.log('App Launch')
   },
   onShow () {

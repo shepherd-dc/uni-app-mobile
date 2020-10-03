@@ -1,6 +1,7 @@
 import db from '@/js_sdk/uni-clientDB/index.js'
 const dbCmd = db.command
 
+// uni-clientDB 老版本 1.0.8 使用方法
 const uniClientDB = async ({ name, command, pagination }) => {
   uni.showLoading()
   try {
