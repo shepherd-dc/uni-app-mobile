@@ -30,8 +30,18 @@
 			"style" : {
 				"navigationBarTitleText": "授权登录"
 			}
+		}, {
+			"path" : "pages/vaccine/vaccine",
+			"style" : {
+				"navigationBarTitleText": "疫苗接种表"
+			}
+		}, {
+			"path" : "pages/vaccine/add",
+			"style" : {
+				"navigationBarTitleText": "添加自费疫苗"
+			}
 		}
-  ],
+	],
 	"tabBar": {
 		"color": "#7a7e83",
 		"selectedColor": "#0faeff",

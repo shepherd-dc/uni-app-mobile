@@ -1,10 +1,10 @@
 <template>
-  <view class="content">
+  <view class="main">
     <view
       v-if="hasLogin"
       class="hello">
       <view class="menus">
-        <menus></menus>
+        <xc-menus :menus="menus"></xc-menus>
       </view>
     </view>
 
@@ -27,6 +27,11 @@ import { mapState } from 'vuex'
 import { loginCheck } from '@/utils/loginCheck'
 
 export default {
+	data () {
+		return {
+			menus: []
+		}
+	},
   computed: mapState(['forcedLogin', 'hasLogin', 'username']),
   onLoad () {
 		loginCheck()
@@ -36,32 +41,19 @@ export default {
 	},
   methods: {
 	  async queryMenus () {
-		  const { result } = await this.$db.collection('menus').get()
+		  const { result } = await this.$db.collection('menus').where({status: 0}).get()
 		  console.log(result.data)
+			this.menus = result.data
 	  }
   }
 }
 </script>
 
-<style>
-	.hello {
-		display: flex;
-		flex: 1;
-		flex-direction: column;
-	}
-
-	.title {
-		color: #8f8f94;
-		margin-top: 25px;
-	}
-
-	.ul {
-		font-size: 15px;
-		color: #8f8f94;
-		margin-top: 25px;
-	}
-
-	.ul>view {
-		line-height: 25px;
+<style lang="less" scoped>
+	.main {
+		background-color: #FFFFFF;
+		width: 100%;
+		height: 100%;
+		padding-top: 20rpx;
 	}
 </style>

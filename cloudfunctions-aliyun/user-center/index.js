@@ -63,7 +63,7 @@ exports.main = async (event) => {
 			res = await uniID.code2SessionWeixin(params);
 			break;
 		case 'loginByWeixin':
-			res = await uniID.loginByWeixin(params);
+			res = await uniID.loginByWeixin(params.code);
 			break;
 		case 'bindWeixin':
 			res = await uniID.bindWeixin(params);
@@ -75,7 +75,7 @@ exports.main = async (event) => {
 			res = await uniID.code2SessionAlipay(params);
 			break;
 		case 'loginByAlipay':
-			res = await uniID.loginByAlipay(params);
+			res = await uniID.loginByAlipay(params.code);
 			break;
 		case 'bindAlipay':
 			res = await uniID.bindAlipay(params);
