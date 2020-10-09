@@ -25,25 +25,27 @@
 <script>
 import { mapState } from 'vuex'
 import { loginCheck } from '@/utils/loginCheck'
+import { getMenusList } from '@/service/menus'
 
 export default {
-  data () {
-    return {
-      menus: []
-    }
-  },
-  computed: mapState(['forcedLogin', 'hasLogin', 'username']),
   onLoad () {
     loginCheck()
   },
   onShow () {
     if (this.hasLogin) this.queryMenus()
   },
+	data () {
+	  return {
+	    menus: []
+	  }
+	},
+	computed: mapState(['forcedLogin', 'hasLogin', 'username']),
   methods: {
 	  async queryMenus () {
-		  const { result } = await this.$db.collection('menus').where({ status: 0 }).get()
-		  console.log(result.data)
-      this.menus = result.data
+			const res = await getMenusList()
+			console.log('getMenusList', res)
+			const { data } = res
+			this.menus = data || []
 	  }
   }
 }

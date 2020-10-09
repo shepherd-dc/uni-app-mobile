@@ -20,39 +20,30 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import { loginCheck } from '@/utils/loginCheck'
+import { getVaccineList } from '@/service/vaccine'
 export default {
+	onLoad () {
+	  loginCheck()
+	},
+	onShow () {
+	  if (this.hasLogin) this.getVaccineList()
+	},
   data () {
     return {
       list: []
     }
   },
-  async mounted () {
-    const db = this.$db
-    const dbCmd = db.command
-    const $ = dbCmd.aggregate
-    const { result } = await db.collection('ages').aggregate()
-      .lookup({
-			  from: 'vaccine',
-			  let: {
-			    id: '$_id'
-			  },
-			  pipeline: $.pipeline()
-			    .match(
-            dbCmd.expr(
-              $.eq(['$age_id', '$$id'])
-            )
-          )
-			    .done(),
-			  as: 'vaccine'
-      })
-      .sort({
-        month: 1
-      })
-      .end()
-    console.log(result)
-    this.list = result.data
-  },
+	computed: mapState(['hasLogin']),
   methods: {
+		async getVaccineList () {
+			// 未添加自费时, 默认只显示免费
+			const res = await getVaccineList(0) // type: 0 免费
+			console.log('getVaccineList', res)
+			const { data } = res
+			this.list = data || []
+		},
     toAdd () {
       this.$navigateTo('/vaccine/add')
     }
