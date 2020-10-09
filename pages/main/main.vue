@@ -27,23 +27,23 @@ import { mapState } from 'vuex'
 import { loginCheck } from '@/utils/loginCheck'
 
 export default {
-	data () {
-		return {
-			menus: []
-		}
-	},
+  data () {
+    return {
+      menus: []
+    }
+  },
   computed: mapState(['forcedLogin', 'hasLogin', 'username']),
   onLoad () {
-		loginCheck()
+    loginCheck()
   },
-	onShow () {
-		if (this.hasLogin) this.queryMenus()
-	},
+  onShow () {
+    if (this.hasLogin) this.queryMenus()
+  },
   methods: {
 	  async queryMenus () {
-		  const { result } = await this.$db.collection('menus').where({status: 0}).get()
+		  const { result } = await this.$db.collection('menus').where({ status: 0 }).get()
 		  console.log(result.data)
-			this.menus = result.data
+      this.menus = result.data
 	  }
   }
 }

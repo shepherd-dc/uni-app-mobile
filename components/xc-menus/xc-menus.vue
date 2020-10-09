@@ -1,38 +1,40 @@
 <template>
-	<view class="menus-container">
-		<view class="menus">
-			<view
-				class="menu-item"
-				@tap="toMenuItem(menu)"
-				v-for="menu in menus"
-				:key="menu._id" >
-				<image class="menu-icon" :src="menu.icon" ></image>
-				<text class="menu-text">{{ menu.name }}</text>
-			</view>
-		</view>
-	</view>
+  <view class="menus-container">
+    <view class="menus">
+      <view
+        v-for="menu in menus"
+        :key="menu._id"
+        class="menu-item"
+        @tap="toMenuItem(menu)" >
+        <image
+          :src="menu.icon"
+          class="menu-icon" />
+        <text class="menu-text">{{ menu.name }}</text>
+      </view>
+    </view>
+  </view>
 </template>
 
 <script>
-	export default {
-		props: {
-			menus: {
-				type: Array,
-				default: () => []
-			},
-		},
-		data() {
-			return {
-				pathMap: []
-			}
-		},
-		methods: {
-			toMenuItem (item) {
-				console.log(item)
-				this.$navigateTo('/vaccine/vaccine')
-			}
-		}
-	}
+export default {
+  props: {
+    menus: {
+      type: Array,
+      default: () => []
+    }
+  },
+  data () {
+    return {
+      pathMap: []
+    }
+  },
+  methods: {
+    toMenuItem (item) {
+      console.log(item)
+      this.$navigateTo('/vaccine/vaccine')
+    }
+  }
+}
 </script>
 
 <style lang="less" scoped>

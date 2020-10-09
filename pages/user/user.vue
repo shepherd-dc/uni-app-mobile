@@ -1,28 +1,40 @@
 <template>
   <view class="content">
-		<view class="userinfo" v-show="!hasLogin">
-			<view class="userinfo-media" @tap="bindLogin">
-				<img class="avatar" src="@/static/img/avatar.png"/>
-				<span class="name">游客</span>
-			</view>
-			<view class="btn-row">
-			  <button
-			    type="primary"
-			    class="primary"
-			    @tap="bindLogin">登录</button>
-			</view>
-		</view>
-		<view class="userinfo" v-if="hasLogin">
-			<view class="userinfo-media">
-				<open-data class="avatar" type="userAvatarUrl"></open-data>
-				<open-data class="name" type="userNickName"></open-data>
-			</view>
-			<view class="btn-row">
-			  <button
-			    type="default"
-			    @tap="bindLogout">退出登录</button>
-			</view>
-		</view>
+    <view
+      v-show="!hasLogin"
+      class="userinfo">
+      <view
+        class="userinfo-media"
+        @tap="bindLogin">
+        <img
+          class="avatar"
+          src="@/static/img/avatar.png"/>
+        <span class="name">游客</span>
+      </view>
+      <view class="btn-row">
+        <button
+          type="primary"
+          class="primary"
+          @tap="bindLogin">登录</button>
+      </view>
+    </view>
+    <view
+      v-if="hasLogin"
+      class="userinfo">
+      <view class="userinfo-media">
+        <open-data
+          class="avatar"
+          type="userAvatarUrl"></open-data>
+        <open-data
+          class="name"
+          type="userNickName"></open-data>
+      </view>
+      <view class="btn-row">
+        <button
+          type="default"
+          @tap="bindLogout">退出登录</button>
+      </view>
+    </view>
   </view>
 </template>
 
@@ -31,9 +43,9 @@ import { mapState, mapActions } from 'vuex'
 import { loginCheck } from '@/utils/loginCheck'
 
 export default {
-	onLoad () {
-		loginCheck()
-	},
+  onLoad () {
+    loginCheck()
+  },
   computed: {
     ...mapState(['hasLogin', 'forcedLogin'])
   },

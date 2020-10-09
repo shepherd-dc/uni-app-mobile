@@ -4,7 +4,7 @@
       <view class="logo">
         <image
           class="logo-image"
-          src="../../static/img/logo.jpg"></image>
+          src="../../static/img/logo.jpg" />
       </view>
       <view class="login">
         <button
@@ -25,13 +25,13 @@
 import { mapState, mapMutations } from 'vuex'
 import { loginByWeixin } from '@/service/auth'
 export default {
-	onLoad() {
-		if (this.hasLogin) {
-			uni.redirectTo({
-				url: '/pages/main/main'
-			})
-		}
-	},
+  onLoad () {
+    if (this.hasLogin) {
+      uni.redirectTo({
+        url: '/pages/main/main'
+      })
+    }
+  },
   computed: mapState(['forcedLogin', 'hasLogin']),
   methods: {
     ...mapMutations(['saveLoginState']),
@@ -59,21 +59,21 @@ export default {
       const code = await this.getWeixinCode()
       const res = await loginByWeixin({ code })
       console.log(res)
-			if (res.code === 0) {
-				const { token, tokenExpired } = res
-				this.saveLoginState({
+      if (res.code === 0) {
+        const { token, tokenExpired } = res
+        this.saveLoginState({
 				  username: detail.userInfo.nickName,
 				  token,
-					tokenExpired
-				})
-				this.$toast('登陆成功')
-				this.toMain()
-			} else {
-				uni.showModal({
-					content: res.msg,
-					showCancel: false
-				})
-			}
+          tokenExpired
+        })
+        this.$toast('登陆成功')
+        this.toMain()
+      } else {
+        uni.showModal({
+          content: res.msg,
+          showCancel: false
+        })
+      }
     },
     toMain (username, token) {
 			  /**
