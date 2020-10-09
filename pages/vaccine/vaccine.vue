@@ -14,7 +14,9 @@
       </view>
     </view>
     <view class="body">
-      <xc-list :list="list"></xc-list>
+      <xc-list
+			:list="list"
+			@done="vaccineDone" />
     </view>
   </view>
 </template>
@@ -22,7 +24,7 @@
 <script>
 import { mapState } from 'vuex'
 import { loginCheck } from '@/utils/loginCheck'
-import { getVaccineList } from '@/service/vaccine'
+import { getVaccineList, doVaccine, undoVaccine } from '@/service/vaccine'
 export default {
 	onLoad () {
 	  loginCheck()
@@ -32,7 +34,8 @@ export default {
 	},
   data () {
     return {
-      list: []
+      list: [],
+			done: false
     }
   },
 	computed: mapState(['hasLogin']),
@@ -43,6 +46,28 @@ export default {
 			console.log('getVaccineList', res)
 			const { data } = res
 			this.list = data || []
+		},
+		async vaccineDone (v) {
+			console.log('v5v5v5', v)
+			if (this.doneLoading) {
+				uni.showToast({
+					title: '操作过快',
+					icon: 'none'
+				})
+				return
+			}
+			this.doneLoading = true
+			if (v.done) {
+				await undoVaccine(v._id)
+				this.doneLoading = false
+				this.done = false
+			} else {
+				await doVaccine(v)
+				this.doneLoading = false
+				// TODO: 添加成功后，前端自行处理，不请求刷新列表
+				this.done = true
+			}
+			this.getVaccineList()
 		},
     toAdd () {
       this.$navigateTo('/vaccine/add')

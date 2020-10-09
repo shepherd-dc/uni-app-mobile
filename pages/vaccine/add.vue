@@ -14,7 +14,7 @@
 <script>
 import { mapState } from 'vuex'
 import { loginCheck } from '@/utils/loginCheck'
-import { getVaccineList } from '@/service/vaccine'
+import { getVaccineList, addVaccine, cancelAddVaccine } from '@/service/vaccine'
 export default {
 	onLoad () {
 	  loginCheck()
@@ -37,17 +37,24 @@ export default {
 			this.list = data || []
 		},
 		async addVaccine (v) {
-			if (v.added) return
-			console.log('addVaccine', v)
-			const db = this.$db
-			const res = await db.collection('user-vaccine').add({
-				vaccine_id: v._id,
-				vaccine_name: v.name,
-				age_id: v.age_id,
-				user_id: db.env.uid
-			})
-			// TODO: 添加成功后，前端自行处理，不请求刷新列表
-			this.added = true
+			if (this.addLoading) {
+				uni.showToast({
+					title: '操作过快',
+					icon: 'none'
+				})
+				return
+			}
+			this.addLoading = true
+			if (v.added) {
+				await cancelAddVaccine(v._id)
+				this.addLoading = false
+				this.added = false
+			} else {
+				await addVaccine(v)
+				this.addLoading = false
+				// TODO: 添加成功后，前端自行处理，不请求刷新列表
+				this.added = true
+			}
 			this.getVaccineList()
 		}
   }

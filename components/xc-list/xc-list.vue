@@ -38,11 +38,11 @@
             </view>
             <view class="list-extra">
               <template v-if="extra === 'checkbox'">
-                <checkbox-group @change="checkboxChange">
+                <checkbox-group @tap="tapCheckbox(v)">
                   <label>
                     <text
-                      v-if="done"
-                      class="date">{{ nowDate }}</text>
+                      v-if="v.done"
+                      class="date">{{ v.done_time }}</text>
                     <checkbox
                       :value="v._id"
                       :checked="v.done"/>
@@ -94,23 +94,10 @@ export default {
       default: () => []
     }
   },
-  data () {
-    return {
-      done: false,
-      nowDate: ''
-    }
-  },
   methods: {
-    checkboxChange (e) {
-      console.log(e)
-      const arr = e.detail.value
-      if (arr.length > 0) {
-        this.done = true
-        this.nowDate = getDate()
-      } else {
-        this.done = false
-      }
-    },
+		tapCheckbox (v) {
+			this.$emit('done', v)
+		},
 		tapButton (v) {
 			this.$emit('add', v)
 		}

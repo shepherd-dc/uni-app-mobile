@@ -1,6 +1,98 @@
 import { db, dbCmd } from '@/utils/request'
 const $ = dbCmd.aggregate
 
+export async function addVaccine (v) {
+	let res = {}
+	uni.showLoading()
+	try {
+		const { result } = await db.collection('user-vaccine').add({
+			vaccine_id: v._id,
+			vaccine_name: v.name,
+			age_id: v.age_id,
+			user_id: db.env.uid
+		})
+		res = result
+	} catch (e) {
+		//TODO handle the exception
+		console.error(e) // eslint-disable-line
+		uni.showModal({
+			content: e.message || '服务器异常，请稍后再试',
+			showCancel: false
+		})
+	} finally {
+	  uni.hideLoading()
+	}
+	return res
+}
+
+export async function cancelAddVaccine (id) {
+	let res = {}
+	uni.showLoading()
+	try {
+		const { result } = await db.collection('user-vaccine').where({
+			vaccine_id: id,
+			user_id: db.env.uid
+		}).remove()
+		res = result
+	} catch (e) {
+		//TODO handle the exception
+		console.error(e) // eslint-disable-line
+		uni.showModal({
+			content: e.message || '服务器异常，请稍后再试',
+			showCancel: false
+		})
+	} finally {
+	  uni.hideLoading()
+	}
+	return res
+}
+
+export async function doVaccine (v) {
+	let res = {}
+	uni.showLoading()
+	try {
+		const { result } = await db.collection('vaccine-done').add({
+			vaccine_id: v._id,
+			vaccine_name: v.name,
+			age_id: v.age_id,
+			user_id: db.env.uid
+		})
+		res = result
+	} catch (e) {
+		//TODO handle the exception
+		console.error(e) // eslint-disable-line
+		uni.showModal({
+			content: e.message || '服务器异常，请稍后再试',
+			showCancel: false
+		})
+	} finally {
+	  uni.hideLoading()
+	}
+	return res
+}
+
+export async function undoVaccine (id) {
+	let res = {}
+	uni.showLoading()
+	try {
+		const { result } = await db.collection('vaccine-done').where({
+			vaccine_id: id,
+			user_id: db.env.uid
+		}).remove()
+		res = result
+	} catch (e) {
+		//TODO handle the exception
+		console.error(e) // eslint-disable-line
+		uni.showModal({
+			content: e.message || '服务器异常，请稍后再试',
+			showCancel: false
+		})
+	} finally {
+	  uni.hideLoading()
+	}
+	return res
+}
+
 export async function getVaccineList (type) {
 	let res = {}
 	uni.showLoading()
