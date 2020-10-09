@@ -51,8 +51,10 @@
               </template>
               <template v-if="extra === 'button'">
                 <view
+									@tap="tapButton(v)"
                   class="button"
-                  type="primary">未添加</view>
+									:class="{added: v.added}"
+                  type="primary">{{ v.added ? '已添加' : '未添加' }}</view>
               </template>
             </view>
           </view>
@@ -108,7 +110,10 @@ export default {
       } else {
         this.done = false
       }
-    }
+    },
+		tapButton (v) {
+			this.$emit('add', v)
+		}
   }
 }
 </script>
@@ -198,6 +203,11 @@ export default {
 			min-width: 100rpx;
 			text-align: center;
 			margin-left: 20rpx;
+		}
+		.button.added {
+			background-color: #fff;
+			border: 1px solid #56ceab;
+			color: #666;
 		}
 	}
 	.list-footer {

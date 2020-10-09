@@ -3,7 +3,7 @@ import App from './App'
 
 import store from './store'
 import './utils/plugins'
-import { db} from './utils/request'
+import { db } from './utils/request'
 
 Vue.config.productionTip = false
 
