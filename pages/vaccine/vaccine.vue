@@ -43,12 +43,11 @@ export default {
 		async getVaccineList () {
 			// 未添加自费时, 默认只显示免费
 			const res = await getVaccineList(0) // type: 0 免费
-			console.log('getVaccineList', res)
+			console.log('getVaccineList', res.data)
 			const { data } = res
 			this.list = data || []
 		},
 		async vaccineDone (v) {
-			console.log('v5v5v5', v)
 			if (this.doneLoading) {
 				uni.showToast({
 					title: '操作过快',

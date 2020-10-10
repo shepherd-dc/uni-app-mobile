@@ -17,7 +17,8 @@
         <view
           v-for="v in l.vaccine"
           :key="v._id"
-          class="child-item">
+          class="child-item"
+					:class="{'item-done': v.done}" >
           <view class="list-body">
             <view class="list-main">
               <view class="title">
@@ -70,7 +71,6 @@
 </template>
 
 <script>
-import { getDate } from '@/utils/datetime'
 export default {
   props: {
     tag: {
@@ -202,5 +202,25 @@ export default {
 		color: #666;
 		font-size: 28rpx;
 		margin-top: 20rpx;
+	}
+	.item-done {
+		.type {
+			background-color: #ccc!important;
+		}
+		.name {
+			text-decoration: line-through;
+			color: #999;
+		}
+		.title-extra {
+			text-decoration: line-through;
+			color: #999!important;
+		}
+		.description {
+			text-decoration: line-through;
+		}
+		.list-footer {
+			text-decoration: line-through;
+			color: #999!important;
+		}
 	}
 </style>

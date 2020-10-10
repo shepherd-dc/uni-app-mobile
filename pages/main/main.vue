@@ -11,12 +11,11 @@
     <view
       v-if="!hasLogin"
       class="hello">
-      <view class="title">
-        您好 游客。
+      <view class="welcome">
+        您好，游客。
       </view>
-      <view class="ul">
-        <view>这是 uni-app 带登录模板的示例App首页。</view>
-        <view>在 “我的” 中点击 “登录” 可以 “登录您的账户”</view>
+      <view class="introduction">
+        <view>欢迎来到「喜虫育儿」小程序。</view>
       </view>
     </view>
   </view>
@@ -57,5 +56,12 @@ export default {
 		width: 100%;
 		height: 100%;
 		padding-top: 20rpx;
+	}
+	.hello {
+		color: #333;
+		padding: 0 30rpx;
+		.welcome {
+			margin: 20rpx 0;
+		}
 	}
 </style>

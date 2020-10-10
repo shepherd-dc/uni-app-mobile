@@ -32,7 +32,7 @@ export default {
   methods: {
 		async getVaccineList () {
 			const res = await getVaccineList(1) // type: 1 自费
-			console.log('getVaccineList', res)
+			console.log('getVaccineList', res.data)
 			const { data } = res
 			this.list = data || []
 		},
