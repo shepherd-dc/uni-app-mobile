@@ -80,8 +80,15 @@ export default {
 	height: 100%;
 	width: 100%;
 	background-color: #f8f8f8;
+	padding-top: 90rpx;
 }
 .header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 10;
+	width: 100%;
+	box-sizing: border-box;
 	background-color: #fff;
 	display: flex;
 	justify-content: space-between;

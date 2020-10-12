@@ -207,20 +207,23 @@ export default {
 		.type {
 			background-color: #ccc!important;
 		}
-		.name {
-			text-decoration: line-through;
-			color: #999;
+		.name, .title-extra, .description, .list-footer {
+			color: #ccc!important;
 		}
-		.title-extra {
-			text-decoration: line-through;
-			color: #999!important;
-		}
-		.description {
-			text-decoration: line-through;
-		}
-		.list-footer {
-			text-decoration: line-through;
-			color: #999!important;
-		}
+		// .name {
+		// 	text-decoration: line-through;
+		// 	color: #999;
+		// }
+		// .title-extra {
+		// 	text-decoration: line-through;
+		// 	color: #999!important;
+		// }
+		// .description {
+		// 	text-decoration: line-through;
+		// }
+		// .list-footer {
+		// 	text-decoration: line-through;
+		// 	color: #999!important;
+		// }
 	}
 </style>
