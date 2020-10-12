@@ -140,7 +140,6 @@ export async function getVaccineList (type) {
 		    month: 1
 		  })
 		  .end()
-			
 		let addedList = [] // 用户已添加的自费列表
 		let doneList = [] // 用户已完成的列表
 		if (type === 0) {
@@ -311,15 +310,19 @@ async function getDoneList () {
  */
 function handleLinkedData (data) {
 	return data.map(item => {
-		for(let [k, v] of Object.entries(item.vaccine[0])){
-			item[k] = v
+		if (item.vaccine.length) {
+			for(let [k, v] of Object.entries(item.vaccine[0])){
+				item[k] = v
+			}
+			Reflect.deleteProperty(item, 'vaccine') // eslint-disable-line
 		}
-		Reflect.deleteProperty(item, 'vaccine') // eslint-disable-line
-		for(let [k, v] of Object.entries(item.ages[0])){
-			if (['_id', 'sort', 'status'].includes(k)) continue;
-			item[k] = v
+		if (item.ages.length) {
+			for(let [k, v] of Object.entries(item.ages[0])){
+				if (['_id', 'sort', 'status'].includes(k)) continue;
+				item[k] = v
+			}
+			Reflect.deleteProperty(item, 'ages') // eslint-disable-line
 		}
-		Reflect.deleteProperty(item, 'ages') // eslint-disable-line
 		return item
 	})
 }
