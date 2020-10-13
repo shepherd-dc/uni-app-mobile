@@ -30,8 +30,7 @@ export default {
   },
   methods: {
     toMenuItem (item) {
-      console.log(item)
-      this.$navigateTo('/vaccine/vaccine')
+			this.$emit('navigateTo', item)
     }
   }
 }

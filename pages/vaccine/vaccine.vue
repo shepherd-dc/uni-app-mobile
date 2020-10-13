@@ -18,6 +18,10 @@
         :list="list"
         @done="vaccineDone" />
     </view>
+		<uni-calendar 
+			ref="calendar"
+			:insert="false"
+			@confirm="confirm" />
   </view>
 </template>
 
@@ -35,7 +39,8 @@ export default {
   data () {
     return {
       list: [],
-      done: false
+      done: false,
+			doneVaccine: {}
     }
   },
   computed: mapState(['hasLogin']),
@@ -48,6 +53,7 @@ export default {
       this.list = data || []
     },
     async vaccineDone (v) {
+			this.doneVaccine = v
       if (this.doneLoading) {
         uni.showToast({
           title: '操作过快',
@@ -60,14 +66,22 @@ export default {
         await undoVaccine(v._id)
         this.doneLoading = false
         this.done = false
+				this.getVaccineList()
       } else {
-        await doVaccine(v)
-        this.doneLoading = false
-        // TODO: 添加成功后，前端自行处理，不请求刷新列表
-        this.done = true
+				this.$refs.calendar.open()
       }
-      this.getVaccineList()
     },
+		async confirm(e) {
+			console.log(e)
+			const v = this.doneVaccine
+			const date = e.fulldate
+			v.done_time = date
+			await doVaccine(v)
+			this.doneLoading = false
+			// TODO: 添加成功后，前端自行处理，不请求刷新列表
+			this.done = true
+			this.getVaccineList()
+		},
     toAdd () {
       this.$navigateTo('/vaccine/add')
     }

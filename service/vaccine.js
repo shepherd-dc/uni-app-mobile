@@ -67,7 +67,7 @@ export async function doVaccine (v) {
 			vaccine_name: v.name,
 			age_id: v.age_id,
 			user_id: db.env.uid,
-			done_time: Date.now()
+			done_time: v.done_time
 		})
 		res = result
 	} catch (e) {

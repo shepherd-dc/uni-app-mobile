@@ -4,8 +4,22 @@
       v-if="hasLogin"
       class="hello">
       <view class="menus">
-        <xc-menus :menus="menus"></xc-menus>
+        <xc-menus
+					:menus="menus"
+					@navigateTo="navigateTo" />
       </view>
+			<uni-popup
+				ref="popup"
+				type="dialog" >
+			    <uni-popup-dialog
+						type="success"
+						title="温馨提示"
+						content="填写宝宝生日，以获得更贴心的服务"
+						:before-close="true"
+						@close="close"
+						@confirm="confirm" >
+					</uni-popup-dialog>
+			</uni-popup>
     </view>
 
     <view
@@ -25,8 +39,12 @@
 import { mapState } from 'vuex'
 import { loginCheck } from '@/utils/loginCheck'
 import { getMenusList } from '@/service/menus'
+import uniPopupDialog from '@/components/uni-popup/uni-popup-dialog'
 
 export default {
+	components: {
+		uniPopupDialog
+	},
   onLoad () {
     loginCheck()
   },
@@ -35,17 +53,58 @@ export default {
   },
 	data () {
 	  return {
-	    menus: []
+	    menus: [],
+			routesMap: [
+				{
+					name: '疫苗',
+					path: '/vaccine/vaccine'
+				}
+			]
 	  }
 	},
 	computed: mapState(['forcedLogin', 'hasLogin', 'username']),
   methods: {
 	  async queryMenus () {
 			const res = await getMenusList()
-			console.log('getMenusList', res)
+			console.log('getMenusList', res.data)
 			const { data } = res
-			this.menus = data || []
-	  }
+			if (data && data.length) {
+				this.menus = data.map(item => {
+					this.routesMap.forEach(map => {
+						if (map.name === item.name) {
+							item.path = map.path
+						}
+					})
+					return item
+				})
+			}
+	  },
+		navigateTo (item) {
+			if (item.name === '疫苗') {
+				this.$refs.popup.open()
+			} else {
+				this.$navigateTo(item.path)
+			}
+		},
+		/**
+		 * 点击取消按钮触发
+		 * @param {Object} done
+		 */
+		close (done) {
+			console.log('cancel')
+			// TODO 做一些其他的事情，before-close 为true的情况下，手动执行 done 才会关闭对话框
+			// ...
+			done()
+		},
+		/**
+		 * 点击确认按钮触发
+		 * @param {Object} done
+		 * @param {Object} value
+		 */
+		confirm (done) {
+			this.$navigateTo('/info/info')
+			done()
+		}
   }
 }
 </script>
@@ -63,5 +122,8 @@ export default {
 		.welcome {
 			margin: 20rpx 0;
 		}
+	}
+	/deep/.uni-dialog-button-text.uni-button-color {
+		color: #4cd964;
 	}
 </style>

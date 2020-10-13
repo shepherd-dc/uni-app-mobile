@@ -40,8 +40,13 @@
 			"style" : {
 				"navigationBarTitleText": "添加自费疫苗"
 			}
+		}, {
+			"path" : "pages/info/info",
+			"style" : {
+				"navigationBarTitleText": "完善宝宝信息"
+			}
 		}
-	],
+   ],
 	"tabBar": {
 		"color": "#7a7e83",
 		"selectedColor": "#0faeff",
