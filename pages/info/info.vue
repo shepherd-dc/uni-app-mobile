@@ -1,132 +1,98 @@
 <template>
 	<view class="baby-info">
-		<view class="uni-padding-wrap">
-			<form @submit="formSubmit" @reset="formReset">
-				<view class="header">
-					完善宝宝信息
-				</view>
-				<uni-list>
-					<uni-list-item>
-						<view slot="header" class="slot-box">姓名</view>
-						<view slot="body" class="slot-box slot-view">
-							<input class="uni-input" name="name" placeholder="请输入姓名" />
-						</view>
-					</uni-list-item>
-					<uni-list-item>
-						<view slot="header" class="slot-box">性别</view>
-						<view slot="body" class="slot-box slot-view">
-							<radio-group name="gender">
-								<label class="gender-item">
-									<radio value="男" />男
-								</label>
-								<label class="gender-item">
-									<radio value="女" />女
-								</label>
-							</radio-group>
-						</view>
-					</uni-list-item>
-					<uni-list-item link >
-						<view slot="header" class="slot-box">出生日期</view>
-						<view slot="body" class="slot-box slot-view">
-							<picker mode="date" :value="date" name="date" :start="startDate" :end="endDate" @change="bindDateChange">
-								<view class="date-item">{{ date }}</view>
-							</picker>
-						</view>
-					</uni-list-item>
-				</uni-list>
-				<view class="btn-group">
-					<button type="default" formType="reset">Reset</button>
-					<button type="primary" formType="submit">Submit</button>
-				</view>
-			</form>
+		<view class="baby-info-form">
+			<van-cell-group>
+				<van-field
+					label="姓名"
+					:value="formData.name"
+					placeholder="请输入姓名"
+					:clearable="true"
+					@input="bindNameChange"
+				/>
+				<van-cell title="性别" clickable value-class="custom-cell">
+					<van-radio-group :value="formData.gender" @change="bindGenderChange" class="gender-radio">
+						<van-radio name="1" checked-color="#07c160">男</van-radio>
+						<van-radio name="2" checked-color="#07c160">女</van-radio>
+					</van-radio-group>
+				</van-cell>
+				<van-cell title="出生日期" clickable value-class="custom-cell">
+					<picker mode="date" :value="formData.born_data" :start="startDate" :end="endDate" @change="bindDateChange">
+						<view class="date-item">{{ formData.born_data }}</view>
+					</picker>
+				</van-cell>
+			</van-cell-group>
+			<view class="btn-group">
+				<van-button class="custom-btn" type="default" size="large" round @tap="formReset">取消</van-button>
+				<van-button class="custom-btn"  type="primary" size="large" round @tap="formSubmit">确定</van-button>
+			</view>
 		</view>
 	</view>
 </template>
 <script>
-	function getDate(type) {
-		const date = new Date();
-	
-		let year = date.getFullYear();
-		let month = date.getMonth() + 1;
-		let day = date.getDate();
-	
-		if (type === 'start') {
-			year = year - 60;
-		} else if (type === 'end') {
-			year = year + 2;
-		}
-		month = month > 9 ? month : '0' + month;;
-		day = day > 9 ? day : '0' + day;
-	
-		return `${year}-${month}-${day}`;
-	}
-	export default {
-		data() {
-			return {
-				date: getDate({
-					format: true
-				}),
-				startDate: getDate('start'),
-				endDate: getDate('end'),
-				pickerHidden: true,
-				chosen: ''
+import { getSimpleDate } from '@/utils/datetime'
+export default {
+	data() {
+		return {
+			startDate: getSimpleDate('start'),
+			endDate: getSimpleDate('end'),
+			formData: {
+				name: '',
+				gender: '1',
+				born_data: getSimpleDate()
 			}
+		}
+	},
+	methods: {
+		bindNameChange ({ detail }) {
+			this.formData.name = detail
 		},
-		methods: {
-			bindDateChange: function(e) {
-				this.date = e.target.value
-			},
-			pickerConfirm: function(e) {
-				this.pickerHidden = true
-				this.chosen = e.target.value
-			},
-			pickerCancel: function(e) {
-				this.pickerHidden = true
-			},
-			pickerShow: function(e) {
-				this.pickerHidden = false
-			},
-			formSubmit: function(e) {
-				console.log('form发生了submit事件，携带数据为：' + JSON.stringify(e.detail.value))
-				this.$navigateTo('/vaccine/vaccine')
-			},
-			formReset: function(e) {
-				console.log('清空数据')
-				this.chosen = ''
+		bindDateChange ({ detail }) {
+			this.formData.born_data = detail.value
+		},
+		bindGenderChange ({ detail }) {
+			this.formData.gender = detail
+		},
+		formSubmit () {
+			console.log('formData', this.formData)
+			this.$navigateTo('/vaccine/vaccine')
+		},
+		formReset () {
+			this.formData = {
+				name: '',
+				gender: '1',
+				born_data: getSimpleDate()
 			}
+			uni.navigateBack()
 		}
 	}
+}
 </script>
 
 <style lang="less" scoped>
 	.baby-info {
 		width: 100%;
-		padding: 30upx;
 	}
-	.slot-view {
+	.btn-group {
+		margin-top: 50upx;
+		display: flex;
+		justify-content: space-around;
+		.custom-btn {
+			margin: 0 20upx;
+			flex: 1;
+		}
+	}
+	.gender-radio {
 		display: flex;
 		align-items: center;
 	}
-	.gender-item {
-		margin-right: 20upx;
+	/deep/.van-radio {
+		margin-right: 20rpx;
 	}
-	.header {
-		margin-bottom: 20upx;
-		text-align: center;
+	/deep/.custom-cell.van-cell__value {
+		flex: 2.5;
+		text-align: left;
 	}
-	.slot-box {
-		font-size: 28rpx;
-		color: #3b4144;
-		margin-right: 20upx;
-	}
-	.btn-group {
-		margin-top: 40upx;
-		display: flex;
-		justify-content: space-around;
-		box-sizing: border-box;
-		button {
-			margin-right: 20upx;
-			flex: 1;
-		}
+	/deep/.van-button--large {
+		height: 80rpx;
 	}
 </style>

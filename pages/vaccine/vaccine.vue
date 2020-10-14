@@ -21,7 +21,20 @@
 		<uni-calendar 
 			ref="calendar"
 			:insert="false"
-			@confirm="confirm" />
+			@confirm="confirm"
+			@close="close" />
+		<uni-popup
+			ref="popup"
+			type="dialog" >
+		    <uni-popup-dialog
+					type="success"
+					title="温馨提示"
+					content="完善宝宝信息，以获得更贴心的服务"
+					:before-close="true"
+					@close="popupClose"
+					@confirm="popupConfirm" >
+				</uni-popup-dialog>
+		</uni-popup>
   </view>
 </template>
 
@@ -29,9 +42,14 @@
 import { mapState } from 'vuex'
 import { loginCheck } from '@/utils/loginCheck'
 import { getVaccineList, doVaccine, undoVaccine } from '@/service/vaccine'
+import uniPopupDialog from '@/components/uni-popup/uni-popup-dialog'
 export default {
+	components: {
+		uniPopupDialog
+	},
   onLoad () {
 	  loginCheck()
+		if (this.hasLogin) this.$refs.popup.open()
   },
   onShow () {
 	  if (this.hasLogin) this.getVaccineList()
@@ -54,14 +72,6 @@ export default {
     },
     async vaccineDone (v) {
 			this.doneVaccine = v
-      if (this.doneLoading) {
-        uni.showToast({
-          title: '操作过快',
-          icon: 'none'
-        })
-        return
-      }
-      this.doneLoading = true
       if (v.done) {
         await undoVaccine(v._id)
         this.doneLoading = false
@@ -77,10 +87,31 @@ export default {
 			const date = e.fulldate
 			v.done_time = date
 			await doVaccine(v)
-			this.doneLoading = false
 			// TODO: 添加成功后，前端自行处理，不请求刷新列表
 			this.done = true
 			this.getVaccineList()
+		},
+		close () {
+			console.log('close calendar')
+		},
+		/**
+		 * 点击取消按钮触发
+		 * @param {Object} done
+		 */
+		popupClose (done) {
+			console.log('cancel')
+			// TODO 做一些其他的事情，before-close 为true的情况下，手动执行 done 才会关闭对话框
+			// ...
+			done()
+		},
+		/**
+		 * 点击确认按钮触发
+		 * @param {Object} done
+		 * @param {Object} value
+		 */
+		popupConfirm (done) {
+			this.$navigateTo('/info/info')
+			done()
 		},
     toAdd () {
       this.$navigateTo('/vaccine/add')
@@ -112,6 +143,7 @@ export default {
 		color: #56ceab;
 	}
 }
-.body {
+/deep/.uni-dialog-button-text.uni-button-color {
+	color: #4cd964;
 }
 </style>
