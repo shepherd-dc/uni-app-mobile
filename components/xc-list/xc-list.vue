@@ -10,8 +10,8 @@
         <view class="list-header">
           <view class="header-item header-icon"></view>
           <text
-            v-if="showDate"
-            class="header-item header-title">2019年{{ i+1 }}月15日</text>
+            v-if="l.birthday"
+            class="header-item header-title">{{ l.birthday }}</text>
           <text class="header-item header-extra">{{ l.month_name || l.age_name }}</text>
         </view>
         <view
@@ -78,10 +78,6 @@ export default {
       default: true
     },
     description: {
-      type: Boolean,
-      default: true
-    },
-    showDate: {
       type: Boolean,
       default: true
     },

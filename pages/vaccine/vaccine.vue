@@ -15,6 +15,7 @@
     </view>
     <view class="body">
       <xc-list
+				ref="vaccineList"
         :list="list"
         @done="vaccineDone" />
     </view>
@@ -39,9 +40,11 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 import { loginCheck } from '@/utils/loginCheck'
+import { getMonthAddedDate } from '@/utils/datetime'
 import { getVaccineList, doVaccine, undoVaccine } from '@/service/vaccine'
+import { getBabyInfo } from '@/service/info'
 import uniPopupDialog from '@/components/uni-popup/uni-popup-dialog'
 export default {
 	components: {
@@ -49,10 +52,12 @@ export default {
 	},
   onLoad () {
 	  loginCheck()
-		if (this.hasLogin) this.$refs.popup.open()
   },
-  onShow () {
-	  if (this.hasLogin) this.getVaccineList()
+  async onShow () {
+	  if (this.hasLogin) {
+			if (!this.birthday) await this.getBabyBirthday()
+			this.getVaccineList()
+		}
   },
   data () {
     return {
@@ -61,15 +66,33 @@ export default {
 			doneVaccine: {}
     }
   },
-  computed: mapState(['hasLogin']),
+  computed: mapState(['hasLogin', 'birthday']),
   methods: {
+		...mapMutations(['saveBabyInfo']),
     async getVaccineList () {
       // 未添加自费时, 默认只显示免费
       const res = await getVaccineList(0) // type: 0 免费
       console.log('getVaccineList', res)
       const { data } = res
-      this.list = data || []
+      this.list = data.map(item => {
+				if (this.birthday) {
+					item.birthday = getMonthAddedDate(this.birthday, item.month)
+				}
+				return item
+			})
     },
+		async getBabyBirthday () {
+		  const res = await getBabyInfo()
+		  console.log('getBabyInfo', res)
+		  const { data } = res
+		  if (data.length) {
+				// TODO 目前只支持一个宝宝
+				const baby = data[0]
+				this.saveBabyInfo(baby.birthday)
+			} else {
+				this.$refs.popup.open()
+			}
+		},
     async vaccineDone (v) {
 			this.doneVaccine = v
       if (v.done) {
@@ -82,7 +105,6 @@ export default {
       }
     },
 		async confirm(e) {
-			console.log(e)
 			const v = this.doneVaccine
 			const date = e.fulldate
 			v.done_time = date
@@ -92,7 +114,14 @@ export default {
 			this.getVaccineList()
 		},
 		close () {
-			console.log('close calendar')
+			console.log('close calendar', this.doneVaccine)
+			for (let l of this.list) {
+				for (let v of l.vaccine) {
+					if (this.doneVaccine._id === v._id) {
+						this.$set(v, 'done', false)
+					}
+				}
+			}
 		},
 		/**
 		 * 点击取消按钮触发

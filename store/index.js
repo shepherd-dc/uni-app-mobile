@@ -10,6 +10,7 @@ const store = new Vuex.Store({
 		forcedLogin: false,
 		hasLogin: uni.getStorageSync('uni_id_token') && uni.getStorageSync('uni_id_token_expired') > Date.now(),
 		username: uni.getStorageSync('username'),
+		birthday: uni.getStorageSync('birthday'),
 		token: uni.getStorageSync('uni_id_token'),
 		beforeRoute: {}
 	},
@@ -21,6 +22,10 @@ const store = new Vuex.Store({
 			state.username = username || '新用户'
 			state.token = token
 			state.hasLogin = true
+		},
+		saveBabyInfo (state, birthday) {
+			uni.setStorageSync('birthday', birthday)
+			state.birthday = birthday || ''
 		},
 		beforeRoute(state, data) {
 		  state.beforeRoute = data

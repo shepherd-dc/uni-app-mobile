@@ -15,9 +15,9 @@
 						<van-radio name="2" checked-color="#07c160">女</van-radio>
 					</van-radio-group>
 				</van-cell>
-				<van-cell title="出生日期" clickable value-class="custom-cell">
-					<picker mode="date" :value="formData.born_data" :start="startDate" :end="endDate" @change="bindDateChange">
-						<view class="date-item">{{ formData.born_data }}</view>
+				<van-cell title="出生日期" clickable is-link value-class="custom-cell">
+					<picker mode="date" :value="formData.birthday" :start="startDate" :end="endDate" @change="bindDateChange">
+						<view class="date-item" :class="{'placeholder': !formData.birthday}">{{ formData.birthday || '请选择出生日期' }}</view>
 					</picker>
 				</van-cell>
 			</van-cell-group>
@@ -30,15 +30,32 @@
 </template>
 <script>
 import { getSimpleDate } from '@/utils/datetime'
+import validate from '@/utils/validate.js'
+import { addBabyInfo } from '@/service/info'
 export default {
-	data() {
+	data () {
 		return {
 			startDate: getSimpleDate('start'),
 			endDate: getSimpleDate('end'),
 			formData: {
 				name: '',
-				gender: '1',
-				born_data: getSimpleDate()
+				gender: '',
+				birthday: ''
+			},
+			// 表单验证规则
+			rules: {
+			  name: {
+			    rule: /\S/,
+			    msg: '请填写姓名'
+			  },
+				gender: {
+				  rule: /\S/,
+				  msg: '请选择性别'
+				},
+				birthday: {
+				  rule: /\S/,
+				  msg: '请选择出生日期'
+				}
 			}
 		}
 	},
@@ -47,19 +64,30 @@ export default {
 			this.formData.name = detail
 		},
 		bindDateChange ({ detail }) {
-			this.formData.born_data = detail.value
+			this.formData.birthday = detail.value
 		},
 		bindGenderChange ({ detail }) {
 			this.formData.gender = detail
 		},
-		formSubmit () {
-			console.log('formData', this.formData)
-			this.$navigateTo('/vaccine/vaccine')
+		formValidate () {
+			for (let key of Object.keys(this.rules)) {
+				if (!validate(key, this.rules, this.formData)) {
+					return false
+				}
+			}
+			return true
+		},
+		async formSubmit () {
+			if(this.formValidate()) {
+				console.log('formData', this.formData)
+				await addBabyInfo(this.formData)
+				uni.navigateBack()
+			}
 		},
 		formReset () {
 			this.formData = {
 				name: '',
-				gender: '1',
+				gender: '',
 				born_data: getSimpleDate()
 			}
 			uni.navigateBack()
@@ -85,11 +113,19 @@ export default {
 		display: flex;
 		align-items: center;
 	}
+	.date-item.placeholder {
+		color: #C8C9CC;
+	}
 	/deep/.van-radio {
 		margin-right: 20rpx;
 	}
+	/deep/.van-cell__title {
+		max-width:6.2em;
+		min-width:6.2em;
+		margin-right: 12px;
+		color: #646566;
+	}
 	/deep/.custom-cell.van-cell__value {
-		flex: 2.5;
 		text-align: left;
 	}
 	/deep/.van-button--large {
