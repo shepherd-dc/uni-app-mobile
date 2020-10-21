@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     toMenuItem (item) {
-			this.$emit('navigateTo', item)
+      this.$emit('navigateTo', item)
     }
   }
 }

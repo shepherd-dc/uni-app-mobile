@@ -17,8 +17,8 @@
         <view
           v-for="v in l.vaccine"
           :key="v._id"
-          class="child-item"
-					:class="{'item-done': v.done}" >
+          :class="{'item-done': v.done}"
+          class="child-item" >
           <view class="list-body">
             <view class="list-main">
               <view class="title">
@@ -52,10 +52,10 @@
               </template>
               <template v-if="extra === 'button'">
                 <view
-									@tap="tapButton(v)"
+                  :class="{added: v.added}"
                   class="button"
-									:class="{added: v.added}"
-                  type="primary">{{ v.added ? '已添加' : '未添加' }}</view>
+                  type="primary"
+                  @tap="tapButton(v)">{{ v.added ? '已添加' : '未添加' }}</view>
               </template>
             </view>
           </view>
@@ -91,12 +91,12 @@ export default {
     }
   },
   methods: {
-		tapCheckbox (v) {
-			this.$emit('done', v)
-		},
-		tapButton (v) {
-			this.$emit('add', v)
-		}
+    tapCheckbox (v) {
+      this.$emit('done', v)
+    },
+    tapButton (v) {
+      this.$emit('add', v)
+    }
   }
 }
 </script>

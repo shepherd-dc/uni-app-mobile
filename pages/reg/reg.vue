@@ -77,7 +77,7 @@ export default {
       // service.addUser(this.form)
       const data = Object.assign({}, this.form, { type: 'register' })
       const res = await this.$uniCloud('user', data)
-			console.log(res)
+      console.log(res)
       if (res.code === 0) {
         this.$toast('注册成功，请登录')
         // 跳转

@@ -5,8 +5,8 @@
       class="hello">
       <view class="menus">
         <xc-menus
-					:menus="menus"
-					@navigateTo="navigateTo" />
+          :menus="menus"
+          @navigateTo="navigateTo" />
       </view>
     </view>
 
@@ -35,37 +35,37 @@ export default {
   onShow () {
     if (this.hasLogin) this.queryMenus()
   },
-	data () {
+  data () {
 	  return {
 	    menus: [],
-			routesMap: [
-				{
-					name: '疫苗',
-					path: '/vaccine/vaccine'
-				}
-			]
+      routesMap: [
+        {
+          name: '疫苗',
+          path: '/vaccine/vaccine'
+        }
+      ]
 	  }
-	},
-	computed: mapState(['forcedLogin', 'hasLogin', 'username']),
+  },
+  computed: mapState(['forcedLogin', 'hasLogin', 'username']),
   methods: {
 	  async queryMenus () {
-			const res = await getMenusList()
-			console.log('getMenusList', res.data)
-			const { data } = res
-			if (data && data.length) {
-				this.menus = data.map(item => {
-					this.routesMap.forEach(map => {
-						if (map.name === item.name) {
-							item.path = map.path
-						}
-					})
-					return item
-				})
-			}
+      const res = await getMenusList()
+      console.log('getMenusList', res.data)
+      const { data } = res
+      if (data && data.length) {
+        this.menus = data.map(item => {
+          this.routesMap.forEach(map => {
+            if (map.name === item.name) {
+              item.path = map.path
+            }
+          })
+          return item
+        })
+      }
 	  },
-		navigateTo (item) {
-			this.$navigateTo(item.path)
-		}
+    navigateTo (item) {
+      this.$navigateTo(item.path)
+    }
   }
 }
 </script>

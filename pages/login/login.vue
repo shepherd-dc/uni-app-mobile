@@ -132,7 +132,7 @@ export default {
       const data = Object.assign({}, this.form, { type: 'login' })
       const res = await this.$uniCloud('user', data)
       if (res.code === 0) {
-				const { data } = res
+        const { data } = res
         if (data.username) this.account = data.username
         this.$toast('登陆成功')
         this.toMain(this.account, data.token)
@@ -190,16 +190,16 @@ export default {
         this.$toast('登录失败')
       }
     },
-		uniSetStorage (token) {
-			try {
-			   uni.setStorageSync('sn-token', token);
-			} catch (e) {
+    uniSetStorage (token) {
+      try {
+			   uni.setStorageSync('sn-token', token)
+      } catch (e) {
 			  this.$toast(e)
-			}
-		},
+      }
+    },
     toMain (username, token) {
-      this.saveLoginState({username, token})
-			this.uniSetStorage(token)
+      this.saveLoginState({ username, token })
+      this.uniSetStorage(token)
       /**
 			 * 强制登录时使用reLaunch方式跳转过来
 			 * 返回首页也使用reLaunch方式
