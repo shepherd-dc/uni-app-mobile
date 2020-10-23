@@ -17,6 +17,7 @@
       <xc-list
         ref="vaccineList"
         :list="list"
+        @on-item-click="toDetail"
         @done="vaccineDone" />
     </view>
     <uni-calendar
@@ -43,7 +44,7 @@
 import { mapState, mapMutations } from 'vuex'
 import { loginCheck } from '@/utils/loginCheck'
 import { getMonthAddedDate } from '@/utils/datetime'
-import { getVaccineList, doVaccine, undoVaccine } from '@/service/vaccine'
+import { getVaccineList, doVaccine, undoVaccine } from '@/service/age-vaccines'
 import { getBabyInfo } from '@/service/info'
 import uniPopupDialog from '@/components/uni-popup/uni-popup-dialog'
 export default {
@@ -144,6 +145,9 @@ export default {
     },
     toAdd () {
       this.$navigateTo('/vaccine/add')
+    },
+    toDetail (v) {
+      this.$navigateTo('/vaccine/detail?params=' + v.vaccine_id)
     }
   }
 }

@@ -41,6 +41,11 @@
 				"navigationBarTitleText": "添加自费疫苗"
 			}
 		}, {
+			"path" : "pages/vaccine/detail",
+			"style" : {
+				"navigationBarTitleText": "疫苗详情"
+			}
+		}, {
 			"path" : "pages/info/info",
 			"style" : {
 				"navigationBarTitleText": "完善宝宝信息",
@@ -53,8 +58,13 @@
 					"van-radio-group": "/wxcomponents/vant/dist/radio-group/index"
 				}
 			}
+		} ,{
+			"path" : "pages/article/article",
+			"style" : {
+				"navigationBarTitleText": "文章详情"
+			}
 		}
-   ],
+	],
 	"tabBar": {
 		"color": "#7a7e83",
 		"selectedColor": "#0faeff",

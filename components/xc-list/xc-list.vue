@@ -1,7 +1,7 @@
 <template>
   <view class="list-container">
     <view
-      v-for="(l, i) in list"
+      v-for="l in list"
       :key="l._id"
       class="list">
       <view
@@ -20,7 +20,9 @@
           :class="{'item-done': v.done}"
           class="child-item" >
           <view class="list-body">
-            <view class="list-main">
+            <view
+              class="list-main"
+              @click="clickItem(v)">
               <view class="title">
                 <view class="title-main">
                   <text
@@ -96,6 +98,9 @@ export default {
     },
     tapButton (v) {
       this.$emit('add', v)
+    },
+    clickItem (v) {
+      this.$emit('on-item-click', v)
     }
   }
 }

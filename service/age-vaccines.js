@@ -120,7 +120,7 @@ export async function getVaccineList (type) {
 	try {
 		const { result } = await db.collection('ages').aggregate()
 		  .lookup({
-			  from: 'vaccine',
+			  from: 'age-vaccines',
 			  let: {
 			    id: '$_id'
 			  },
@@ -218,7 +218,7 @@ async function aggregateAddedList () {
 				user_id: db.env.uid
 			})
 			.lookup({
-				from: 'vaccine',
+				from: 'age-vaccines',
 				let: {
 					vaccine_id: '$vaccine_id' // user-vaccine表中的疫苗id
 				},

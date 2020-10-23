@@ -14,7 +14,7 @@
 <script>
 import { mapState } from 'vuex'
 import { loginCheck } from '@/utils/loginCheck'
-import { getVaccineList, addVaccine, cancelAddVaccine } from '@/service/vaccine'
+import { getVaccineList, addVaccine, cancelAddVaccine } from '@/service/age-vaccines'
 export default {
   onLoad () {
 	  loginCheck()

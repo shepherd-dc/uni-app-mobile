@@ -16,7 +16,7 @@ const adminWriteOnly = [
 
 const rule = {
 	// 他人及游客仅允许查看近一年的文章
-	'.read': 'doc.publish_date > now - 31708800000 || auth.uid == doc.user_id',
+	'.read': 'doc.create_time > now - 31708800000 || auth.uid == doc.user_id',
 	// 登录用户可以发布文章
 	'.create': 'auth.uid != null',
 	// 仅管理员可以删除文章
