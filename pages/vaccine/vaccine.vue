@@ -5,9 +5,10 @@
         class="add"
         @tap="toAdd">
         <uni-icons
+          color="#56ceab"
           type="plusempty"
           size="16"></uni-icons>
-        <text>添加自费</text>
+        <text class="tip">添加自费</text>
       </view>
       <view class="tip">
         <text>接种须知</text>
@@ -75,18 +76,20 @@ export default {
       const res = await getVaccineList(0) // type: 0 免费
       console.log('getVaccineList', res)
       const { data } = res
-      this.list = data.map(item => {
-        if (this.birthday) {
-          item.birthday = getMonthAddedDate(this.birthday, item.month)
-        }
-        return item
-      })
+      if (data && data.length) {
+        this.list = data.map(item => {
+				  if (this.birthday) {
+				    item.birthday = getMonthAddedDate(this.birthday, item.month)
+				  }
+				  return item
+        })
+      }
     },
     async getBabyBirthday () {
 		  const res = await getBabyInfo()
 		  console.log('getBabyInfo', res)
 		  const { data } = res
-		  if (data.length) {
+		  if (data && data.length) {
         // TODO 目前只支持一个宝宝
         const baby = data[0]
         this.saveBabyInfo(baby.birthday)

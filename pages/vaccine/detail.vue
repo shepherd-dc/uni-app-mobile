@@ -1,39 +1,48 @@
 <template>
   <view class="detail">
-    <view class="detail-title">
-      <view class="title-main">
-        <text
-          :class="{'self-pay': detail.type === 1}"
-          class="type">{{ detail.type === 1 ? '自费' : '免费' }}</text>
-        <text class="name">{{ detail.name }}</text>
-      </view>
-      <view class="description">{{ detail.description }}</view>
-    </view>
-    <xc-card
-      :content="detail.introduction"
-      title="简介"/>
-    <xc-card
-      :content="detail.ages"
-      title="接种时间"/>
-    <xc-card
-      :content="detail.taboos"
-      title="接种禁忌"/>
-    <xc-card
-      :content="detail.precautions"
-      title="注意事项"/>
-    <xc-card
-      :content="detail.reactions"
-      title="接种反应"/>
-    <xc-card title="链接文章">
-      <view
-        v-for="(art, i) in detail.articles"
-        :key="art._id"
-        class="article">
-        <text
-          class="article-item"
-          @click="toArticleDetail(art._id)">{{ `${i + 1}. ${art.title}` }}</text>
-      </view>
-    </xc-card>
+		<view v-if="loading" class="loading">
+			加载中……
+		</view>
+		<view v-else class="loaded">
+			<view class="detail-title">
+			  <view class="title-main">
+			    <text
+			      :class="{'self-pay': detail.type === '自费'}"
+			      class="type">{{ detail.type }}</text>
+			    <text class="name">{{ detail.name }}</text>
+			  </view>
+			  <view class="description">{{ detail.description }}</view>
+			</view>
+			<xc-card
+				v-if="detail.price"
+			  :content="detail.price"
+			  title="价格参考"/>
+			<xc-card
+			  :content="detail.ages"
+			  title="接种时间"/>
+			<xc-card
+			  :content="detail.introduction"
+			  title="简介"/>
+			<xc-card
+			  :content="detail.taboos"
+			  title="接种禁忌"/>
+			<xc-card
+			  :content="detail.precautions"
+			  title="注意事项"/>
+			<xc-card
+			  :content="detail.reactions"
+			  title="接种反应"/>
+			<xc-card v-if="detail.articles.length" title="链接文章">
+			  <view
+			    v-for="(art, i) in detail.articles"
+			    :key="art._id"
+			    class="article">
+			    <text
+			      class="article-item"
+			      @click="toArticleDetail(art._id)">{{ `${i + 1}. ${art.title}` }}</text>
+			  </view>
+			</xc-card>
+		</view>
   </view>
 </template>
 
@@ -49,13 +58,15 @@ export default {
   data () {
     return {
       detail: {},
-      id: ''
+      id: '',
+			loading: true
     }
   },
   methods: {
 	  async getVaccine () {
 	    const result = await aggregateGetVaccine(this.id)
 	    console.log('aggregateGetVaccine', result)
+			this.loading = false
 	    result.type != null && (result.type = +result.type === 1 ? '自费' : '免费')
 	    this.detail = result
 	  },
@@ -71,6 +82,13 @@ export default {
 		width: 100%;
 		height: 100%;
 		background-color: #f8f8f8;
+	}
+	.loading {
+		text-align: center;
+		width: 100%;
+		height: 100%;
+		padding: 10rpx 0;
+		font-size: 28rpx;
 	}
 	.detail-title {
 		// display: flex;

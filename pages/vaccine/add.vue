@@ -6,6 +6,7 @@
         :show-date="false"
         :list="list"
         extra="button"
+        @on-item-click="toDetail"
         @add="addVaccine" />
     </view>
   </view>
@@ -56,6 +57,9 @@ export default {
         this.added = true
       }
       this.getVaccineList()
+    },
+    toDetail (v) {
+		  this.$navigateTo('/vaccine/detail?params=' + v.vaccine_id)
     }
   }
 }
