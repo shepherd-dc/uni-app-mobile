@@ -1,53 +1,68 @@
 <template>
   <view class="detail">
-		<view class="detail-title">
-			<view class="title-main">
-			  <text
-			    :class="{'self-pay': detail.type === 1}"
-			    class="type">{{ detail.type === 1 ? '自费' : '免费' }}</text>
-			  <text class="name">{{ detail.name }}</text>
-			</view>
-			<view class="description">{{ detail.description }}</view>
-		</view>
-    <xc-card title="简介" :content="detail.introduction"/>
-    <xc-card title="接种时间" :content="detail.ages"/>
-    <xc-card title="接种禁忌" :content="detail.taboos"/>
-    <xc-card title="注意事项" :content="detail.precautions"/>
-    <xc-card title="接种反应" :content="detail.reactions"/>
+    <view class="detail-title">
+      <view class="title-main">
+        <text
+          :class="{'self-pay': detail.type === 1}"
+          class="type">{{ detail.type === 1 ? '自费' : '免费' }}</text>
+        <text class="name">{{ detail.name }}</text>
+      </view>
+      <view class="description">{{ detail.description }}</view>
+    </view>
+    <xc-card
+      :content="detail.introduction"
+      title="简介"/>
+    <xc-card
+      :content="detail.ages"
+      title="接种时间"/>
+    <xc-card
+      :content="detail.taboos"
+      title="接种禁忌"/>
+    <xc-card
+      :content="detail.precautions"
+      title="注意事项"/>
+    <xc-card
+      :content="detail.reactions"
+      title="接种反应"/>
     <xc-card title="链接文章">
-			<view class="article" v-for="(art, i) in detail.articles" :key="art._id">
-				<text class="article-item" @click="toArticleDetail(art._id)">{{ `${i + 1}. ${art.title}` }}</text>
-			</view>
-		</xc-card>
+      <view
+        v-for="(art, i) in detail.articles"
+        :key="art._id"
+        class="article">
+        <text
+          class="article-item"
+          @click="toArticleDetail(art._id)">{{ `${i + 1}. ${art.title}` }}</text>
+      </view>
+    </xc-card>
   </view>
 </template>
 
 <script>
 import { aggregateGetVaccine } from '@/service/vaccines'
 export default {
-	onLoad (query) {
-		this.id = query.params
-	},
-	onShow () {
+  onLoad (query) {
+    this.id = query.params
+  },
+  onShow () {
 	  this.getVaccine()
-	},
-	data () {
-		return {
-			detail: {},
-			id: ''
-		}
-	},
-	methods: {
+  },
+  data () {
+    return {
+      detail: {},
+      id: ''
+    }
+  },
+  methods: {
 	  async getVaccine () {
 	    const result = await aggregateGetVaccine(this.id)
 	    console.log('aggregateGetVaccine', result)
 	    result.type != null && (result.type = +result.type === 1 ? '自费' : '免费')
 	    this.detail = result
 	  },
-		toArticleDetail (id) {
-			this.$navigateTo('/article/article?params=' + id)
-		}
-	}
+    toArticleDetail (id) {
+      this.$navigateTo('/article/article?params=' + id)
+    }
+  }
 }
 </script>
 
