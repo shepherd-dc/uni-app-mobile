@@ -5,6 +5,9 @@ import store from './store'
 import './utils/plugins'
 import { db } from './utils/request'
 
+import uView from "uview-ui"
+Vue.use(uView)
+
 Vue.config.productionTip = false
 
 Vue.prototype.$store = store

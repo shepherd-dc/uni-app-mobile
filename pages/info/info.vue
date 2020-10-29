@@ -1,35 +1,33 @@
 <template>
   <view class="baby-info">
     <view class="baby-info-form">
-      <van-cell-group>
-        <van-field
-          :value="formData.name"
-          :clearable="true"
-          label="姓名"
-          placeholder="请输入姓名"
-          @input="bindNameChange"
-        />
-        <van-cell
-          title="性别"
-          clickable
-          value-class="custom-cell">
-          <van-radio-group
-            :value="formData.gender"
-            class="gender-radio"
-            @change="bindGenderChange">
-            <van-radio
-              name="1"
-              checked-color="#07c160">男</van-radio>
-            <van-radio
-              name="2"
-              checked-color="#07c160">女</van-radio>
-          </van-radio-group>
-        </van-cell>
-        <van-cell
-          title="出生日期"
-          clickable
-          is-link
-          value-class="custom-cell">
+      <u-cell-group>
+        <u-cell-item
+          :title-style="{width: '160rpx'}"
+          :arrow="false"
+          title="姓名">
+          <u-input v-model="formData.name" />
+        </u-cell-item>
+        <u-cell-item
+          :title-style="{width: '160rpx'}"
+          :arrow="false"
+          title="性别">
+          <u-radio-group v-model="formData.gender">
+            <u-radio
+              v-for="(item, index) in radioList"
+              :label-size="28"
+              :key="index"
+              :name="item.key"
+              active-color="#07c160">
+              {{ item.value }}
+            </u-radio>
+          </u-radio-group>
+        </u-cell-item>
+        <u-cell-item
+          :title-style="{width: '160rpx'}"
+          :arrow="true"
+          :value-style="{'text-align': 'left'}"
+          title="出生日期">
           <picker
             :value="formData.birthday"
             :start="startDate"
@@ -40,21 +38,19 @@
               :class="{'placeholder': !formData.birthday}"
               class="date-item">{{ formData.birthday || '请选择出生日期' }}</view>
           </picker>
-        </van-cell>
-      </van-cell-group>
+        </u-cell-item>
+      </u-cell-group>
       <view class="btn-group">
-        <van-button
+        <u-button
           class="custom-btn"
           type="default"
-          size="large"
-          round
-          @tap="formReset">取消</van-button>
-        <van-button
+          shape="circle"
+          @click="formReset">重 置</u-button>
+        <u-button
           class="custom-btn"
-          type="primary"
-          size="large"
-          round
-          @tap="formSubmit">确定</van-button>
+          type="success"
+          shape="circle"
+          @click="formSubmit">确 定</u-button>
       </view>
     </view>
   </view>
@@ -73,6 +69,16 @@ export default {
         gender: '',
         birthday: ''
       },
+      radioList: [
+        {
+          key: '1',
+          value: '男'
+        },
+        {
+          key: '2',
+          value: '女'
+        }
+      ],
       // 表单验证规则
       rules: {
 			  name: {
@@ -91,14 +97,8 @@ export default {
     }
   },
   methods: {
-    bindNameChange ({ detail }) {
-      this.formData.name = detail
-    },
     bindDateChange ({ detail }) {
       this.formData.birthday = detail.value
-    },
-    bindGenderChange ({ detail }) {
-      this.formData.gender = detail
     },
     formValidate () {
       for (const key of Object.keys(this.rules)) {
@@ -140,26 +140,8 @@ export default {
 			flex: 1;
 		}
 	}
-	.gender-radio {
-		display: flex;
-		align-items: center;
-	}
 	.date-item.placeholder {
-		color: #C8C9CC;
-	}
-	/deep/.van-radio {
-		margin-right: 20rpx;
-	}
-	/deep/.van-cell__title {
-		max-width:6.2em;
-		min-width:6.2em;
-		margin-right: 12px;
-		color: #646566;
-	}
-	/deep/.custom-cell.van-cell__value {
-		text-align: left;
-	}
-	/deep/.van-button--large {
-		height: 80rpx;
+		color: #C4C4D6;
+		font-size: 28rpx;
 	}
 </style>
