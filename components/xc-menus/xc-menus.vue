@@ -1,17 +1,22 @@
 <template>
   <view class="menus-container">
-    <view class="menus">
-      <view
-        v-for="menu in menus"
-        :key="menu._id"
-        class="menu-item"
-        @tap="toMenuItem(menu)" >
-        <image
-          :src="menu.icon"
-          class="menu-icon" />
-        <text class="menu-text">{{ menu.name }}</text>
-      </view>
-    </view>
+		<scroll-view :scroll-x="true">
+			<view
+				class="menus"
+				:class="{wrap: wrap}">
+					<view
+						v-for="menu in menus"
+						:key="menu._id"
+						class="menu-item"
+						:class="{wrap: wrap}"
+						@tap="toMenuItem(menu)" >
+						<image
+							:src="menu.icon"
+							class="menu-icon" />
+						<text class="menu-text">{{ menu.name }}</text>
+					</view>
+			</view>
+		</scroll-view>
   </view>
 </template>
 
@@ -21,7 +26,11 @@ export default {
     menus: {
       type: Array,
       default: () => []
-    }
+    },
+		wrap: {
+			type: Boolean,
+			default: true
+		}
   },
   data () {
     return {
@@ -41,18 +50,21 @@ export default {
 		background-color: #fff;
 		.menus {
 			display: flex;
-			flex-wrap: wrap;
+			flex-wrap: nowrap;
+			&.wrap {
+				flex-wrap: wrap;
+			}
 		}
 		.menu-item {
-			width: calc(~'25% - 20rpx');
-			box-sizing: border-box;
-			margin: 20rpx 10rpx;
-			// padding: 10rpx;
-			// border: 1rpx solid #007AFF;
+			padding-right: 20rpx;
 			display: flex;
 			flex-direction: column;
 			justify-items: center;
 			align-items: center;
+			&.wrap {
+				width: calc(~'25% - 20rpx');
+				margin: 20rpx 10rpx;
+			}
 			.menu-icon {
 				width: 120rpx;
 				height: 120rpx;

@@ -6,7 +6,8 @@
 		{
 			"path": "pages/main/main",
 			"style": {
-				"navigationBarTitleText": "首页"
+				"navigationBarTitleText": "喜虫育儿",
+				"navigationStyle": "custom"
 			}
 		}, {
 			"path": "pages/login/login",
@@ -59,7 +60,19 @@
 				"navigationBarTitleText": "文章详情"
 			}
 		}
-	],
+			,{
+				"path" : "pages/nurturingToolbox/breastfeeding",
+				"style" : {
+					"navigationBarTitleText": "母乳亲喂"
+				}
+			}
+        ,{
+            "path" : "pages/home-search/home-search",
+            "style" : {
+							"navigationStyle": "custom"
+						}
+        }
+    ],
 	"tabBar": {
 		"color": "#7a7e83",
 		"selectedColor": "#0faeff",

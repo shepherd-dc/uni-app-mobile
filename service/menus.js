@@ -9,9 +9,11 @@ export async function getMenusList () {
 			.field({
 				icon: 1,
 				name: 1,
+				en_name: 1,
 				_id: 1,
 				sup_id: 1
 			})
+			.orderBy('sort', 'desc')
 			.get()
 		res = result
 	} catch (e) {

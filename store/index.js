@@ -12,7 +12,8 @@ const store = new Vuex.Store({
 		username: uni.getStorageSync('username'),
 		birthday: uni.getStorageSync('birthday'),
 		token: uni.getStorageSync('uni_id_token'),
-		beforeRoute: {}
+		beforeRoute: {},
+		historyLists: uni.getStorageSync("__history") || []
 	},
 	mutations: {
 		saveLoginState (state, { username, token, tokenExpired }) {
@@ -29,6 +30,12 @@ const store = new Vuex.Store({
 		},
 		beforeRoute(state, data) {
 		  state.beforeRoute = data
+		},
+		SET_HISTORY_LISTS(state, history) {
+			state.historyLists = history
+		},
+		CLEAR_HISTORY(state) {
+			state.historyLists = []
 		}
 	},
 	actions: {
@@ -47,6 +54,21 @@ const store = new Vuex.Store({
 					reject(error)
 				}
 			})
+		},
+		set_history({
+			commit,
+			state
+		}, history) {
+			let list = state.historyLists
+			list.unshift(history)
+			uni.setStorageSync('__history', list)
+			commit('SET_HISTORY_LISTS', list)
+		},
+		clearHistory({
+			commit
+		}) {
+			uni.removeStorageSync('__history')
+			commit('CLEAR_HISTORY')
 		}
 	}
 })

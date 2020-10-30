@@ -58,7 +58,7 @@ export default {
       console.log(detail)
       const code = await this.getWeixinCode()
       const res = await loginByWeixin({ code })
-      console.log(res)
+      console.log('loginByWeixin', res)
       if (res.code === 0) {
         const { token, tokenExpired } = res
         this.saveLoginState({

@@ -1,12 +1,20 @@
 <template>
   <view class="main">
+		<!-- 自定义导航栏 -->
+		<navbar></navbar>
+		
     <view
       v-if="hasLogin"
-      class="hello">
-      <view class="menus">
-        <xc-menus
-          :menus="menus"
-          @navigateTo="navigateTo" />
+      class="main-box">
+      <view class="main-menus">
+				<view class="card-header">
+					<view class="header-item header-icon"></view>
+					<text class="header-item header-title">养育工具箱</text>
+				</view>
+				<xc-menus
+				  :menus="menus"
+					:wrap="false"
+				  @navigateTo="navigateTo" />
       </view>
     </view>
 
@@ -27,6 +35,7 @@
 import { mapState } from 'vuex'
 import { loginCheck } from '@/utils/loginCheck'
 import { getMenusList } from '@/service/menus'
+import routesMap from '@/router/routes.map'
 
 export default {
   onLoad () {
@@ -37,13 +46,7 @@ export default {
   },
   data () {
 	  return {
-	    menus: [],
-      routesMap: [
-        {
-          name: '疫苗',
-          path: '/vaccine/vaccine'
-        }
-      ]
+	    menus: []
 	  }
   },
   computed: mapState(['forcedLogin', 'hasLogin', 'username']),
@@ -54,8 +57,8 @@ export default {
       const { data } = res
       if (data && data.length) {
         this.menus = data.map(item => {
-          this.routesMap.forEach(map => {
-            if (map.name === item.name) {
+          routesMap.forEach(map => {
+            if (map.name === item.en_name) {
               item.path = map.path
             }
           })
@@ -64,7 +67,11 @@ export default {
       }
 	  },
     navigateTo (item) {
-      this.$navigateTo(item.path)
+			if (item.path) {
+				this.$navigateTo(item.path)
+			} else {
+				this.$toast('开发中，敬请期待...')
+			}
     }
   }
 }
@@ -82,6 +89,25 @@ export default {
 		padding: 0 30rpx;
 		.welcome {
 			margin: 20rpx 0;
+		}
+	}
+	.main-box {
+		padding-left: 20rpx;
+		box-sizing: border-box;
+	}
+	.card-header {
+		display: flex;
+		padding-bottom: 10rpx;
+		border-bottom: 2rpx solid #f8f8f8;
+		margin-bottom: 20rpx;
+		color: #333;
+		.header-item {
+			margin-right: 20rpx;
+		}
+		.header-icon {
+			width: 8rpx;
+			height: 40rpx;
+			background-color: #56ceab;
 		}
 	}
 </style>

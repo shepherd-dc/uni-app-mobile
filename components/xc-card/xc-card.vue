@@ -3,7 +3,7 @@
 		<view class="card-header">
 			<slot name="header">
 				<view class="header-item header-icon"></view>
-				<text class="header-item header-title">{{ title }}</text>
+				<text class="header-item header-title" :style="bold ? 'font-weight: bold': ''">{{ title }}</text>
 				<text class="header-item header-extra">{{ extra }}</text>
 			</slot>
 		</view>
@@ -47,6 +47,10 @@
 			tips: {
 				type: String,
 				default: ''
+			},
+			bold: {
+				type: Boolean,
+				default: false
 			}
 		}
 	}
