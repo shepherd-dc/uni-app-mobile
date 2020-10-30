@@ -1,22 +1,22 @@
 <template>
   <view class="menus-container">
-		<scroll-view :scroll-x="true">
-			<view
-				class="menus"
-				:class="{wrap: wrap}">
-					<view
-						v-for="menu in menus"
-						:key="menu._id"
-						class="menu-item"
-						:class="{wrap: wrap}"
-						@tap="toMenuItem(menu)" >
-						<image
-							:src="menu.icon"
-							class="menu-icon" />
-						<text class="menu-text">{{ menu.name }}</text>
-					</view>
-			</view>
-		</scroll-view>
+    <scroll-view :scroll-x="true">
+      <view
+        :class="{wrap: wrap}"
+        class="menus">
+        <view
+          v-for="menu in menus"
+          :key="menu._id"
+          :class="{wrap: wrap}"
+          class="menu-item"
+          @tap="toMenuItem(menu)" >
+          <image
+            :src="menu.icon"
+            class="menu-icon" />
+          <text class="menu-text">{{ menu.name }}</text>
+        </view>
+      </view>
+    </scroll-view>
   </view>
 </template>
 
@@ -27,10 +27,10 @@ export default {
       type: Array,
       default: () => []
     },
-		wrap: {
-			type: Boolean,
-			default: true
-		}
+    wrap: {
+      type: Boolean,
+      default: true
+    }
   },
   data () {
     return {

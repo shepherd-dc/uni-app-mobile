@@ -1,59 +1,61 @@
 <template>
-	<view class="card-item">
-		<view class="card-header">
-			<slot name="header">
-				<view class="header-item header-icon"></view>
-				<text class="header-item header-title" :style="bold ? 'font-weight: bold': ''">{{ title }}</text>
-				<text class="header-item header-extra">{{ extra }}</text>
-			</slot>
-		</view>
-		
-		<view class="card-body">
-			<view class="body-main">
-				<slot>
-					<view v-if="content">
-						<text>{{ content }}</text>
-					</view>
-				</slot>
-			</view>
-		</view>
-			
-		<view
-			v-if="tips"
-			class="card-footer">
-			<slot name="footer">
-				<text>{{ tips }}</text>
-			</slot>
-		</view>
-		
-	</view>
+  <view class="card-item">
+    <view class="card-header">
+      <slot name="header">
+        <view class="header-item header-icon"></view>
+        <text
+          :style="bold ? 'font-weight: bold': ''"
+          class="header-item header-title">{{ title }}</text>
+        <text class="header-item header-extra">{{ extra }}</text>
+      </slot>
+    </view>
+
+    <view class="card-body">
+      <view class="body-main">
+        <slot>
+          <view v-if="content">
+            <text>{{ content }}</text>
+          </view>
+        </slot>
+      </view>
+    </view>
+
+    <view
+      v-if="tips"
+      class="card-footer">
+      <slot name="footer">
+        <text>{{ tips }}</text>
+      </slot>
+    </view>
+
+  </view>
 </template>
 
 <script>
-	export default {
-		props: {
-			title: {
-				type: String,
-				default: '标题'
-			},
-			extra: {
-				type: String,
-				default: ''
-			},
-			content: {
-				type: String,
-				default: ''
-			},
-			tips: {
-				type: String,
-				default: ''
-			},
-			bold: {
-				type: Boolean,
-				default: false
-			}
-		}
-	}
+export default {
+  props: {
+    title: {
+      type: String,
+      default: '标题'
+    },
+    extra: {
+      type: String,
+      default: ''
+    },
+    content: {
+      type: String,
+      default: ''
+    },
+    tips: {
+      type: String,
+      default: ''
+    },
+    bold: {
+      type: Boolean,
+      default: false
+    }
+  }
+}
 </script>
 
 <style lang="less" scoped>

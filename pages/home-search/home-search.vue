@@ -1,107 +1,133 @@
 <template>
-	<view class="home">
-		<navbar :isSearch="true" v-model="value" @input="change"></navbar>
-		<view class="home-list">
-			<view v-if="is_histroy" class="label-box">
-				<view class="label-header">
-					<text class="label-title">搜索历史</text>
-					<text class="label-clear" @click="clear">清空</text>
-				</view>
-				<view v-if="historyLists.length > 0" class="label-content">
-					<view class="label-content__item" v-for="(item,index) in  historyLists"  :key="index" @click="openHistroy(item)">{{item.name}}</view>
-				</view>
-				<view v-else class="no-data">
-					没有搜索历史
-				</view>
-			</view>
-			<list-scroll v-else class="list-scroll">
-				<uni-load-more v-if="loading" status="loading" iconType="snow" ></uni-load-more>
-				<view v-if="searchList.length > 0">
-					<list-card :item="item" v-for="item in searchList" :key="item._id" @click="setHistory"></list-card>
-				</view>
-				<view v-if="searchList.length === 0 && !loading" class="no-data">
-					没有搜索到相关数据
-				</view>
+  <view class="home">
+    <navbar
+      :is-search="true"
+      v-model="value"
+      @input="change"></navbar>
+    <view class="home-list">
+      <view
+        v-if="is_histroy"
+        class="label-box">
+        <view class="label-header">
+          <text class="label-title">搜索历史</text>
+          <text
+            class="label-clear"
+            @click="clear">清空</text>
+        </view>
+        <view
+          v-if="historyLists.length > 0"
+          class="label-content">
+          <view
+            v-for="(item,index) in historyLists"
+            :key="index"
+            class="label-content__item"
+            @click="openHistroy(item)">{{ item.name }}</view>
+        </view>
+        <view
+          v-else
+          class="no-data">
+          没有搜索历史
+        </view>
+      </view>
+      <list-scroll
+        v-else
+        class="list-scroll">
+        <uni-load-more
+          v-if="loading"
+          status="loading"
+          icon-type="snow" ></uni-load-more>
+        <view v-if="searchList.length > 0">
+          <list-card
+            v-for="item in searchList"
+            :item="item"
+            :key="item._id"
+            @click="setHistory"></list-card>
+        </view>
+        <view
+          v-if="searchList.length === 0 && !loading"
+          class="no-data">
+          没有搜索到相关数据
+        </view>
 
-			</list-scroll>
-		</view>
-	</view>
+      </list-scroll>
+    </view>
+  </view>
 </template>
 
 <script>
-	import {
-		mapState
-	} from 'vuex'
-	export default {
-		data() {
-			return {
-				value:'',
-				is_histroy: true,
-				searchList: [],
-				loading:false
-			}
-		},
-		computed: {
-			...mapState(['historyLists'])
-		},
-		onLoad() {
-			// this.getList()
-		},
-		methods: {
-			setHistory(){
-				this.$store.dispatch('set_history', {
-					name: this.value
-				})
-			},
-			openHistroy(item){
-				this.value = item.name
-				this.getSearch(this.value)
-			},
-			change(value) {
-				if(!value){
-					clearTimeout(this.timer)
-					this.mark = false
-					this.getSearch(value)
-					return
-				}
-				// 做标记
-				if(!this.mark){
-					this.mark = true
-					this.timer = setTimeout(()=>{
-						this.mark = false
-						this.getSearch(value)
-					},1000)
-				}
-			},
-			clear(){
-				this.$store.dispatch('clearHistory')
-				uni.showToast({
-					title:"清空完成"
-				})
-			},
-			getSearch(value) {
-				if(!value){
-					this.searchList = []
-					this.is_histroy = true
-					return
-				}
-				this.is_histroy = false
-				this.loading = true
-				this.$api.get_search({
-					value,
-				}).then(res => {
-					const {
-						data
-					} = res
-					console.log(res);
-					this.loading = false
-					this.searchList = data
-				}).catch(()=>{
-					this.loading = false
-				})
-			}
-		}
-	}
+import {
+  mapState
+} from 'vuex'
+export default {
+  data () {
+    return {
+      value: '',
+      is_histroy: true,
+      searchList: [],
+      loading: false
+    }
+  },
+  computed: {
+    ...mapState(['historyLists'])
+  },
+  onLoad () {
+    // this.getList()
+  },
+  methods: {
+    setHistory () {
+      this.$store.dispatch('set_history', {
+        name: this.value
+      })
+    },
+    openHistroy (item) {
+      this.value = item.name
+      this.getSearch(this.value)
+    },
+    change (value) {
+      if (!value) {
+        clearTimeout(this.timer)
+        this.mark = false
+        this.getSearch(value)
+        return
+      }
+      // 做标记
+      if (!this.mark) {
+        this.mark = true
+        this.timer = setTimeout(() => {
+          this.mark = false
+          this.getSearch(value)
+        }, 1000)
+      }
+    },
+    clear () {
+      this.$store.dispatch('clearHistory')
+      uni.showToast({
+        title: '清空完成'
+      })
+    },
+    getSearch (value) {
+      if (!value) {
+        this.searchList = []
+        this.is_histroy = true
+        return
+      }
+      this.is_histroy = false
+      this.loading = true
+      this.$api.get_search({
+        value
+      }).then(res => {
+        const {
+          data
+        } = res
+        console.log(res)
+        this.loading = false
+        this.searchList = data
+      }).catch(() => {
+        this.loading = false
+      })
+    }
+  }
+}
 </script>
 
 <style lang="scss">

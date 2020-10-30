@@ -1,20 +1,22 @@
 <template>
   <view class="main">
-		<!-- 自定义导航栏 -->
-		<navbar></navbar>
-		
+    <!-- 自定义导航栏 -->
+    <navbar></navbar>
+    <!-- banner轮播图 -->
+    <xc-banner></xc-banner>
+
     <view
       v-if="hasLogin"
       class="main-box">
       <view class="main-menus">
-				<view class="card-header">
-					<view class="header-item header-icon"></view>
-					<text class="header-item header-title">养育工具箱</text>
-				</view>
-				<xc-menus
-				  :menus="menus"
-					:wrap="false"
-				  @navigateTo="navigateTo" />
+        <view class="card-header">
+          <view class="header-item header-icon"></view>
+          <text class="header-item header-title">养育工具箱</text>
+        </view>
+        <xc-menus
+          :menus="menus"
+          :wrap="false"
+          @navigateTo="navigateTo" />
       </view>
     </view>
 
@@ -67,11 +69,11 @@ export default {
       }
 	  },
     navigateTo (item) {
-			if (item.path) {
-				this.$navigateTo(item.path)
-			} else {
-				this.$toast('开发中，敬请期待...')
-			}
+      if (item.path) {
+        this.$navigateTo(item.path)
+      } else {
+        this.$toast('开发中，敬请期待...')
+      }
     }
   }
 }
@@ -82,7 +84,6 @@ export default {
 		background-color: #FFFFFF;
 		width: 100%;
 		height: 100%;
-		padding-top: 20rpx;
 	}
 	.hello {
 		color: #333;
@@ -92,7 +93,7 @@ export default {
 		}
 	}
 	.main-box {
-		padding-left: 20rpx;
+		padding: 30rpx 0 0 20rpx;
 		box-sizing: border-box;
 	}
 	.card-header {
