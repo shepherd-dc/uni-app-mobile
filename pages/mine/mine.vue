@@ -35,6 +35,9 @@
           @tap="bindLogout">退出登录</button>
       </view>
     </view>
+		<view class="btn-row">
+			<button type="default" @click="test">账号登录测试</button>
+		</view>
   </view>
 </template>
 
@@ -53,7 +56,7 @@ export default {
     ...mapActions(['logout']),
     bindLogin () {
       uni.navigateTo({
-        url: '../auth/auth'
+        url: '../user/auth'
       })
     },
     bindLogout () {
@@ -61,10 +64,15 @@ export default {
       // 如果需要强制登录跳转回登录页面
       if (this.forcedLogin) {
         uni.reLaunch({
-          url: '../auth/auth'
+          url: '../user/auth'
         })
       }
-    }
+    },
+		test () {
+			uni.navigateTo({
+			  url: '../user/login'
+			})
+		}
   }
 }
 </script>

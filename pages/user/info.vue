@@ -40,17 +40,9 @@
           </picker>
         </u-cell-item>
       </u-cell-group>
-      <view class="btn-group">
-        <u-button
-          class="custom-btn"
-          type="default"
-          shape="circle"
-          @click="formReset">重 置</u-button>
-        <u-button
-          class="custom-btn"
-          type="success"
-          shape="circle"
-          @click="formSubmit">确 定</u-button>
+      <xc-button-group
+        @confirm="formSubmit"
+        @reset="formReset" />
       </view>
     </view>
   </view>

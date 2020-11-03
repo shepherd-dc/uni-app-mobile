@@ -148,31 +148,36 @@ export async function getVaccineList (type) {
 		} else {
 			addedList = await getAddedList(1)
 		}
-		for (let list of result.data) {
-			// 遍历比对已添加列表
-			for (let added of addedList) {
-				if (list._id === added.age_id) {
-					if (type === 0) { // 向默认免费列表中加入已添加的自费列表
-						list.vaccine.push(added)
-					} else if (type === 1) { // 将自费列表中用户已添加的标记为"已添加"
-						list.vaccine.map(v => {
-							if(v._id === added.vaccine_id) {
-								v.added = 1
+		const { data: defaultList = [] } = result
+		if (defaultList.length) {
+			for (let list of defaultList) {
+				// 遍历比对已添加列表
+				if (addedList && addedList.length) {
+					for (let added of addedList) {
+						if (list._id === added.age_id) {
+							if (type === 0) { // 向默认免费列表中加入已添加的自费列表
+								list.vaccine.push(added)
+							} else if (type === 1) { // 将自费列表中用户已添加的标记为"已添加"
+								list.vaccine.map(v => {
+									if(v._id === added.vaccine_id) {
+										v.added = 1
+									}
+								})
 							}
-						})
+						}
 					}
-				}
-			}
-			// 遍历比对已完成列表，将"默认免费+已添加自费"列表中用户已完成的标记为"已完成"
-			if (type === 0 && doneList.length) {
-				for (let done of doneList) {
-					if (list._id === done.age_id) {
-						list.vaccine.map(v => {
-							if (v._id === done.vaccine_id) {
-								v.done = 1
-								v.done_time = getDate(done.done_time)
-							}
-						})
+				}				
+				// 遍历比对已完成列表，将"默认免费+已添加自费"列表中用户已完成的标记为"已完成"
+				if (type === 0 && doneList && doneList.length) {
+					for (let done of doneList) {
+						if (list._id === done.age_id) {
+							list.vaccine.map(v => {
+								if (v._id === done.vaccine_id) {
+									v.done = 1
+									v.done_time = getDate(done.done_time)
+								}
+							})
+						}
 					}
 				}
 			}
@@ -309,6 +314,7 @@ async function getDoneList () {
  * 处理联表查询后的数据，将数组中的字段扁平展开至对象中
  */
 function handleLinkedData (data) {
+	if (!data) return
 	return data.map(item => {
 		if (item.vaccine.length) {
 			for(let [k, v] of Object.entries(item.vaccine[0])){
