@@ -6,73 +6,85 @@
 		{
 			"path": "pages/main/main",
 			"style": {
-				"navigationBarTitleText": "喜虫育儿",
+				"navigationBarTitleText": "首页",
 				"navigationStyle": "custom"
 			}
 		}, {
-			"path": "pages/login/login",
+			"path": "pages/search/search",
 			"style": {
-				"navigationBarTitleText": "登录"
+				"navigationStyle": "custom"
 			}
 		}, {
-			"path": "pages/reg/reg",
-			"style": {
-				"navigationBarTitleText": "注册"
-			}
-		}, {
-			"path": "pages/pwd/pwd",
-			"style": {
-				"navigationBarTitleText": "找回密码"
-			}
-		}, {
-			"path": "pages/user/user",
+			"path": "pages/mine/mine",
 			"style": {
 				"navigationBarTitleText": "我的"
 			}
 		}, {
-			"path" : "pages/auth/auth",
-			"style" : {
-				"navigationBarTitleText": "授权登录"
-			}
-		}, {
-			"path" : "pages/vaccine/vaccine",
-			"style" : {
-				"navigationBarTitleText": "疫苗接种表"
-			}
-		}, {
-			"path" : "pages/vaccine/add",
-			"style" : {
-				"navigationBarTitleText": "添加自费疫苗"
-			}
-		}, {
-			"path" : "pages/vaccine/detail",
-			"style" : {
-				"navigationBarTitleText": "疫苗详情"
-			}
-		}, {
-			"path" : "pages/info/info",
-			"style" : {
-				"navigationBarTitleText": "完善宝宝信息"
-			}
-		} ,{
-			"path" : "pages/article/article",
-			"style" : {
+			"path": "pages/article/article",
+			"style": {
 				"navigationBarTitleText": "文章详情"
 			}
 		}
-			,{
-				"path" : "pages/nurturingToolbox/breastfeeding",
-				"style" : {
-					"navigationBarTitleText": "母乳亲喂"
+  ],
+	"subPackages": [
+		{
+			"root": "pages/nurturingToolbox",
+			"pages": [
+				{
+					"path" : "breastfeeding/breastfeeding",
+					"style" : {
+						"navigationBarTitleText": "母乳亲喂"
+					}
+				}, {
+					"path": "vaccine/vaccine",
+					"style": {
+						"navigationBarTitleText": "疫苗接种表"
+					}
+				}, {
+					"path": "vaccine/add",
+					"style": {
+						"navigationBarTitleText": "添加自费疫苗"
+					}
+				}, {
+					"path": "vaccine/detail",
+					"style": {
+						"navigationBarTitleText": "疫苗详情"
+					}
 				}
-			}
-        ,{
-            "path" : "pages/home-search/home-search",
-            "style" : {
-							"navigationStyle": "custom"
-						}
-        }
-    ],
+			]
+		},
+		{
+			"root": "pages/user",
+			"pages": [
+				{
+					"path": "login",
+					"style": {
+						"navigationBarTitleText": "登录"
+					}
+				}, {
+					"path": "reg",
+					"style": {
+						"navigationBarTitleText": "注册"
+					}
+				}, {
+					"path": "pwd",
+					"style": {
+						"navigationBarTitleText": "找回密码"
+					}
+				}, {
+					"path": "auth",
+					"style": {
+						"navigationBarTitleText": "授权登录"
+					}
+				}, {
+					"path": "info",
+					"style": {
+						"navigationBarTitleText": "完善宝宝信息"
+					}
+				}
+			]
+		}
+	],
 	"tabBar": {
 		"color": "#7a7e83",
 		"selectedColor": "#0faeff",
@@ -83,7 +95,7 @@
 			"iconPath": "static/img/home.png",
 			"selectedIconPath": "static/img/homeHL.png"
 		}, {
-			"pagePath": "pages/user/user",
+			"pagePath": "pages/mine/mine",
 			"text": "我的",
 			"iconPath": "static/img/user.png",
 			"selectedIconPath": "static/img/userHL.png"

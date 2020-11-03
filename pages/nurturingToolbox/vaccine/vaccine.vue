@@ -143,14 +143,14 @@ export default {
 		 * @param {Object} value
 		 */
     popupConfirm (done) {
-      this.$navigateTo('/info/info')
+      this.$navigateTo('/user/info')
       done()
     },
     toAdd () {
-      this.$navigateTo('/vaccine/add')
+      this.$navigateTo('/nurturingToolbox/vaccine/add')
     },
     toDetail (v) {
-      this.$navigateTo('/vaccine/detail?params=' + v.vaccine_id)
+      this.$navigateTo('/nurturingToolbox/vaccine/detail?params=' + v.vaccine_id)
     }
   }
 }

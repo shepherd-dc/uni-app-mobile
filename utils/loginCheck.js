@@ -39,11 +39,11 @@ function loginModal (title, content) {
 				 */
 				if (forcedLogin()) {
 					uni.reLaunch({
-						url: '/pages/auth/auth'
+						url: '/pages/user/auth'
 					})
 				} else {
 					uni.navigateTo({
-						url: '/pages/auth/auth'
+						url: '/pages/user/auth'
 					})
 				}
 	    }
@@ -61,7 +61,6 @@ export async function loginCheck () {
   } else {
 		// 检查token是否合法
 		const res = await checkToken(token)
-		console.log('checkToken', res)
 		if (res.code === 30203) {
 			loginModal('登录已过期', '登录已过期，请重新登录')
 		} else if (res.code === 30204) {

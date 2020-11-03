@@ -59,7 +59,7 @@ export default {
       this.getVaccineList()
     },
     toDetail (v) {
-		  this.$navigateTo('/vaccine/detail?params=' + v.vaccine_id)
+		  this.$navigateTo('/nurturingToolbox/vaccine/detail?params=' + v.vaccine_id)
     }
   }
 }

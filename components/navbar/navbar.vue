@@ -103,7 +103,7 @@ export default {
     open () {
       if (this.isSearch) return
       uni.navigateTo({
-        url: '/pages/home-search/home-search'
+        url: '/pages/search/search'
       })
     },
     inputChange (e) {

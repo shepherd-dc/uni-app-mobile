@@ -1,10 +1,10 @@
 export default [
 	{
 	  name: 'vaccination',
-	  path: '/vaccine/vaccine'
+	  path: '/nurturingToolbox/vaccine/vaccine'
 	},
 	{
 	  name: 'breastfeeding',
-	  path: '/nurturingToolbox/breastfeeding'
+	  path: '/nurturingToolbox/breastfeeding/breastfeeding'
 	}
 ]
