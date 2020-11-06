@@ -8,7 +8,7 @@
         :src="photo.tempFilePath"
         class="photo-image"
         mode="aspectFill"
-				@click="previewImage(index)" />
+        @click="previewImage(index)" />
       <view
         class="delete-image"
         @click="deleteImage(index)">
@@ -60,27 +60,27 @@ export default {
       this.photos.splice(index, 1)
       this.$emit('change', this.photos)
     },
-		previewImage (i) {
-			const tempList = []
-			this.photos.forEach(img => {
+    previewImage (i) {
+      const tempList = []
+      this.photos.forEach(img => {
 			  tempList.push(img.tempFilePath)
-			})
-			console.log(tempList)
-			// 预览图片
-			uni.previewImage({
-				urls: tempList,
+      })
+      console.log(tempList)
+      // 预览图片
+      uni.previewImage({
+        urls: tempList,
 			  current: i,
-				longPressActions: {
-					itemList: ['发送给朋友', '保存图片', '收藏'],
-					success: function(data) {
-						console.log('选中了第' + (data.tapIndex + 1) + '个按钮,第' + (data.index + 1) + '张图片');
-					},
-					fail: function(err) {
-						console.log(err.errMsg);
-					}
-				}
-			})
-		},
+        longPressActions: {
+          itemList: ['发送给朋友', '保存图片', '收藏'],
+          success: function (data) {
+            console.log('选中了第' + (data.tapIndex + 1) + '个按钮,第' + (data.index + 1) + '张图片')
+          },
+          fail: function (err) {
+            console.log(err.errMsg)
+          }
+        }
+      })
+    },
     clear () {
       this.photos = []
     }
@@ -94,12 +94,12 @@ export default {
 		flex-wrap: wrap;
 	}
 	.photo-item {
-		border-radius: 10rpx;
+		border-radius: 4rpx;
 		width: 180rpx;
 		height: 180rpx;
 		overflow: hidden;
-		margin-right: 20rpx;
-		margin-bottom: 20rpx;
+		margin-right: 10rpx;
+		margin-bottom: 10rpx;
 		position: relative;
 		.photo-image {
 			width: 100%;

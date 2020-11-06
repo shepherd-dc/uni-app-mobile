@@ -16,6 +16,7 @@
 import { mapState } from 'vuex'
 import { loginCheck } from '@/utils/loginCheck'
 import { getVaccineList, addVaccine, cancelAddVaccine } from '@/service/age-vaccines'
+import vaccineList from './components/vaccine-list'
 export default {
   onLoad () {
 	  loginCheck()
@@ -23,6 +24,9 @@ export default {
   onShow () {
 	  if (this.hasLogin) this.getVaccineList()
   },
+	components: {
+		vaccineList
+	},
   data () {
     return {
       list: [],

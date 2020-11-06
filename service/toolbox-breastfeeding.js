@@ -54,3 +54,52 @@ export async function getRecord (id) {
 	return res
 }
 
+/**
+ * 查询记录列表
+ */
+export async function getRecordsList () {
+	let res = {}
+	try {
+		const { result } = await collection
+			.where({
+				user_id: db.env.uid
+			})
+			.orderBy('create_time', 'desc')
+			.get()
+		res = result
+	} catch (e) {
+		console.error(e) // eslint-disable-line
+		uni.showModal({
+			content: e.message || '服务器异常，请稍后再试',
+			showCancel: false
+		})
+	}
+	return res
+}
+
+/**
+ * 删除记录
+ */
+export async function deleteRecord (id) {
+	let res = {}
+	uni.showLoading()
+	try {
+		const { result } = await collection.where({
+			_id: id,
+			user_id: db.env.uid
+		}).remove()
+		res = result
+	} catch (e) {
+		//TODO handle the exception
+		console.error(e) // eslint-disable-line
+		uni.showModal({
+			content: e.message || '服务器异常，请稍后再试',
+			showCancel: false
+		})
+	} finally {
+	  uni.hideLoading()
+	}
+	return res
+}
+
+

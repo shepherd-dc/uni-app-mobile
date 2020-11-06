@@ -15,7 +15,7 @@
       </view>
     </view>
     <view class="body">
-      <xc-list
+      <vaccine-list
         ref="vaccineList"
         :list="list"
         @on-item-click="toDetail"
@@ -47,9 +47,11 @@ import { loginCheck } from '@/utils/loginCheck'
 import { getMonthAddedDate } from '@/utils/datetime'
 import { getVaccineList, doVaccine, undoVaccine } from '@/service/age-vaccines'
 import { getBabyInfo } from '@/service/info'
+import vaccineList from './components/vaccine-list'
 import uniPopupDialog from '@/components/uni-popup/uni-popup-dialog'
 export default {
   components: {
+    vaccineList,
     uniPopupDialog
   },
   onLoad () {

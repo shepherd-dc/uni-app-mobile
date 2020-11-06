@@ -10,8 +10,8 @@ Vue.prototype.$toast = (title, duration = 1500) => uni.showToast({
 // 封装路由跳转 navigateTo， switchTab，reLaunch
 Vue.prototype.$navigateTo = (url) => uni.navigateTo({
   url: '/pages' + url,
-  animationType: 'slide-in-left', // 跳转动画
-  animationDuration: 800
+  // animationType: 'slide-in-left', // 跳转动画
+  // animationDuration: 800
 })
 // 跳转底部 tabbar 对应的页面
 Vue.prototype.$switchTab = (url) => uni.switchTab({
