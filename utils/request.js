@@ -50,11 +50,10 @@ const uniID = async (action, params = {}) => {
 export default async (name, data) => {
   uni.showLoading()
   try {
-		// const token = uni.getStorageSync('sn-token')
+		const token = uni.getStorageSync('uni_id_token')
     const res = await uniCloud.callFunction({
       name, // 云函数名字
-			// data: Object.assign({}, data, { token }) // 传输数据
-			data
+			data: Object.assign({}, data, { uniIdToken: token }) // 传输数据
     })
     return res.result
   } catch (e) {

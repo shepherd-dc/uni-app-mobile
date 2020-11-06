@@ -36,6 +36,11 @@
 						"navigationBarTitleText": "母乳亲喂"
 					}
 				}, {
+					"path" : "breastfeeding/detail",
+					"style" : {
+						"navigationBarTitleText": "记录详情"
+					}
+				}, {
 					"path": "vaccine/vaccine",
 					"style": {
 						"navigationBarTitleText": "疫苗接种表"

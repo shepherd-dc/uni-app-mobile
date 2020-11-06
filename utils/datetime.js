@@ -47,7 +47,7 @@ export function getMonthAddedDate (currentDate, addMonth) {
 	currentDate = new Date(currentDate) // 将日期格式转换为 Mon Apr 01 2019 08:00:00 GMT+0800 (中国标准时间)
 	if (parseInt(addMonth) < parseFloat(addMonth)) { // 小数的情况：1.5月
 		addDay = addMonth * 30
-		addedDate = currentDate.setDate(currentDate.getDate() + addDay)  // 输出日期格式为毫秒形式
+		addedDate = currentDate.setDate(currentDate.getDate() + addDay) // 输出日期格式为毫秒形式
 	} else {
 		addedDate = currentDate.setMonth(currentDate.getMonth() + addMonth)
 	}

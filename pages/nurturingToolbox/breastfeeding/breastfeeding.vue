@@ -4,13 +4,16 @@
       <u-form
         ref="uForm"
         :label-width="180"
+        :error-type="errorType"
         :model="form">
-        <u-form-item label="喂奶乳房">
+        <u-form-item
+          label="喂奶乳房"
+          prop="breast">
           <u-input
             v-model="form.breast"
             :select-open="actionSheetShow"
             type="select"
-            placeholder="请选择"
+            placeholder="请选择喂奶乳房"
             @click="actionSheetShow = true" />
           <u-action-sheet
             :list="actionSheetList"
@@ -18,7 +21,9 @@
             :border-radius="20"
             @click="actionSheetCallback"></u-action-sheet>
         </u-form-item>
-        <u-form-item label="开始时间">
+        <u-form-item
+          label="开始时间"
+          prop="startTime">
           <u-input
             v-model="form.startTime"
             :select-open="startTimeShow"
@@ -32,7 +37,9 @@
             confirm-color="#56ceab"
             @confirm="confirmStartTime"></u-picker>
         </u-form-item>
-        <u-form-item label="结束时间">
+        <u-form-item
+          label="结束时间"
+          prop="endTime">
           <u-input
             v-model="form.endTime"
             :select-open="endTimeShow"
@@ -48,7 +55,7 @@
         </u-form-item>
         <u-form-item label="持续时间">
           <u-input
-            v-model="duration"
+            v-model="form.duration"
             :placeholder="' '"
             disabled />
         </u-form-item>
@@ -62,9 +69,9 @@
             placeholder="宝宝吃奶精神状态、是否吐奶、拍嗝等"
             type="textarea" />
         </u-form-item>
-        <xc-image-upload
-          ref="upload"
-          @change="handleUploadChange" />
+        <xc-media-choose
+          ref="chooseMedia"
+          @change="handleChosenChange" />
       </u-form>
     </view>
     <u-alert-tips
@@ -82,6 +89,8 @@
 </template>
 
 <script>
+import { addRecord } from '@/service/toolbox-breastfeeding'
+import uploadFiles from '@/utils/upload'
 export default {
   data () {
     return {
@@ -89,7 +98,32 @@ export default {
         breast: '',
         startTime: '',
         endTime: '',
+        duration: '',
         note: ''
+      },
+      errorType: ['toast'],
+      rules: {
+        breast: [
+          {
+            required: true,
+            message: '请选择喂奶乳房',
+            trigger: ['blur', 'change']
+          }
+        ],
+        startTime: [
+          {
+            required: true,
+            message: '请选择开始时间',
+            trigger: ['blur', 'change']
+          }
+        ],
+        endTime: [
+				  {
+				    required: true,
+				    message: '请选择结束时间',
+				    trigger: ['blur', 'change']
+				  }
+        ]
       },
       actionSheetList: [
         {
@@ -107,7 +141,6 @@ export default {
       endTimeShow: false,
       startTime: '',
       endTime: '',
-      duration: '',
       params: {
         year: true,
         month: true,
@@ -121,68 +154,90 @@ export default {
       photos: []
     }
   },
+  // 必须要在onReady生命周期，因为onLoad生命周期组件可能尚未创建完毕
+  onReady () {
+    this.$refs.uForm.setRules(this.rules)
+  },
   methods: {
     // 点击actionSheet回调
     actionSheetCallback (index) {
       this.form.breast = this.actionSheetList[index].text
     },
     confirmStartTime (e) {
-      this.startTime = e.timestamp
+      this.startTime = this.formatTime(e)
       if (this.endTime && !this.validateTime(this.startTime, this.endTime, 1)) {
         return
       }
-      this.form.startTime = this.formatTime(e)
+      this.form.startTime = this.startTime
       if (this.endTime) {
-			  this.duration = Math.round((this.endTime - this.startTime) / 60) + '分钟'
+			  this.form.duration = this.calculateDuration(this.endTime, this.startTime)
       }
     },
     confirmEndTime (e) {
-      this.endTime = e.timestamp
+      this.endTime = this.formatTime(e)
       if (!this.validateTime(this.startTime, this.endTime, 2)) {
         return
       }
-      this.form.endTime = this.formatTime(e)
+      this.form.endTime = this.endTime
       if (this.startTime) {
-        this.duration = Math.round((this.endTime - this.startTime) / 60) + '分钟'
+        this.form.duration = this.calculateDuration(this.endTime, this.startTime)
       }
     },
     formatTime (e) {
       const { year, month, day, hour, minute } = e
       return `${year}-${month}-${day} ${hour}:${minute}`
     },
-    validateTime (t1 = 0, t2 = 0, flag) {
+    validateTime (t1, t2, flag) {
+      t1 = t1 ? new Date(t1).getTime() : 0
+      t2 = t2 ? new Date(t2).getTime() : 0
+      console.log(t1, t2)
       const diff = t2 - t1
       if (diff < 0) {
         if (flag === 1) {
           this.$toast('开始时间不能晚于结束时间')
           this.startTime = this.form.startTime = ''
-          this.duration = ''
+          this.form.duration = ''
         } else if (flag === 2) {
           this.$toast('结束时间不能早于开始时间')
           this.endTime = this.form.endTime = ''
-          this.duration = ''
+          this.form.duration = ''
         }
 			  return false
       }
       return true
     },
-    handleUploadChange (photos) {
-      this.photos = photos
-      console.log('photos', photos)
+    calculateDuration (t1, t2) {
+      t1 = new Date(t1).getTime()
+      t2 = new Date(t2).getTime()
+      return (t1 - t2) / (1000 * 60) + '分钟'
     },
-    submitForm () {
-      console.log('submitForm', this.form)
-      console.log('uploadPhotos', this.photos)
+    handleChosenChange (photos) {
+      this.photos = photos
+    },
+    async submitForm () {
+      this.$refs.uForm.validate(async valid => {
+        if (valid) {
+					// 上传图片
+					if (this.photos.length) {
+						const files = await uploadFiles(this.photos)
+						this.form.photos = files
+					}
+          const res = await addRecord(this.form)
+					console.log('submitForm', res)
+					this.$navigateTo('/nurturingToolbox/breastfeeding/detail?params=' + res.id)
+        }
+      })
     },
     resetForm () {
       this.form = {
         breast: '',
         startTime: '',
         endTime: '',
+        duration: '',
         note: ''
       }
-      this.duration = ''
-      this.$refs.upload.clear()
+      this.form.duration = ''
+      this.$refs.chooseMedia.clear()
     }
   }
 }
