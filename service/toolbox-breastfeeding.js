@@ -102,4 +102,27 @@ export async function deleteRecord (id) {
 	return res
 }
 
-
+/**
+ * 更新记录
+ */
+export async function updateRecord (id, data) {
+	let res = {}
+	uni.showLoading()
+	try {
+		const { result } = await collection.where({
+			_id: id,
+			user_id: db.env.uid
+		}).update(data)
+		res = result
+	} catch (e) {
+		//TODO handle the exception
+		console.error(e) // eslint-disable-line
+		uni.showModal({
+			content: e.message || '服务器异常，请稍后再试',
+			showCancel: false
+		})
+	} finally {
+	  uni.hideLoading()
+	}
+	return res
+}

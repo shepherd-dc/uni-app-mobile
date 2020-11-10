@@ -38,7 +38,6 @@
 				}, {
 					"path" : "breastfeeding/add",
 					"style" : {
-						"navigationBarTitleText": "新增记录"
 					}
 				}, {
 					"path" : "breastfeeding/detail",

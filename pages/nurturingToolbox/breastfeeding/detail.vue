@@ -1,9 +1,15 @@
 <template>
   <view class="breastfeeding-detail">
-		<view v-if="loading" class="loading">
-			<u-loading size="50" mode="circle"></u-loading>
-		</view>
-    <view v-else class="record">
+    <view
+      v-if="loading"
+      class="loading">
+      <u-loading
+        size="50"
+        mode="circle"></u-loading>
+    </view>
+    <view
+      v-else
+      class="record">
       <u-cell-group>
         <u-cell-item
           :arrow="false"
@@ -25,11 +31,11 @@
       <view class="note-container">
         <view class="label">随手记</view>
         <text class="note">{{ detail.note }}</text>
-        <xc-media-preview
+        <xc-media-upload
           v-if="showPhotos"
           ref="previewMedia"
-          :images="detail.photos"
-          @delete="handleDelete" />
+          :editable="false"
+          :images="detail.photos" />
       </view>
       <view class="button-group">
         <xc-button-group
@@ -38,10 +44,6 @@
           @confirm="editRecord"
           @reset="deleteRecord" />
       </view>
-
-      <!-- <button
-        type="default"
-        @click="deleteAll">删除所有图片</button> -->
     </view>
   </view>
 </template>
@@ -78,15 +80,16 @@ export default {
       const { data } = result
       if (data.length) {
         this.detail = data[0]
-				this.loading = false
+        this.detail.photos = this.transformToObjectArray(this.detail.photos)
+        this.loading = false
       }
       console.log('getRecord', result)
     },
     editRecord () {
-
+      this.$navigateTo('/nurturingToolbox/breastfeeding/add?params=' + this.id)
     },
     deleteRecord () {
-			uni.showModal({
+      uni.showModal({
 			  title: '提示',
 			  content: '确定删除吗?',
 			  success: async res => {
@@ -94,39 +97,10 @@ export default {
 			      await this.deleteAllImages()
 			      const res = await deleteRecord(this.id)
 			      console.log('deleteRecord', res)
-						this.$navigateTo('/nurturingToolbox/breastfeeding/breastfeeding')
-			    }
-			  }
-			})
-    },
-    handleDelete (index, item) {
-      console.log(index, item)
-      uni.showModal({
-        title: '提示',
-			  content: '确定删除吗?',
-			  success: res => {
-			    if (res.confirm) {
-			      this.doDelete(index, item)
-			    } else if (res.cancel) {
-
+            this.$navigateTo('/nurturingToolbox/breastfeeding/breastfeeding')
 			    }
 			  }
       })
-    },
-    async doDelete (index, item) {
-      const res = await deleteFiles([item])
-      if (res.code === 0) {
-        this.detail.photos.splice(index, 1)
-        uni.showToast({
-				  title: '删除成功！',
-				  icon: 'none'
-        })
-      } else {
-        uni.showToast({
-				  title: '删除失败！',
-				  icon: 'none'
-        })
-      }
     },
     async deleteAllImages () {
       const res = await deleteFiles(this.detail.photos)
@@ -142,6 +116,13 @@ export default {
 				  icon: 'none'
         })
       }
+    },
+    transformToObjectArray (array) {
+      const objArr = []
+      array.forEach(photo => {
+			  objArr.push({ tempFilePath: photo })
+      })
+      return objArr
     }
   }
 }

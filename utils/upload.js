@@ -38,12 +38,12 @@ async function uploadFiles (imgList) {
 		})
 	} finally {
 		if (cloudImgList.length === imgList.length) {
-			uni.hideLoading()
 			uni.showToast({
 				title: '全部上传成功！',
 				icon: 'none'
 			})
 		}
+		uni.hideLoading()
 	}
 	return cloudImgList
 }

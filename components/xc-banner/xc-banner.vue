@@ -3,6 +3,7 @@
     <uni-swiper-dot
       :info="info"
       :mode="mode"
+      :current="current"
       :dots-styles="{backgroundColor: '#f1f1f1', border: 'none', selectedBackgroundColor: '#56ceab', selectedBorder: 'none'}"
       field="content">
       <swiper

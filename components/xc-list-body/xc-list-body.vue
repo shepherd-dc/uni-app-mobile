@@ -4,7 +4,9 @@
       <view class="list-main">
         <view class="title">
           <view class="title-main">
-            <text class="type">{{ data.type }}</text>
+            <text
+              :class="typeClass"
+              class="type">{{ data.typeText }}</text>
             <text class="name">{{ data.title }}</text>
           </view>
           <view class="title-extra">{{ data.extra }}</view>
@@ -32,6 +34,17 @@ export default {
       type: Object,
       default: () => ({})
     }
+  },
+  computed: {
+    typeClass () {
+      const map = {
+        '2': 'red',
+        '1': 'green',
+        '-1': 'yellow'
+      }
+      const key = String(this.data.type)
+      return map[key]
+    }
   }
 }
 </script>
@@ -58,6 +71,12 @@ export default {
 				font-size: 26rpx;
 				padding: 2rpx 20rpx;
 				margin-right: 20rpx;
+			}
+			.type.red {
+				background-color: #f7647e;
+			}
+			.type.yellow {
+				background-color: #fab234;
 			}
 			.name {
 				margin-right: 20rpx;

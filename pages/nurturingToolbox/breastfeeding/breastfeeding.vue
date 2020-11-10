@@ -1,22 +1,46 @@
 <template>
   <view class="breastfeeding">
-		<view v-if="loading" class="loading">
-			<u-loading size="50" mode="circle"></u-loading>
-		</view>
-		<view v-else class="record-list">
-			<xc-header @left="toAdd" />
-			<xc-list
-			  v-for="(l, i) in list"
-			  :key="l._id">
-			  <xc-list-body
-			    :data="l"
-			    @click.native="toDetail(l._id)">
-			    <template v-slot:images>
-			      <xc-media-preview :images="l.photos" />
-			    </template>
-			  </xc-list-body>
-			</xc-list>
-		</view>
+    <view
+      v-if="loading"
+      class="loading">
+      <u-loading
+        size="50"
+        mode="circle"></u-loading>
+    </view>
+    <view
+      v-else
+      class="record-list">
+      <xc-header @left="toAdd" />
+      <view
+        v-if="list.length"
+        class="record-list">
+        <xc-list
+          v-for="(l, i) in list"
+          :key="l._id">
+          <xc-list-body
+            :data="l"
+            @click.native="toDetail(l._id)">
+            <template v-slot:images>
+              <xc-media-preview :images="l.photos" />
+            </template>
+          </xc-list-body>
+        </xc-list>
+      </view>
+      <view
+        v-else
+        class="empty">
+        <u-empty
+          text="还没有添加记录哦~"
+          mode="favor"></u-empty>
+        <u-button
+          :custom-style="{marginTop: '20rpx'}"
+          type="success"
+          @click="toAdd">
+          <u-icon name="plus"></u-icon>
+          <text>添加记录</text>
+        </u-button>
+      </view>
+    </view>
   </view>
 </template>
 
@@ -37,13 +61,13 @@ export default {
       const res = await getRecordsList()
       console.log('getRecordsList', res)
       this.list = res.data.map(item => {
-        item.type = item.breast.substring(0, 2)
+        item.typeText = item.breast.substring(0, 2)
         item.title = `${item.startTime}~${item.endTime.split(' ')[1]}`
         item.extra = item.duration
         item.description = item.note
         return item
       })
-			this.loading = false
+      this.loading = false
     },
     toAdd () {
       this.$navigateTo('/nurturingToolbox/breastfeeding/add')
@@ -66,5 +90,13 @@ export default {
 		width: 100%;
 		height: 100%;
 		padding-top: 100rpx;
+	}
+	.empty {
+		width: 100%;
+		height: 600rpx;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
 	}
 </style>

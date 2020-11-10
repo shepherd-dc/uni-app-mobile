@@ -10,13 +10,14 @@
         mode="aspectFill"
         @click="previewImage(index)" />
       <view
+				v-if="editable"
         class="delete-image"
         @click="deleteImage(index)">
         <u-icon name="close"></u-icon>
       </view>
     </view>
     <view
-      v-if="photos.length < 9"
+      v-if="editable && photos.length < 9"
       class="photo-icon"
       @click="takePhoto">
       <u-icon
@@ -31,10 +32,25 @@
 
 <script>
 export default {
+  props: {
+	  images: {
+	    type: Array,
+	    default: () => []
+	  },
+		editable: {
+			type: Boolean,
+			default: true
+		}
+  },
   data () {
     return {
-      photos: []
+      photos: this.images
     }
+  },
+  watch: {
+	  images (newValue) {
+	    if (newValue) this.photos = newValue
+	  }
   },
   methods: {
     takePhoto () {
@@ -65,7 +81,6 @@ export default {
       this.photos.forEach(img => {
 			  tempList.push(img.tempFilePath)
       })
-      console.log(tempList)
       // 预览图片
       uni.previewImage({
         urls: tempList,

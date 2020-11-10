@@ -69,8 +69,9 @@
             placeholder="宝宝吃奶精神状态、是否吐奶、拍嗝等"
             type="textarea" />
         </u-form-item>
-        <xc-media-choose
+        <xc-media-upload
           ref="chooseMedia"
+          :images="photos"
           @change="handleChosenChange" />
       </u-form>
     </view>
@@ -82,20 +83,45 @@
       description="单侧喂奶时间不短于5分钟，保证宝宝吃到后奶。"
       @close="tipsShow = false" />
     <xc-button-group
+			v-if="id"
       confirm-text="保 存"
+      reset-text="取 消"
       @confirm="submitForm"
-      @reset="resetForm" />
+      @reset="cancel" />
+		<xc-button-group
+		  v-else
+		  confirm-text="保 存"
+		  @confirm="submitForm"
+		  @reset="resetForm" />
   </view>
 </template>
 
 <script>
-import { addRecord } from '@/service/toolbox-breastfeeding'
-import uploadFiles from '@/utils/upload'
+import { addRecord, getRecord, updateRecord } from '@/service/toolbox-breastfeeding'
+import uploadFiles, { deleteFiles } from '@/utils/upload'
 export default {
+  onLoad (query) {
+	  this.id = query.params
+    if (this.id) {
+		  this.getRecord()
+    }
+  },
+  onShow () {
+    console.log('edit id', this.id)
+  },
+  onReady () {
+    const title = this.id ? '编辑记录' : '新增记录'
+    uni.setNavigationBarTitle({ title })
+
+    // 必须要在onReady生命周期，因为onLoad生命周期组件可能尚未创建完毕
+	  this.$refs.uForm.setRules(this.rules)
+  },
   data () {
     return {
+      id: undefined,
       form: {
         breast: '',
+        type: 0,
         startTime: '',
         endTime: '',
         duration: '',
@@ -127,13 +153,16 @@ export default {
       },
       actionSheetList: [
         {
-          text: '双侧乳房'
+          text: '双侧乳房',
+          type: 2
         },
         {
-          text: '左侧乳房'
+          text: '左侧乳房',
+          type: 1
         },
         {
-          text: '右侧乳房'
+          text: '右侧乳房',
+          type: -1
         }
       ],
       actionSheetShow: false,
@@ -151,17 +180,15 @@ export default {
         timestamp: true
       },
       tipsShow: true,
-      photos: []
+      photos: [],
+      uploadedFiles: []
     }
-  },
-  // 必须要在onReady生命周期，因为onLoad生命周期组件可能尚未创建完毕
-  onReady () {
-    this.$refs.uForm.setRules(this.rules)
   },
   methods: {
     // 点击actionSheet回调
     actionSheetCallback (index) {
       this.form.breast = this.actionSheetList[index].text
+      this.form.type = this.actionSheetList[index].type
     },
     confirmStartTime (e) {
       this.startTime = this.formatTime(e)
@@ -213,25 +240,109 @@ export default {
     },
     handleChosenChange (photos) {
       this.photos = photos
+      console.log('this.photos', this.photos)
+    },
+    async getRecord () {
+		  const result = await getRecord(this.id)
+		  const { data } = result
+		  if (data.length) {
+		    const detail = data[0]
+        const { breast, type, startTime, endTime, duration, note, photos } = detail
+        this.form.breast = breast
+        this.form.type = type
+        this.form.startTime = startTime
+        this.form.endTime = endTime
+        this.form.duration = duration
+        this.form.note = note
+        this.uploadedFiles = photos.slice()
+        this.photos = this.transformToObjectArray(photos)
+		  }
+		  console.log('getRecord', result)
+    },
+    async updateRecord (id, data) {
+      const res = await updateRecord(id, data)
+      console.log('updateRecord', res)
+      uni.showToast({
+        title: '保存成功！',
+        icon: 'none'
+      })
+    },
+    transformToObjectArray (array) {
+      const objArr = []
+      array.forEach(photo => {
+			  objArr.push({ tempFilePath: photo })
+      })
+      return objArr
+    },
+    transformToStringArray (array) {
+      const strArr = []
+      array.forEach(photo => {
+			  strArr.push(photo.tempFilePath)
+      })
+      return strArr
+    },
+    handleEditedPhotos () {
+      const editedPhotos = this.transformToStringArray(this.photos)
+      const remained = [] // 保留的图片
+      const added = [] // 新增的图片
+      editedPhotos.forEach(ep => {
+        if (this.uploadedFiles.includes(ep)) {
+          remained.push(ep)
+        } else {
+          added.push(ep)
+        }
+      })
+      // 已上传的图片 - 保留的图片 = 删除的图片
+      const deleted = this.uploadedFiles.slice()
+      remained.forEach(rp => {
+        if (this.uploadedFiles.includes(rp)) {
+          deleted.splice(this.uploadedFiles.findIndex(uf => uf === rp), 1)
+        }
+      })
+      return {
+        added: this.transformToObjectArray(added),
+        deleted,
+        remained
+      }
     },
     async submitForm () {
       this.$refs.uForm.validate(async valid => {
         if (valid) {
-          // 上传图片
-          if (this.photos.length) {
-            const files = await uploadFiles(this.photos)
-            this.form.photos = files
+          if (this.id) { // 有id为编辑
+            // 比对编辑后图片的新增和删除情况, 以及保留未变的图片
+            const { added, deleted, remained } = this.handleEditedPhotos()
+            // 上传新增的图片
+            if (added.length) {
+						  const files = await uploadFiles(added)
+						  remained.push(...files)
+            }
+            // 删除删除的图片
+            if (deleted.length) {
+						  await deleteFiles(deleted)
+            }
+            this.form.photos = remained
+            console.log('formData', this.form)
+            await this.updateRecord(this.id, this.form)
+            this.$navigateTo('/nurturingToolbox/breastfeeding/breastfeeding')
+          } else { // 新增
+            // 上传图片
+            if (this.photos.length) {
+						  const files = await uploadFiles(this.photos)
+						  this.form.photos = files
+            }
+            console.log('formData', this.form)
+            const res = await addRecord(this.form)
+            console.log('submitForm', res)
+            // this.$navigateTo('/nurturingToolbox/breastfeeding/detail?params=' + res.id)
+            this.$navigateTo('/nurturingToolbox/breastfeeding/breastfeeding')
           }
-          const res = await addRecord(this.form)
-          console.log('submitForm', res)
-          // this.$navigateTo('/nurturingToolbox/breastfeeding/detail?params=' + res.id)
-          this.$navigateTo('/nurturingToolbox/breastfeeding/breastfeeding')
         }
       })
     },
     resetForm () {
       this.form = {
         breast: '',
+        type: 0,
         startTime: '',
         endTime: '',
         duration: '',
@@ -239,6 +350,9 @@ export default {
       }
       this.form.duration = ''
       this.$refs.chooseMedia.clear()
+    },
+    cancel () {
+			uni.navigateBack()
     }
   }
 }
