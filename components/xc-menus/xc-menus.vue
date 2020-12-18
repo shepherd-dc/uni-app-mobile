@@ -12,6 +12,7 @@
           @tap="toMenuItem(menu)" >
           <image
             :src="menu.icon"
+						mode="aspectFill"
             class="menu-icon" />
           <text class="menu-text">{{ menu.name }}</text>
         </view>

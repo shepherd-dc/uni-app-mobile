@@ -83,16 +83,16 @@
       description="单侧喂奶时间不短于5分钟，保证宝宝吃到后奶。"
       @close="tipsShow = false" />
     <xc-button-group
-			v-if="id"
+      v-if="id"
       confirm-text="保 存"
       reset-text="取 消"
       @confirm="submitForm"
       @reset="cancel" />
-		<xc-button-group
-		  v-else
-		  confirm-text="保 存"
-		  @confirm="submitForm"
-		  @reset="resetForm" />
+    <xc-button-group
+      v-else
+      confirm-text="保 存"
+      @confirm="submitForm"
+      @reset="resetForm" />
   </view>
 </template>
 
@@ -255,7 +255,7 @@ export default {
         this.form.duration = duration
         this.form.note = note
         this.uploadedFiles = photos.slice()
-        this.photos = this.transformToObjectArray(photos)
+        this.photos = photos
 		  }
 		  console.log('getRecord', result)
     },
@@ -267,22 +267,8 @@ export default {
         icon: 'none'
       })
     },
-    transformToObjectArray (array) {
-      const objArr = []
-      array.forEach(photo => {
-			  objArr.push({ tempFilePath: photo })
-      })
-      return objArr
-    },
-    transformToStringArray (array) {
-      const strArr = []
-      array.forEach(photo => {
-			  strArr.push(photo.tempFilePath)
-      })
-      return strArr
-    },
     handleEditedPhotos () {
-      const editedPhotos = this.transformToStringArray(this.photos)
+      const editedPhotos = this.photos
       const remained = [] // 保留的图片
       const added = [] // 新增的图片
       editedPhotos.forEach(ep => {
@@ -293,14 +279,9 @@ export default {
         }
       })
       // 已上传的图片 - 保留的图片 = 删除的图片
-      const deleted = this.uploadedFiles.slice()
-      remained.forEach(rp => {
-        if (this.uploadedFiles.includes(rp)) {
-          deleted.splice(this.uploadedFiles.findIndex(uf => uf === rp), 1)
-        }
-      })
+      const deleted = this.uploadedFiles.filter(uf => !remained.includes(uf))
       return {
-        added: this.transformToObjectArray(added),
+        added,
         deleted,
         remained
       }
@@ -352,7 +333,7 @@ export default {
       this.$refs.chooseMedia.clear()
     },
     cancel () {
-			uni.navigateBack()
+      uni.navigateBack()
     }
   }
 }

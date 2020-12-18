@@ -33,7 +33,6 @@
         <text class="note">{{ detail.note }}</text>
         <xc-media-upload
           v-if="showPhotos"
-          ref="previewMedia"
           :editable="false"
           :images="detail.photos" />
       </view>
@@ -78,9 +77,9 @@ export default {
     async getRecord () {
       const result = await getRecord(this.id)
       const { data } = result
+      console.log('getRecord', data)
       if (data.length) {
         this.detail = data[0]
-        this.detail.photos = this.transformToObjectArray(this.detail.photos)
         this.loading = false
       }
       console.log('getRecord', result)
@@ -103,7 +102,9 @@ export default {
       })
     },
     async deleteAllImages () {
-      const res = await deleteFiles(this.detail.photos)
+      const fileList = this.detail.photos
+      const res = await deleteFiles(fileList)
+      console.log('deleteFiles', res)
       if (res.code === 0) {
         this.detail.photos = []
         uni.showToast({
@@ -116,13 +117,6 @@ export default {
 				  icon: 'none'
         })
       }
-    },
-    transformToObjectArray (array) {
-      const objArr = []
-      array.forEach(photo => {
-			  objArr.push({ tempFilePath: photo })
-      })
-      return objArr
     }
   }
 }

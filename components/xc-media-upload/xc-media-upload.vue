@@ -1,14 +1,16 @@
 <template>
   <view class="photos">
+		<!-- preview -->
     <view
       v-for="(photo, index) in photos"
-      :key="photo.tempFilePath"
+      :key="photo"
       class="photo-item">
       <image
-        :src="photo.tempFilePath"
+        :src="photo"
         class="photo-image"
         mode="aspectFill"
-        @click="previewImage(index)" />
+        @click.stop="previewImage(index)" />
+			<!-- delete -->
       <view
 				v-if="editable"
         class="delete-image"
@@ -16,6 +18,7 @@
         <u-icon name="close"></u-icon>
       </view>
     </view>
+		<!-- add / edit -->
     <view
       v-if="editable && photos.length < 9"
       class="photo-icon"
@@ -64,13 +67,21 @@ export default {
           console.log('chooseMedia', res)
           const { tempFiles } = res
           if (this.photos.length <= 9 && (this.photos.length + tempFiles.length) <= 9) {
-            this.photos = this.photos.concat(tempFiles)
+    				const tempFilePath = this.transformToStringArray(tempFiles)
+            this.photos = this.photos.concat(tempFilePath)
             this.$emit('change', this.photos)
           } else {
             this.$toast('最多只能上传9张图片')
           }
         }
       })
+    },
+    transformToStringArray (array) {
+      const strArr = []
+      array.forEach(photo => {
+    	  strArr.push(photo.tempFilePath)
+      })
+      return strArr
     },
     deleteImage (index) {
       this.photos.splice(index, 1)
@@ -79,7 +90,7 @@ export default {
     previewImage (i) {
       const tempList = []
       this.photos.forEach(img => {
-			  tempList.push(img.tempFilePath)
+			  tempList.push(img)
       })
       // 预览图片
       uni.previewImage({

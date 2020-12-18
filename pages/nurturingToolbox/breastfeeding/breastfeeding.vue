@@ -18,10 +18,12 @@
           v-for="(l, i) in list"
           :key="l._id">
           <xc-list-body
-            :data="l"
+            :body="l"
             @click.native="toDetail(l._id)">
             <template v-slot:images>
-              <xc-media-preview :images="l.photos" />
+              <xc-media-upload
+                :images="l.photos"
+                :editable="false" />
             </template>
           </xc-list-body>
         </xc-list>

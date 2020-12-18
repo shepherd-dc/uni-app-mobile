@@ -5,16 +5,17 @@
         <view class="title">
           <view class="title-main">
             <text
+							v-if="body.typeText"
               :class="typeClass"
-              class="type">{{ data.typeText }}</text>
-            <text class="name">{{ data.title }}</text>
+              class="type">{{ body.typeText }}</text>
+            <text class="name">{{ body.title }}</text>
           </view>
-          <view class="title-extra">{{ data.extra }}</view>
+          <view class="title-extra">{{ body.extra }}</view>
         </view>
         <view
-          v-if="data.description"
+          v-if="body.description"
           class="description">
-          <text>{{ data.description }}</text>
+          <text>{{ body.description }}</text>
         </view>
         <view class="images">
           <slot name="images"></slot>
@@ -30,7 +31,7 @@
 <script>
 export default {
   props: {
-    data: {
+    body: {
       type: Object,
       default: () => ({})
     }
@@ -42,8 +43,11 @@ export default {
         '1': 'green',
         '-1': 'yellow'
       }
-      const key = String(this.data.type)
-      return map[key]
+			let key
+			if (this.body.type) {
+				key = this.body.type.toString()
+			}
+      return key ? map[key] : ''
     }
   }
 }
@@ -89,7 +93,7 @@ export default {
 		.description {
 			color: #999;
 			font-size: 30rpx;
-			margin-top: 20rpx;
+			margin: 20rpx 0;
 			text-align: justify;
 		}
 	}
