@@ -1,7 +1,7 @@
 <template>
   <view class="vaccine">
     <view class="body">
-      <xc-list
+      <vaccine-list
         :tag="false"
         :show-date="false"
         :list="list"
