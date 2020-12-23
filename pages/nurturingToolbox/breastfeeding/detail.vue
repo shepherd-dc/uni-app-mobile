@@ -10,7 +10,7 @@
     <view
       v-else
       class="record">
-      <u-cell-group>
+      <!-- <u-cell-group>
         <u-cell-item
           :arrow="false"
           :value-style="valueStyle"
@@ -27,16 +27,25 @@
           :arrow="false"
           :value-style="valueStyle"
           title="持续时间">{{ detail.duration }}</u-cell-item>
-      </u-cell-group>
-      <view class="note-container">
+      </u-cell-group> -->
+      <!-- <view class="note-container">
         <view class="label">随手记</view>
         <text class="note">{{ detail.note }}</text>
         <xc-media-upload
           v-if="showPhotos"
           :editable="false"
           :images="detail.photos" />
-      </view>
-      <view class="button-group">
+      </view> -->
+      <xc-list-body :body="detail">
+        <template v-slot:images>
+          <xc-media-upload
+            :images="detail.photos"
+            :editable="false" />
+        </template>
+      </xc-list-body>
+      <view
+        v-if="hasLogin"
+        class="button-group">
         <xc-button-group
           confirm-text="编 辑"
           reset-text="删 除"
@@ -48,11 +57,33 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import { getRecord, deleteRecord } from '@/service/toolbox-breastfeeding'
 import { deleteFiles } from '@/utils/upload'
 export default {
-  onLoad (query) {
-    this.id = query.params
+  onLoad (opt) {
+    console.log(opt)
+	  this.id = opt.params
+    // 设置 shareTicket
+    uni.showShareMenu({
+		  withShareTicket: true
+    })
+  },
+  // 设置 发送给朋友
+  onShareAppMessage (res) {
+	  // 用户点击分享卡片后可获取的query参数
+	  return {
+	    title: '母乳亲喂记录',
+	    path: `pages/nurturingToolbox/breastfeeding/detail?params=${this.id}`
+	  }
+  },
+  // 设置 分享到朋友圈
+  onShareTimeline (res) {
+	  return {
+		  title: '母乳亲喂记录',
+		  query: `params=${this.id}`,
+      imageUrl: '/static/img/logo.jpg'
+	  }
   },
   onShow () {
     this.getRecord()
@@ -69,6 +100,7 @@ export default {
     }
   },
   computed: {
+    ...mapState(['hasLogin']),
     showPhotos () {
       return this.detail.photos && this.detail.photos.length
     }
@@ -78,11 +110,15 @@ export default {
       const result = await getRecord(this.id)
       const { data } = result
       console.log('getRecord', data)
-      if (data.length) {
-        this.detail = data[0]
-        this.loading = false
+      if (data && data.length) {
+        const detail = data[0]
+        detail.typeText = detail.breast.substring(0, 2)
+        detail.title = `${detail.startTime}~${detail.endTime.split(' ')[1]}`
+        detail.extra = detail.duration
+        detail.description = detail.note
+        this.detail = detail
       }
-      console.log('getRecord', result)
+      this.loading = false
     },
     editRecord () {
       this.$navigateTo('/nurturingToolbox/breastfeeding/add?params=' + this.id)
@@ -126,6 +162,7 @@ export default {
 <style lang="less" scoped>
 	.breastfeeding-detail {
 		width: 100%;
+		position: relative;
 	}
 	.note-container {
 		padding: 30rpx;
@@ -140,16 +177,19 @@ export default {
 		line-height: 2;
 	}
 	.button-group {
+		position: absolute;
+		width: 100%;
+		left: 0;
+		bottom: 0;
 		padding: 0 30rpx;
-		// position: absolute;
-		// width: 100%;
-		// left: 0;
-		// bottom: 0;
 	}
 	.loading {
 		text-align: center;
 		width: 100%;
 		height: 100%;
 		padding-top: 100rpx;
+	}
+	.record {
+		padding: 0 30rpx;
 	}
 </style>

@@ -100,8 +100,8 @@
 import { addRecord, getRecord, updateRecord } from '@/service/toolbox-breastfeeding'
 import uploadFiles, { deleteFiles } from '@/utils/upload'
 export default {
-  onLoad (query) {
-	  this.id = query.params
+  onLoad (opt) {
+	  this.id = opt.params
     if (this.id) {
 		  this.getRecord()
     }

@@ -40,7 +40,7 @@ export async function getRecord (id) {
 		const { result } = await collection
 			.where({
 				_id: id,
-				user_id: db.env.uid
+				// user_id: db.env.uid
 			})
 			.get()
 		res = result
