@@ -44,7 +44,7 @@
         </template>
       </xc-list-body>
       <view
-        v-if="hasLogin"
+        v-if="hasLogin && hasPermission"
         class="button-group">
         <xc-button-group
           confirm-text="编 辑"
@@ -60,6 +60,8 @@
 import { mapState } from 'vuex'
 import { getRecord, deleteRecord } from '@/service/toolbox-breastfeeding'
 import { deleteFiles } from '@/utils/upload'
+import { checkToken } from '@/service/auth'
+
 export default {
   onLoad (opt) {
     console.log(opt)
@@ -85,12 +87,18 @@ export default {
       imageUrl: '/static/img/logo.jpg'
 	  }
   },
-  onShow () {
-    this.getRecord()
+  async onShow () {
+    await this.getRecord()
+		if (this.hasLogin) {
+			const token = await checkToken({uniIdToken: this.token})
+			const { data: { uid } } = token
+			this.uid = uid
+		}
   },
   data () {
     return {
       id: '',
+			uid: '',
       detail: {},
       valueStyle: {
         textAlign: 'left',
@@ -100,10 +108,13 @@ export default {
     }
   },
   computed: {
-    ...mapState(['hasLogin']),
+    ...mapState(['hasLogin', 'token']),
     showPhotos () {
       return this.detail.photos && this.detail.photos.length
-    }
+    },
+		hasPermission () {
+			return this.detail.user_id === this.uid
+		}
   },
   methods: {
     async getRecord () {

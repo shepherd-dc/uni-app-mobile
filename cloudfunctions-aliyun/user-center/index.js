@@ -86,9 +86,15 @@ exports.main = async (event) => {
 		case 'checkToken':
 			// 注意1.1.0版本会返回userInfo，请不要返回全部信息给客户端
 			const checkTokenRes = await uniID.checkToken(event.uniIdToken)
+			const { code, msg, permission, role, uid } = checkTokenRes
 			res = {
-				code: checkTokenRes.code,
-				msg: checkTokenRes.msg
+				code,
+				msg,
+				data: {
+					uid,
+					permission,
+					role
+				}
 			}
 			break;
 		case 'resetPwd':
