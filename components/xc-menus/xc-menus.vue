@@ -1,6 +1,6 @@
 <template>
   <view class="menus-container">
-    <scroll-view :scroll-x="true">
+    <scroll-view :scroll-x="!wrap">
       <view
         :class="{wrap: wrap}"
         class="menus">
@@ -12,7 +12,7 @@
           @tap="toMenuItem(menu)" >
           <image
             :src="menu.icon"
-						mode="aspectFill"
+            mode="aspectFill"
             class="menu-icon" />
           <text class="menu-text">{{ menu.name }}</text>
         </view>
@@ -31,11 +31,6 @@ export default {
     wrap: {
       type: Boolean,
       default: true
-    }
-  },
-  data () {
-    return {
-      pathMap: []
     }
   },
   methods: {

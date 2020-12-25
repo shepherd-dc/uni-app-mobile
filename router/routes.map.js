@@ -6,5 +6,9 @@ export default [
 	{
 	  name: 'breastfeeding',
 	  path: '/nurturingToolbox/breastfeeding/breastfeeding'
+	},
+	{
+	  name: 'bottleBreastfeeding',
+	  path: '/nurturingToolbox/bottleBreastfeeding/bottleBreastfeeding'
 	}
 ]

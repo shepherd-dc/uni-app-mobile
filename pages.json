@@ -59,6 +59,12 @@
 					"style": {
 						"navigationBarTitleText": "疫苗详情"
 					}
+				}, {
+					"path" : "bottleBreastfeeding/bottleBreastfeeding",
+					"style" : {
+						"navigationBarTitleText": "瓶喂母乳",
+						"enablePullDownRefresh": false
+					}
 				}
 			]
 		},
