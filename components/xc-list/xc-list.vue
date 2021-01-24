@@ -12,7 +12,10 @@
       </slot>
       <view class="list-body">
         <slot>
-          <xc-list-body></xc-list-body>
+          <xc-list-body
+						:body="body"
+						@click.native="$emit('toDetail', body)">
+					</xc-list-body>
         </slot>
       </view>
       <view
@@ -30,7 +33,11 @@ export default {
     header: {
       type: Boolean,
       default: false
-    }
+    },
+		body: {
+		  type: Object,
+		  default: () => ({})
+		}
   }
 }
 </script>

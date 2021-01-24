@@ -1,6 +1,9 @@
 <template>
 	<view class="bottle-breastfeeding">
-		<list-layout module="breastfeeding" :list="list" :loading="loading"></list-layout>
+		<list-layout
+			module="bottleBreastfeeding"
+			:list="list"
+			:loading="loading" />
 	</view>
 </template>
 

@@ -65,6 +65,15 @@
 						"navigationBarTitleText": "瓶喂母乳",
 						"enablePullDownRefresh": false
 					}
+				}, {
+					"path" : "bottleBreastfeeding/add",
+					"style" : {
+					}
+				}, {
+					"path" : "bottleBreastfeeding/detail",
+					"style" : {
+						"navigationBarTitleText": "记录详情"
+					}
 				}
 			]
 		},

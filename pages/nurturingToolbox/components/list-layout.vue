@@ -22,16 +22,9 @@
 					  class="record-list">
 					  <xc-list
 					    v-for="(l, i) in list"
-					    :key="l._id">
-					    <xc-list-body
-					      :body="l"
-					      @click.native="toDetail(l._id)">
-					      <template v-slot:images>
-					        <xc-media-upload
-					          :images="l.photos"
-					          :editable="false" />
-					      </template>
-					    </xc-list-body>
+					    :key="l._id"
+							:body="l"
+							@toDetail="toDetail">
 					  </xc-list>
 					</view>
 					<view
@@ -74,8 +67,8 @@ export default {
     toAdd () {
       this.$navigateTo(`/nurturingToolbox/${this.module}/add`)
     },
-    toDetail (id) {
-      this.$navigateTo(`/nurturingToolbox/${this.module}/detail?params=${id}`)
+    toDetail ({ _id }) {
+      this.$navigateTo(`/nurturingToolbox/${this.module}/detail?params=${_id}`)
     }
   }
 }

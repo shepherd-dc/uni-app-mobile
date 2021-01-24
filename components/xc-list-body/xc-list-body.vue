@@ -15,10 +15,18 @@
         <view
           v-if="body.description"
           class="description">
-          <text>{{ body.description }}</text>
+					<slot>
+						<text>{{ body.description }}</text>
+					</slot>
         </view>
         <view class="images">
-          <slot name="images"></slot>
+          <slot name="images">
+          	<template v-if="body.photos && body.photos.length">
+          		<xc-media-upload
+          			:images="body.photos"
+          			:editable="false" />
+          	</template>
+          </slot>
         </view>
       </view>
       <view class="list-extra">
