@@ -1,5 +1,7 @@
 <template>
-  <view class="nurturing-toolbox-list" :class="{'bg-color': !loading}">
+  <view
+    :class="{'bg-color': !loading}"
+    class="nurturing-toolbox-list">
     <view
       v-if="loading"
       class="loading">
@@ -8,61 +10,61 @@
         mode="circle"></u-loading>
     </view>
     <view
-			v-else
+      v-else
       class="record-list">
-			<template>
-				<slot name='header'>
-					<xc-header @left="toAdd" />
-				</slot>
-			</template>
-			<template>
-				<slot>
-					<view
-					  v-if="list.length"
-					  class="record-list">
-					  <xc-list
-					    v-for="(l, i) in list"
-					    :key="l._id"
-							:body="l"
-							@toDetail="toDetail">
-					  </xc-list>
-					</view>
-					<view
-					  v-else
-					  class="empty">
-					  <u-empty
-					    text="还没有添加记录哦~"
-					    mode="favor"></u-empty>
-					  <u-button
-					    :custom-style="{marginTop: '20rpx'}"
-					    type="success"
-					    @click="toAdd">
-					    <u-icon name="plus"></u-icon>
-					    <text>添加记录</text>
-					  </u-button>
-					</view>
-				</slot>
-			</template>
+      <template>
+        <slot name="header">
+          <xc-header @left="toAdd" />
+        </slot>
+      </template>
+      <template>
+        <slot>
+          <view
+            v-if="list.length"
+            class="record-list">
+            <xc-list
+              v-for="(l, i) in list"
+              :key="l._id"
+              :body="l"
+              @toDetail="toDetail">
+            </xc-list>
+          </view>
+          <view
+            v-else
+            class="empty">
+            <u-empty
+              text="还没有添加记录哦~"
+              mode="favor"></u-empty>
+            <u-button
+              :custom-style="{marginTop: '20rpx'}"
+              type="success"
+              @click="toAdd">
+              <u-icon name="plus"></u-icon>
+              <text>添加记录</text>
+            </u-button>
+          </view>
+        </slot>
+      </template>
     </view>
   </view>
 </template>
 
 <script>
 export default {
-	props: {
-		module: {
-			type: String,
-			default: undefined
-		},
-		list: {
-			type: Array,
-			default: () => []
-		},
-		loading: {
-			type: Boolean,
-			default: true
-		}
-	},
+  props: {
+    module: {
+      type: String,
+      default: undefined
+    },
+    list: {
+      type: Array,
+      default: () => []
+    },
+    loading: {
+      type: Boolean,
+      default: true
+    }
+  },
   methods: {
     toAdd () {
       this.$navigateTo(`/nurturingToolbox/${this.module}/add`)

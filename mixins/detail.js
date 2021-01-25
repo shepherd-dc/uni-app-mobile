@@ -1,6 +1,6 @@
 export default {
 	onLoad (opt) {
-	  console.log(opt)
+	  console.log(opt) // eslint-disable-line
 	  this.id = opt.params
 	  // 设置 shareTicket
 	  uni.showShareMenu({

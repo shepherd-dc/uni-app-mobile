@@ -62,16 +62,16 @@ export default {
     async getRecordsList () {
       const res = await getRecordsList()
       console.log('getRecordsList', res)
-			const { data } = res
-			if (data && data.length) {
-				this.list = res.data.map(item => {
+      const { data } = res
+      if (data && data.length) {
+        this.list = res.data.map(item => {
 				  item.typeText = item.breast.substring(0, 2)
 				  item.title = `${item.startTime}~${item.endTime.split(' ')[1]}`
 				  item.extra = item.duration
 				  item.description = item.note
 				  return item
-				})
-			}
+        })
+      }
       this.loading = false
     },
     toAdd () {

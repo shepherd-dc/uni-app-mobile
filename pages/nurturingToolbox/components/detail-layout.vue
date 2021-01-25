@@ -30,39 +30,39 @@ import { checkToken } from '@/service/auth'
 import { deleteFiles } from '@/utils/upload'
 
 export default {
-	props: {
-		module: {
-			type: String,
-			default: undefined
-		},
-		detail: {
-			type: Object,
-			default: () => ({})
-		},
-		loading: {
-			type: Boolean,
-			default: true
-		},
-		delete: Function
-	},
-	data () {
-		return {
-			uid: undefined
-		}
-	},
-	async created () {
-		if (this.hasLogin) {
-			const token = await checkToken({uniIdToken: this.token})
-			const { data: { uid } } = token
-			this.uid = uid
-		}
-	},
-	computed: {
+  props: {
+    module: {
+      type: String,
+      default: undefined
+    },
+    detail: {
+      type: Object,
+      default: () => ({})
+    },
+    loading: {
+      type: Boolean,
+      default: true
+    },
+    delete: Function
+  },
+  data () {
+    return {
+      uid: undefined
+    }
+  },
+  computed: {
 	  ...mapState(['hasLogin', 'token']),
-		hasPermission () {
-			return this.detail.user_id === this.uid
-		}
-	},
+	  hasPermission () {
+	    return this.detail.user_id === this.uid
+	  }
+  },
+  async created () {
+    if (this.hasLogin) {
+      const token = await checkToken({ uniIdToken: this.token })
+      const { data: { uid }} = token
+      this.uid = uid
+    }
+  },
   methods: {
     editRecord () {
       this.$navigateTo(`/nurturingToolbox/${this.module}/add?params=${this.detail._id}`)

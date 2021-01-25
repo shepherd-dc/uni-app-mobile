@@ -89,16 +89,16 @@ export default {
   },
   async onShow () {
     await this.getRecord()
-		if (this.hasLogin) {
-			const token = await checkToken({uniIdToken: this.token})
-			const { data: { uid } } = token
-			this.uid = uid
-		}
+    if (this.hasLogin) {
+      const token = await checkToken({ uniIdToken: this.token })
+      const { data: { uid }} = token
+      this.uid = uid
+    }
   },
   data () {
     return {
       id: '',
-			uid: '',
+      uid: '',
       detail: {},
       valueStyle: {
         textAlign: 'left',
@@ -112,9 +112,9 @@ export default {
     showPhotos () {
       return this.detail.photos && this.detail.photos.length
     },
-		hasPermission () {
-			return this.detail.user_id === this.uid
-		}
+    hasPermission () {
+      return this.detail.user_id === this.uid
+    }
   },
   methods: {
     async getRecord () {

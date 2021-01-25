@@ -24,9 +24,9 @@ export default {
   onShow () {
 	  if (this.hasLogin) this.getVaccineList()
   },
-	components: {
-		vaccineList
-	},
+  components: {
+    vaccineList
+  },
   data () {
     return {
       list: [],
