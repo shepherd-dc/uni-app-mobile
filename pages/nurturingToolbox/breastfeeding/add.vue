@@ -97,7 +97,7 @@
 </template>
 
 <script>
-import { addRecord, getRecord, updateRecord } from '@/service/toolbox-breastfeeding'
+import { addRecord, getRecord, updateRecord, breastfeedingCollection } from '@/service/toolbox'
 import uploadFiles, { deleteFiles } from '@/utils/upload'
 export default {
   onLoad (opt) {
@@ -243,24 +243,24 @@ export default {
       console.log('this.photos', this.photos)
     },
     async getRecord () {
-		  const result = await getRecord(this.id)
+		  const result = await getRecord(breastfeedingCollection, this.id)
 		  const { data } = result
 		  if (data.length) {
 		    const detail = data[0]
         const { breast, type, startTime, endTime, duration, note, photos } = detail
         this.form.breast = breast
         this.form.type = type
-        this.form.startTime = startTime
-        this.form.endTime = endTime
+        this.form.startTime = this.startTime = startTime
+        this.form.endTime = this.endTime = endTime
         this.form.duration = duration
         this.form.note = note
-        this.uploadedFiles = photos.slice()
-        this.photos = photos
+        this.uploadedFiles = photos ? photos.slice() : []
+        this.photos = photos || []
 		  }
 		  console.log('getRecord', result)
     },
     async updateRecord (id, data) {
-      const res = await updateRecord(id, data)
+      const res = await updateRecord(breastfeedingCollection, id, data)
       console.log('updateRecord', res)
       uni.showToast({
         title: '保存成功！',
@@ -312,7 +312,7 @@ export default {
 						  this.form.photos = files
             }
             console.log('formData', this.form)
-            const res = await addRecord(this.form)
+            const res = await addRecord(breastfeedingCollection, this.form)
             console.log('submitForm', res)
             // this.$navigateTo('/nurturingToolbox/breastfeeding/detail?params=' + res.id)
             this.$navigateTo('/nurturingToolbox/breastfeeding/breastfeeding')

@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { getRecordsList } from '@/service/toolbox-breastfeeding'
+import { getRecordsList, bottleBreastfeedingCollection } from '@/service/toolbox'
 import ListLayout from '../components/list-layout'
 export default {
   components: {
@@ -25,14 +25,15 @@ export default {
   },
   methods: {
     async getRecordsList () {
-      const res = await getRecordsList()
+      const res = await getRecordsList(bottleBreastfeedingCollection)
       console.log('getRecordsList', res)
       const { data } = res
       if (data && data.length) {
         this.list = res.data.map(item => {
-          item.typeText = item.breast.substring(0, 2)
-          item.title = `${item.startTime}~${item.endTime.split(' ')[1]}`
-          item.extra = item.duration
+          item.typeText = '瓶喂'
+          item.type = 1
+          item.title = item.feedingTime
+          item.extra = item.feedingVolume
           item.description = item.note
           return item
         })

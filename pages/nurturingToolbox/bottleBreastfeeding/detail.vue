@@ -3,7 +3,6 @@
     <detail-layout
       :detail="detail"
       :loading="loading"
-      :delete="deleteFn"
       module="bottleBreastfeeding"
     />
   </view>
@@ -12,7 +11,7 @@
 <script>
 import DetailLayout from '../components/detail-layout'
 import DetailMixin from '@/mixins/detail'
-import { getRecord, deleteRecord } from '@/service/toolbox-breastfeeding'
+import { getRecord, bottleBreastfeedingCollection } from '@/service/toolbox'
 export default {
   components: {
     DetailLayout
@@ -26,20 +25,20 @@ export default {
   data () {
     return {
       detail: {},
-      loading: true,
-      deleteFn: deleteRecord
+      loading: true
     }
   },
   methods: {
     async getRecord () {
-      const result = await getRecord(this.id)
+      const result = await getRecord(bottleBreastfeedingCollection, this.id)
       const { data } = result
       console.log('getRecord', data)
       if (data && data.length) {
         const detail = data[0]
-        detail.typeText = detail.breast.substring(0, 2)
-        detail.title = `${detail.startTime}~${detail.endTime.split(' ')[1]}`
-        detail.extra = detail.duration
+        detail.typeText = '瓶喂'
+        detail.type = 1
+        detail.title = detail.feedingTime
+        detail.extra = detail.feedingVolume
         detail.description = detail.note
         this.detail = detail
       }

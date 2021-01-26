@@ -1,3 +1,6 @@
+import { db, dbCmd } from '@/utils/request'
+const $ = dbCmd.aggregate
+
 /**
  * 添加记录
  */
@@ -8,7 +11,7 @@ export async function addRecord (collection, data) {
 		mask: true
 	})
 	try {
-		const { result } = await collection.add({
+		const { result } = await db.collection(collection).add({
 			...data,
 			user_id: db.env.uid,
 			create_time: Date.now()
@@ -33,7 +36,7 @@ export async function addRecord (collection, data) {
 export async function getRecord (collection, id) {
 	let res = {}
 	try {
-		const { result } = await collection
+		const { result } = await db.collection(collection)
 			.where({
 				_id: id,
 				// user_id: db.env.uid
@@ -54,10 +57,9 @@ export async function getRecord (collection, id) {
  * 查询记录列表
  */
 export async function getRecordsList (collection) {
-	console.log('collection', collection)
 	let res = {}
 	try {
-		const { result } = await collection
+		const { result } = await db.collection(collection)
 			.where({
 				user_id: db.env.uid
 			})
@@ -81,7 +83,7 @@ export async function deleteRecord (collection, id) {
 	let res = {}
 	uni.showLoading()
 	try {
-		const { result } = await collection.where({
+		const { result } = await db.collection(collection).where({
 			_id: id,
 			user_id: db.env.uid
 		}).remove()
@@ -106,7 +108,7 @@ export async function updateRecord (collection, id, data) {
 	let res = {}
 	uni.showLoading()
 	try {
-		const { result } = await collection.where({
+		const { result } = await db.collection(collection).where({
 			_id: id,
 			user_id: db.env.uid
 		}).update(data)
@@ -122,4 +124,17 @@ export async function updateRecord (collection, id, data) {
 	  uni.hideLoading()
 	}
 	return res
+}
+
+const breastfeedingCollection = 'toolbox-breastfeeding'
+const bottleBreastfeedingCollection = 'toolbox-bottle-breastfeeding'
+
+export {
+	breastfeedingCollection,
+	bottleBreastfeedingCollection
+}
+
+export const moduleCollection = {
+	breastfeeding: breastfeedingCollection,
+	bottleBreastfeeding: bottleBreastfeedingCollection
 }

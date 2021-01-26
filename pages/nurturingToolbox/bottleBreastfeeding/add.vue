@@ -7,57 +7,37 @@
         :error-type="errorType"
         :model="form">
         <u-form-item
-          label="喂奶乳房"
-          prop="breast">
+          label="喂奶时间"
+          prop="feedingTime">
           <u-input
-            v-model="form.breast"
-            :select-open="actionSheetShow"
+            v-model="form.feedingTime"
+            :select-open="feedingTimeShow"
             type="select"
-            placeholder="请选择喂奶乳房"
-            @click="actionSheetShow = true" />
-          <u-action-sheet
-            :list="actionSheetList"
-            v-model="actionSheetShow"
-            :border-radius="20"
-            @click="actionSheetCallback"></u-action-sheet>
-        </u-form-item>
-        <u-form-item
-          label="开始时间"
-          prop="startTime">
-          <u-input
-            v-model="form.startTime"
-            :select-open="startTimeShow"
-            type="select"
-            placeholder="请选择开始时间"
-            @click="startTimeShow = true" />
+            placeholder="请选择喂奶时间"
+            @click="feedingTimeShow = true" />
           <u-picker
-            v-model="startTimeShow"
+            v-model="feedingTimeShow"
             :params="params"
             mode="time"
             confirm-color="#56ceab"
-            @confirm="confirmStartTime"></u-picker>
+            @confirm="confirmFeedingTime"></u-picker>
         </u-form-item>
         <u-form-item
-          label="结束时间"
-          prop="endTime">
+          label="喂奶量"
+          prop="feedingVolume">
           <u-input
-            v-model="form.endTime"
-            :select-open="endTimeShow"
+            v-model="form.feedingVolume"
+            :select-open="feedingVolumeShow"
             type="select"
-            placeholder="请选择结束时间"
-            @click="endTimeShow = true" />
+            placeholder="请选择喂奶量"
+            @click="feedingVolumeShow = true" />
           <u-picker
-            v-model="endTimeShow"
-            :params="params"
-            mode="time"
+            v-model="feedingVolumeShow"
+            :default-selector="[0]"
+						:range="selector"
+            mode="selector"
             confirm-color="#56ceab"
-            @confirm="confirmEndTime"></u-picker>
-        </u-form-item>
-        <u-form-item label="持续时间">
-          <u-input
-            v-model="form.duration"
-            :placeholder="' '"
-            disabled />
+            @confirm="confirmFeedingVolume"></u-picker>
         </u-form-item>
         <u-form-item :border-bottom="false">
           <view>随手记</view>
@@ -97,8 +77,9 @@
 </template>
 
 <script>
-import { addRecord, getRecord, updateRecord } from '@/service/toolbox-breastfeeding'
+import { addRecord, getRecord, updateRecord, bottleBreastfeedingCollection } from '@/service/toolbox'
 import uploadFiles, { deleteFiles } from '@/utils/upload'
+
 export default {
   onLoad (opt) {
 	  this.id = opt.params
@@ -117,33 +98,28 @@ export default {
 	  this.$refs.uForm.setRules(this.rules)
   },
   data () {
+		const volume = []
+		for(let i = 10; i <= 500; i+=5) {
+			volume.push(i + 'ml')
+		}
     return {
       id: undefined,
       form: {
-        breast: '',
-        type: 0,
-        startTime: '',
-        endTime: '',
-        duration: '',
+        feedingTime: '',
+        feedingVolume: '',
         note: ''
       },
       errorType: ['toast'],
+			selector: volume,
       rules: {
-        breast: [
-          {
-            required: true,
-            message: '请选择喂奶乳房',
-            trigger: ['blur', 'change']
-          }
-        ],
-        startTime: [
+        feedingTime: [
           {
             required: true,
             message: '请选择开始时间',
             trigger: ['blur', 'change']
           }
         ],
-        endTime: [
+        feedingVolume: [
 				  {
 				    required: true,
 				    message: '请选择结束时间',
@@ -151,25 +127,10 @@ export default {
 				  }
         ]
       },
-      actionSheetList: [
-        {
-          text: '双侧乳房',
-          type: 2
-        },
-        {
-          text: '左侧乳房',
-          type: 1
-        },
-        {
-          text: '右侧乳房',
-          type: -1
-        }
-      ],
-      actionSheetShow: false,
-      startTimeShow: false,
-      endTimeShow: false,
-      startTime: '',
-      endTime: '',
+      feedingTimeShow: false,
+      feedingVolumeShow: false,
+      feedingTime: '',
+      feedingVolume: '',
       params: {
         year: true,
         month: true,
@@ -190,77 +151,43 @@ export default {
       this.form.breast = this.actionSheetList[index].text
       this.form.type = this.actionSheetList[index].type
     },
-    confirmStartTime (e) {
-      this.startTime = this.formatTime(e)
-      if (this.endTime && !this.validateTime(this.startTime, this.endTime, 1)) {
-        return
-      }
-      this.form.startTime = this.startTime
-      if (this.endTime) {
-			  this.form.duration = this.calculateDuration(this.endTime, this.startTime)
-      }
+    confirmFeedingTime (e) {
+      this.feedingTime = this.formatTime(e)
+			console.log('confirmFeedingTime', this.feedingTime)
+      this.form.feedingTime = this.feedingTime
+      
     },
-    confirmEndTime (e) {
-      this.endTime = this.formatTime(e)
-      if (!this.validateTime(this.startTime, this.endTime, 2)) {
-        return
-      }
-      this.form.endTime = this.endTime
-      if (this.startTime) {
-        this.form.duration = this.calculateDuration(this.endTime, this.startTime)
-      }
+    confirmFeedingVolume (e) {
+			const [idx] = e
+			const selected = this.selector[idx]
+			console.log('confirmFeedingVolume', selected)
+      this.form.feedingVolume = selected
+      
     },
     formatTime (e) {
       const { year, month, day, hour, minute } = e
       return `${year}-${month}-${day} ${hour}:${minute}`
-    },
-    validateTime (t1, t2, flag) {
-      t1 = t1 ? new Date(t1).getTime() : 0
-      t2 = t2 ? new Date(t2).getTime() : 0
-      console.log(t1, t2)
-      const diff = t2 - t1
-      if (diff < 0) {
-        if (flag === 1) {
-          this.$toast('开始时间不能晚于结束时间')
-          this.startTime = this.form.startTime = ''
-          this.form.duration = ''
-        } else if (flag === 2) {
-          this.$toast('结束时间不能早于开始时间')
-          this.endTime = this.form.endTime = ''
-          this.form.duration = ''
-        }
-			  return false
-      }
-      return true
-    },
-    calculateDuration (t1, t2) {
-      t1 = new Date(t1).getTime()
-      t2 = new Date(t2).getTime()
-      return (t1 - t2) / (1000 * 60) + '分钟'
     },
     handleChosenChange (photos) {
       this.photos = photos
       console.log('this.photos', this.photos)
     },
     async getRecord () {
-		  const result = await getRecord(this.id)
+		  const result = await getRecord(bottleBreastfeedingCollection, this.id)
 		  const { data } = result
 		  if (data.length) {
 		    const detail = data[0]
-        const { breast, type, startTime, endTime, duration, note, photos } = detail
-        this.form.breast = breast
-        this.form.type = type
-        this.form.startTime = startTime
-        this.form.endTime = endTime
-        this.form.duration = duration
+        const { feedingTime, feedingVolume, note, photos } = detail
+        this.form.feedingTime = feedingTime
+        this.form.feedingVolume = feedingVolume
         this.form.note = note
-        this.uploadedFiles = photos.slice()
-        this.photos = photos
+        this.uploadedFiles = photos ? photos.slice() : []
+        this.photos = photos || []
 		  }
 		  console.log('getRecord', result)
     },
     async updateRecord (id, data) {
-      const res = await updateRecord(id, data)
+      const res = await updateRecord(bottleBreastfeedingCollection, id, data)
       console.log('updateRecord', res)
       uni.showToast({
         title: '保存成功！',
@@ -304,7 +231,7 @@ export default {
             this.form.photos = remained
             console.log('formData', this.form)
             await this.updateRecord(this.id, this.form)
-            this.$navigateTo('/nurturingToolbox/breastfeeding/breastfeeding')
+            this.$navigateTo('/nurturingToolbox/bottleBreastfeeding/bottleBreastfeeding')
           } else { // 新增
             // 上传图片
             if (this.photos.length) {
@@ -312,24 +239,20 @@ export default {
 						  this.form.photos = files
             }
             console.log('formData', this.form)
-            const res = await addRecord(this.form)
+            const res = await addRecord(bottleBreastfeedingCollection, this.form)
             console.log('submitForm', res)
-            // this.$navigateTo('/nurturingToolbox/breastfeeding/detail?params=' + res.id)
-            this.$navigateTo('/nurturingToolbox/breastfeeding/breastfeeding')
+            // this.$navigateTo('/nurturingToolbox/bottleBreastfeeding/detail?params=' + res.id)
+            this.$navigateTo('/nurturingToolbox/bottleBreastfeeding/bottleBreastfeeding')
           }
         }
       })
     },
     resetForm () {
       this.form = {
-        breast: '',
-        type: 0,
-        startTime: '',
-        endTime: '',
-        duration: '',
+        feedingTime: '',
+        feedingVolume: '',
         note: ''
       }
-      this.form.duration = ''
       this.$refs.chooseMedia.clear()
     },
     cancel () {

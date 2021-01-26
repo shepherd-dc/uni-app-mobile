@@ -28,6 +28,7 @@
 import { mapState } from 'vuex'
 import { checkToken } from '@/service/auth'
 import { deleteFiles } from '@/utils/upload'
+import { deleteRecord, moduleCollection } from '@/service/toolbox'
 
 export default {
   props: {
@@ -42,8 +43,7 @@ export default {
     loading: {
       type: Boolean,
       default: true
-    },
-    delete: Function
+    }
   },
   data () {
     return {
@@ -74,7 +74,7 @@ export default {
 			  success: async res => {
 			    if (res.confirm) {
 			      await this.deleteAllImages()
-			      const res = await this.delete(this.detail._id)
+			      const res = await deleteRecord(moduleCollection[this.module], this.detail._id)
 			      console.log('deleteRecord', res)
             this.$navigateTo(`/nurturingToolbox/${this.module}/${this.module}`)
 			    }
