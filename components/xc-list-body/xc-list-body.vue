@@ -12,6 +12,7 @@
           </view>
           <view class="title-extra">{{ body.extra }}</view>
         </view>
+				<slot name="extra" />
         <view
           v-if="body.description"
           class="description">

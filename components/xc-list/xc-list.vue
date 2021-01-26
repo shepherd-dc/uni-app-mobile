@@ -11,12 +11,17 @@
         </view>
       </slot>
       <view class="list-body">
-        <slot>
-          <xc-list-body
-						:body="body"
-						@click.native="$emit('toDetail', body)">
-					</xc-list-body>
-        </slot>
+				<template v-if="extra">
+					<slot name="extra"></slot>
+				</template>
+				<template v-else>
+					<slot>
+					  <xc-list-body
+							:body="body"
+							@click.native="$emit('toDetail', body)">
+						</xc-list-body>
+					</slot>
+				</template>
       </view>
       <view
         v-if="$slots.footer"
@@ -37,6 +42,10 @@ export default {
 		body: {
 		  type: Object,
 		  default: () => ({})
+		},
+		extra: {
+		  type: Boolean,
+		  default: false
 		}
   }
 }

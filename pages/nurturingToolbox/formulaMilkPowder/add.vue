@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import { addRecord, getRecord, updateRecord, bottleBreastfeedingCollection } from '@/service/toolbox'
+import { addRecord, getRecord, updateRecord, formulaMilkPowderCollection } from '@/service/toolbox'
 import uploadFiles, { deleteFiles } from '@/utils/upload'
 
 export default {
@@ -113,11 +113,11 @@ export default {
           }
         ],
         feedingVolume: [
-				  {
-				    required: true,
-				    message: '请选择喂奶量',
-				    trigger: ['blur', 'change']
-				  }
+          {
+            required: true,
+            message: '请选择喂奶量',
+            trigger: ['blur', 'change']
+          }
         ]
       },
       feedingTimeShow: false,
@@ -160,7 +160,7 @@ export default {
       console.log('this.photos', this.photos)
     },
     async getRecord () {
-		  const result = await getRecord(bottleBreastfeedingCollection, this.id)
+		  const result = await getRecord(formulaMilkPowderCollection, this.id)
 		  const { data } = result
 		  if (data.length) {
 		    const detail = data[0]
@@ -174,7 +174,7 @@ export default {
 		  console.log('getRecord', result)
     },
     async updateRecord (id, data) {
-      const res = await updateRecord(bottleBreastfeedingCollection, id, data)
+      const res = await updateRecord(formulaMilkPowderCollection, id, data)
       console.log('updateRecord', res)
       uni.showToast({
         title: '保存成功！',
@@ -218,7 +218,7 @@ export default {
             this.form.photos = remained
             console.log('formData', this.form)
             await this.updateRecord(this.id, this.form)
-            this.$navigateTo('/nurturingToolbox/bottleBreastfeeding/bottleBreastfeeding')
+            this.$navigateTo('/nurturingToolbox/formulaMilkPowder/formulaMilkPowder')
           } else { // 新增
             // 上传图片
             if (this.photos.length) {
@@ -226,10 +226,10 @@ export default {
 						  this.form.photos = files
             }
             console.log('formData', this.form)
-            const res = await addRecord(bottleBreastfeedingCollection, this.form)
+            const res = await addRecord(formulaMilkPowderCollection, this.form)
             console.log('submitForm', res)
-            // this.$navigateTo('/nurturingToolbox/bottleBreastfeeding/detail?params=' + res.id)
-            this.$navigateTo('/nurturingToolbox/bottleBreastfeeding/bottleBreastfeeding')
+            // this.$navigateTo('/nurturingToolbox/formulaMilkPowder/detail?params=' + res.id)
+            this.$navigateTo('/nurturingToolbox/formulaMilkPowder/formulaMilkPowder')
           }
         }
       })

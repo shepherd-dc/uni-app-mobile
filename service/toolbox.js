@@ -128,13 +128,20 @@ export async function updateRecord (collection, id, data) {
 
 const breastfeedingCollection = 'toolbox-breastfeeding'
 const bottleBreastfeedingCollection = 'toolbox-bottle-breastfeeding'
+const formulaMilkPowderCollection = 'toolbox-formula-milk'
+const foodSupplementCollection = 'toolbox-food-supplement'
+
 
 export {
 	breastfeedingCollection,
-	bottleBreastfeedingCollection
+	bottleBreastfeedingCollection,
+	formulaMilkPowderCollection,
+	foodSupplementCollection
 }
 
 export const moduleCollection = {
 	breastfeeding: breastfeedingCollection,
-	bottleBreastfeeding: bottleBreastfeedingCollection
+	bottleBreastfeeding: bottleBreastfeedingCollection,
+	formulaMilkPowder: formulaMilkPowderCollection,
+	foodSupplement: foodSupplementCollection
 }

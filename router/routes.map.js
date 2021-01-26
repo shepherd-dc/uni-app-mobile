@@ -10,5 +10,13 @@ export default [
 	{
 	  name: 'bottleBreastfeeding',
 	  path: '/nurturingToolbox/bottleBreastfeeding/bottleBreastfeeding'
+	},
+	{
+	  name: 'formulaMilkPowder',
+	  path: '/nurturingToolbox/formulaMilkPowder/formulaMilkPowder'
+	},
+	{
+	  name: 'foodSupplement',
+	  path: '/nurturingToolbox/foodSupplement/foodSupplement'
 	}
 ]

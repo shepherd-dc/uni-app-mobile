@@ -25,88 +25,109 @@
 				"navigationBarTitleText": "文章详情"
 			}
 		}
-  ],
-	"subPackages": [
-		{
+	],
+	"subPackages": [{
 			"root": "pages/nurturingToolbox",
-			"pages": [
-				{
-					"path" : "breastfeeding/breastfeeding",
-					"style" : {
-						"navigationBarTitleText": "母乳亲喂"
-					}
-				}, {
-					"path" : "breastfeeding/add",
-					"style" : {
-					}
-				}, {
-					"path" : "breastfeeding/detail",
-					"style" : {
-						"navigationBarTitleText": "记录详情"
-					}
-				}, {
-					"path": "vaccine/vaccine",
-					"style": {
-						"navigationBarTitleText": "疫苗接种表"
-					}
-				}, {
-					"path": "vaccine/add",
-					"style": {
-						"navigationBarTitleText": "添加自费疫苗"
-					}
-				}, {
-					"path": "vaccine/detail",
-					"style": {
-						"navigationBarTitleText": "疫苗详情"
-					}
-				}, {
-					"path" : "bottleBreastfeeding/bottleBreastfeeding",
-					"style" : {
-						"navigationBarTitleText": "瓶喂母乳",
-						"enablePullDownRefresh": false
-					}
-				}, {
-					"path" : "bottleBreastfeeding/add",
-					"style" : {
-					}
-				}, {
-					"path" : "bottleBreastfeeding/detail",
-					"style" : {
-						"navigationBarTitleText": "记录详情"
-					}
+			"pages": [{
+				"path": "breastfeeding/breastfeeding",
+				"style": {
+					"navigationBarTitleText": "母乳亲喂"
 				}
-			]
+			}, {
+				"path": "breastfeeding/add",
+				"style": {}
+			}, {
+				"path": "breastfeeding/detail",
+				"style": {
+					"navigationBarTitleText": "记录详情"
+				}
+			}, {
+				"path": "vaccine/vaccine",
+				"style": {
+					"navigationBarTitleText": "疫苗接种表"
+				}
+			}, {
+				"path": "vaccine/add",
+				"style": {
+					"navigationBarTitleText": "添加自费疫苗"
+				}
+			}, {
+				"path": "vaccine/detail",
+				"style": {
+					"navigationBarTitleText": "疫苗详情"
+				}
+			}, {
+				"path": "bottleBreastfeeding/bottleBreastfeeding",
+				"style": {
+					"navigationBarTitleText": "瓶喂母乳",
+					"enablePullDownRefresh": false
+				}
+			}, {
+				"path": "bottleBreastfeeding/add",
+				"style": {}
+			}, {
+				"path": "bottleBreastfeeding/detail",
+				"style": {
+					"navigationBarTitleText": "记录详情"
+				}
+			}, {
+				"path": "formulaMilkPowder/formulaMilkPowder",
+				"style": {
+					"navigationBarTitleText": "配方奶粉",
+					"enablePullDownRefresh": false
+				}
+			}, {
+				"path": "formulaMilkPowder/add",
+				"style": {}
+			}, {
+				"path": "formulaMilkPowder/detail",
+				"style": {
+					"navigationBarTitleText": "记录详情"
+				}
+			}, {
+				"path": "foodSupplement/foodSupplement",
+				"style": {
+					"navigationBarTitleText": "辅食",
+					"enablePullDownRefresh": false
+				}
+			}, {
+				"path": "foodSupplement/add",
+				"style": {}
+			}, {
+				"path": "foodSupplement/detail",
+				"style": {
+					"navigationBarTitleText": "记录详情"
+				}
+			}]
 		},
 		{
 			"root": "pages/user",
-			"pages": [
-				{
-					"path": "login",
-					"style": {
-						"navigationBarTitleText": "登录"
-					}
-				}, {
-					"path": "reg",
-					"style": {
-						"navigationBarTitleText": "注册"
-					}
-				}, {
-					"path": "pwd",
-					"style": {
-						"navigationBarTitleText": "找回密码"
-					}
-				}, {
-					"path": "auth",
-					"style": {
-						"navigationBarTitleText": "授权登录"
-					}
-				}, {
-					"path": "info",
-					"style": {
-						"navigationBarTitleText": "完善宝宝信息"
-					}
+			"pages": [{
+				"path": "login",
+				"style": {
+					"navigationBarTitleText": "登录"
 				}
-			]
+			}, {
+				"path": "reg",
+				"style": {
+					"navigationBarTitleText": "注册"
+				}
+			}, {
+				"path": "pwd",
+				"style": {
+					"navigationBarTitleText": "找回密码"
+				}
+			}, {
+				"path": "auth",
+				"style": {
+					"navigationBarTitleText": "授权登录"
+				}
+			}, {
+				"path": "info",
+				"style": {
+					"navigationBarTitleText": "完善宝宝信息"
+				}
+			}]
 		}
 	],
 	"tabBar": {

@@ -26,7 +26,13 @@
               v-for="(l, i) in list"
               :key="l._id"
               :body="l"
+							:extra="extra"
               @toDetail="toDetail">
+							<template v-slot:extra>
+								<slot
+									name="list-extra"
+									:item="l" />
+							</template>
             </xc-list>
           </view>
           <view
@@ -63,6 +69,10 @@ export default {
     loading: {
       type: Boolean,
       default: true
+    },
+		extra: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {

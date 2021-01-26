@@ -7,13 +7,13 @@
         :error-type="errorType"
         :model="form">
         <u-form-item
-          label="喂奶时间"
+          label="时间"
           prop="feedingTime">
           <u-input
             v-model="form.feedingTime"
             :select-open="feedingTimeShow"
             type="select"
-            placeholder="请选择喂奶时间"
+            placeholder="请选择时间"
             @click="feedingTimeShow = true" />
           <u-picker
             v-model="feedingTimeShow"
@@ -23,21 +23,15 @@
             @confirm="confirmFeedingTime"></u-picker>
         </u-form-item>
         <u-form-item
-          label="喂奶量"
-          prop="feedingVolume">
+          label="食材"
+          prop="ingredients">
           <u-input
-            v-model="form.feedingVolume"
-            :select-open="feedingVolumeShow"
-            type="select"
-            placeholder="请选择喂奶量"
-            @click="feedingVolumeShow = true" />
-          <u-picker
-            v-model="feedingVolumeShow"
-            :default-selector="[0]"
-						:range="selector"
-            mode="selector"
-            confirm-color="#56ceab"
-            @confirm="confirmFeedingVolume"></u-picker>
+            v-model="form.ingredients"
+						:clearable="false"
+            type="textarea"
+						height="80px"
+						auto-height
+            placeholder="请输入食材" />
         </u-form-item>
         <u-form-item :border-bottom="false">
           <view>随手记</view>
@@ -45,8 +39,9 @@
             v-model="form.note"
             :clearable="false"
             class="custom-input"
+						height="160px"
             auto-height
-            placeholder="宝宝吃奶精神状态、是否吐奶、拍嗝等"
+            placeholder="记录食物名称以及宝宝食量，方便了解宝宝营养，帮助宝宝排查过敏原"
             type="textarea" />
         </u-form-item>
         <xc-media-upload
@@ -70,7 +65,7 @@
 </template>
 
 <script>
-import { addRecord, getRecord, updateRecord, bottleBreastfeedingCollection } from '@/service/toolbox'
+import { addRecord, getRecord, updateRecord, foodSupplementCollection } from '@/service/toolbox'
 import uploadFiles, { deleteFiles } from '@/utils/upload'
 
 export default {
@@ -91,39 +86,33 @@ export default {
 	  this.$refs.uForm.setRules(this.rules)
   },
   data () {
-		const volume = []
-		for(let i = 10; i <= 500; i+=5) {
-			volume.push(i + 'ml')
-		}
     return {
       id: undefined,
       form: {
         feedingTime: '',
-        feedingVolume: '',
+        ingredients: '',
         note: ''
       },
       errorType: ['toast'],
-			selector: volume,
       rules: {
         feedingTime: [
           {
             required: true,
-            message: '请选择喂奶时间',
+            message: '请选择时间',
             trigger: ['blur', 'change']
           }
         ],
-        feedingVolume: [
+        ingredients: [
 				  {
 				    required: true,
-				    message: '请选择喂奶量',
+				    message: '请输入食材',
 				    trigger: ['blur', 'change']
 				  }
         ]
       },
       feedingTimeShow: false,
-      feedingVolumeShow: false,
       feedingTime: '',
-      feedingVolume: '',
+      ingredients: '',
       params: {
         year: true,
         month: true,
@@ -144,13 +133,6 @@ export default {
       this.form.feedingTime = this.feedingTime
       
     },
-    confirmFeedingVolume (e) {
-			const [idx] = e
-			const selected = this.selector[idx]
-			console.log('confirmFeedingVolume', selected)
-      this.form.feedingVolume = selected
-      
-    },
     formatTime (e) {
       const { year, month, day, hour, minute } = e
       return `${year}-${month}-${day} ${hour}:${minute}`
@@ -160,13 +142,13 @@ export default {
       console.log('this.photos', this.photos)
     },
     async getRecord () {
-		  const result = await getRecord(bottleBreastfeedingCollection, this.id)
+		  const result = await getRecord(foodSupplementCollection, this.id)
 		  const { data } = result
 		  if (data.length) {
 		    const detail = data[0]
-        const { feedingTime, feedingVolume, note, photos } = detail
+        const { feedingTime, ingredients, note, photos } = detail
         this.form.feedingTime = feedingTime
-        this.form.feedingVolume = feedingVolume
+        this.form.ingredients = ingredients
         this.form.note = note
         this.uploadedFiles = photos ? photos.slice() : []
         this.photos = photos || []
@@ -174,7 +156,7 @@ export default {
 		  console.log('getRecord', result)
     },
     async updateRecord (id, data) {
-      const res = await updateRecord(bottleBreastfeedingCollection, id, data)
+      const res = await updateRecord(foodSupplementCollection, id, data)
       console.log('updateRecord', res)
       uni.showToast({
         title: '保存成功！',
@@ -218,7 +200,7 @@ export default {
             this.form.photos = remained
             console.log('formData', this.form)
             await this.updateRecord(this.id, this.form)
-            this.$navigateTo('/nurturingToolbox/bottleBreastfeeding/bottleBreastfeeding')
+            this.$navigateTo('/nurturingToolbox/foodSupplement/foodSupplement')
           } else { // 新增
             // 上传图片
             if (this.photos.length) {
@@ -226,10 +208,10 @@ export default {
 						  this.form.photos = files
             }
             console.log('formData', this.form)
-            const res = await addRecord(bottleBreastfeedingCollection, this.form)
+            const res = await addRecord(foodSupplementCollection, this.form)
             console.log('submitForm', res)
-            // this.$navigateTo('/nurturingToolbox/bottleBreastfeeding/detail?params=' + res.id)
-            this.$navigateTo('/nurturingToolbox/bottleBreastfeeding/bottleBreastfeeding')
+            // this.$navigateTo('/nurturingToolbox/foodSupplement/detail?params=' + res.id)
+            this.$navigateTo('/nurturingToolbox/foodSupplement/foodSupplement')
           }
         }
       })
@@ -237,7 +219,7 @@ export default {
     resetForm () {
       this.form = {
         feedingTime: '',
-        feedingVolume: '',
+        ingredients: '',
         note: ''
       }
       this.$refs.chooseMedia.clear()
@@ -258,7 +240,7 @@ export default {
 		margin-bottom: 40rpx;
 	}
 	/deep/ .custom-input textarea {
-		min-height: 40rpx!important;
+		min-height: 70rpx!important;
 		color: #666;
 	}
 </style>
