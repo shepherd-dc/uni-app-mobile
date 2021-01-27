@@ -1,5 +1,5 @@
 <template>
-  <view class="breastfeeding">
+  <view class="foodSupplement">
     <view class="form">
       <u-form
         ref="uForm"
@@ -65,8 +65,10 @@
 </template>
 
 <script>
-import { addRecord, getRecord, updateRecord, foodSupplementCollection } from '@/service/toolbox'
+import { addRecord, getRecord, updateRecord } from '@/service/toolbox'
 import uploadFiles, { deleteFiles } from '@/utils/upload'
+import toolboxConfig from '@/config/toolbox'
+const { foodSupplement: { collection } } = toolboxConfig
 
 export default {
   onLoad (opt) {
@@ -142,7 +144,7 @@ export default {
       console.log('this.photos', this.photos)
     },
     async getRecord () {
-		  const result = await getRecord(foodSupplementCollection, this.id)
+		  const result = await getRecord(collection, this.id)
 		  const { data } = result
 		  if (data.length) {
 		    const detail = data[0]
@@ -156,7 +158,7 @@ export default {
 		  console.log('getRecord', result)
     },
     async updateRecord (id, data) {
-      const res = await updateRecord(foodSupplementCollection, id, data)
+      const res = await updateRecord(collection, id, data)
       console.log('updateRecord', res)
       uni.showToast({
         title: '保存成功！',
@@ -208,7 +210,7 @@ export default {
 						  this.form.photos = files
             }
             console.log('formData', this.form)
-            const res = await addRecord(foodSupplementCollection, this.form)
+            const res = await addRecord(collection, this.form)
             console.log('submitForm', res)
             // this.$navigateTo('/nurturingToolbox/foodSupplement/detail?params=' + res.id)
             this.$navigateTo('/nurturingToolbox/foodSupplement/foodSupplement')
@@ -232,7 +234,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-	.breastfeeding {
+	.foodSupplement {
 		width: 100%;
 		padding: 0 30rpx;
 	}

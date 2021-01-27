@@ -8,8 +8,10 @@
 </template>
 
 <script>
-import { getRecordsList, bottleBreastfeedingCollection } from '@/service/toolbox'
+import { getRecordsList } from '@/service/toolbox'
 import ListLayout from '../components/list-layout'
+import toolboxConfig from '@/config/toolbox'
+const { bottleBreastfeeding: { collection } } = toolboxConfig
 export default {
   components: {
     ListLayout
@@ -25,7 +27,7 @@ export default {
   },
   methods: {
     async getRecordsList () {
-      const res = await getRecordsList(bottleBreastfeedingCollection)
+      const res = await getRecordsList(collection)
       console.log('getRecordsList', res)
       const { data } = res
       if (data && data.length) {

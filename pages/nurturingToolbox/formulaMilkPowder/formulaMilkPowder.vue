@@ -8,8 +8,11 @@
 </template>
 
 <script>
-import { getRecordsList, formulaMilkPowderCollection } from '@/service/toolbox'
+import { getRecordsList } from '@/service/toolbox'
 import ListLayout from '../components/list-layout'
+import toolboxConfig from '@/config/toolbox'
+const { formulaMilkPowder: { collection } } = toolboxConfig
+
 export default {
   components: {
     ListLayout
@@ -25,7 +28,7 @@ export default {
   },
   methods: {
     async getRecordsList () {
-      const res = await getRecordsList(formulaMilkPowderCollection)
+      const res = await getRecordsList(collection)
       console.log('getRecordsList', res)
       const { data } = res
       if (data && data.length) {

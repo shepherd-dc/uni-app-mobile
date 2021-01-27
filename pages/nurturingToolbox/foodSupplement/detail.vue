@@ -15,7 +15,10 @@
 <script>
 import DetailLayout from '../components/detail-layout'
 import DetailMixin from '@/mixins/detail'
-import { getRecord, foodSupplementCollection } from '@/service/toolbox'
+import { getRecord } from '@/service/toolbox'
+import toolboxConfig from '@/config/toolbox'
+const { foodSupplement: { collection } } = toolboxConfig
+
 export default {
   components: {
     DetailLayout
@@ -34,7 +37,7 @@ export default {
   },
   methods: {
     async getRecord () {
-      const result = await getRecord(foodSupplementCollection, this.id)
+      const result = await getRecord(collection, this.id)
       const { data } = result
       console.log('getRecord', data)
       if (data && data.length) {

@@ -19,8 +19,11 @@
 </template>
 
 <script>
-import { getRecordsList, foodSupplementCollection } from '@/service/toolbox'
+import { getRecordsList } from '@/service/toolbox'
 import ListLayout from '../components/list-layout'
+import toolboxConfig from '@/config/toolbox'
+const { foodSupplement: { collection } } = toolboxConfig
+
 export default {
   components: {
     ListLayout
@@ -36,7 +39,7 @@ export default {
   },
   methods: {
     async getRecordsList () {
-      const res = await getRecordsList(foodSupplementCollection)
+      const res = await getRecordsList(collection)
       console.log('getRecordsList', res)
       const { data } = res
       if (data && data.length) {
