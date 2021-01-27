@@ -1,7 +1,10 @@
+import toolboxConfig from '@/config/toolbox'
+
 export default {
 	onLoad (opt) {
 	  console.log(opt) // eslint-disable-line
 	  this.id = opt.params
+	  this.module = opt.module
 	  // 设置 shareTicket
 	  uni.showShareMenu({
 		  withShareTicket: true
@@ -11,21 +14,22 @@ export default {
 	onShareAppMessage (res) {
 	  // 用户点击分享卡片后可获取的query参数
 	  return {
-	    title: '母乳亲喂记录',
-	    path: `pages/nurturingToolbox/breastfeeding/detail?params=${this.id}`
+	    title: toolboxConfig[this.module].title,
+	    path: `pages/nurturingToolbox/${this.module}/detail?params=${this.id}`
 	  }
 	},
 	// 设置 分享到朋友圈
 	onShareTimeline (res) {
 	  return {
-		  title: '母乳亲喂记录',
+		  title: toolboxConfig[this.module].title,
 		  query: `params=${this.id}`,
 	    imageUrl: '/static/img/logo.jpg'
 	  }
 	},
 	data () {
 		return {
-			id: ''
+			id: '',
+			module: ''
 		}
 	}
 } 

@@ -80,7 +80,7 @@ export default {
       this.$navigateTo(`/nurturingToolbox/${this.module}/add`)
     },
     toDetail ({ _id }) {
-      this.$navigateTo(`/nurturingToolbox/${this.module}/detail?params=${_id}`)
+      this.$navigateTo(`/nurturingToolbox/${this.module}/detail?params=${_id}&module=${this.module}`)
     }
   }
 }
