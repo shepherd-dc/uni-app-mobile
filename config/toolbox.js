@@ -28,6 +28,11 @@ const ToolboxConfig = {
 		title: '换尿布',
 		module: 'changeDiapers',
 		collection: 'toolbox-change-diapers'
+	},
+	uncomfortable: {
+		title: '不舒服',
+		module: 'uncomfortable',
+		collection: 'toolbox-uncomfortable'
 	}
 }
 

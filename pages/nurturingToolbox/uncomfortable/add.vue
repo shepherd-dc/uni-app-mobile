@@ -1,5 +1,5 @@
 <template>
-  <view class="changeDiapers">
+  <view class="uncomfortable">
     <view class="form">
       <u-form
         ref="uForm"
@@ -7,13 +7,13 @@
         :error-type="errorType"
         :model="form">
         <u-form-item
-          label="换尿布时间"
+          label="时间"
           prop="startTime">
           <u-input
             v-model="form.startTime"
             :select-open="startTimeShow"
             type="select"
-            placeholder="请选择换尿布时间"
+            placeholder="请选择时间"
             @click="startTimeShow = true" />
           <u-picker
             v-model="startTimeShow"
@@ -22,65 +22,15 @@
             confirm-color="#56ceab"
             @confirm="confirmStartTime"></u-picker>
         </u-form-item>
-        <u-form-item
-          label="嘘嘘颜色"
-          prop="peeColor">
-          <u-input
-            v-model="form.peeColor"
-            :select-open="peeColorShow"
-            type="select"
-            placeholder="请选择嘘嘘颜色"
-            @click="peeColorShow = true" />
-          <u-picker
-            v-model="peeColorShow"
-            :default-selector="[0]"
-						:range="peeColorSelector"
-            mode="selector"
-            confirm-color="#56ceab"
-            @confirm="confirmPeeColor"></u-picker>
-        </u-form-item>
-				<u-form-item
-				  label="便便颜色"
-				  prop="pooColor">
-				  <u-input
-				    v-model="form.pooColor"
-				    :select-open="pooColorShow"
-				    type="select"
-				    placeholder="请选择便便颜色"
-				    @click="pooColorShow = true" />
-				  <u-picker
-				    v-model="pooColorShow"
-				    :default-selector="[0]"
-						:range="pooColorSelector"
-				    mode="selector"
-				    confirm-color="#56ceab"
-				    @confirm="confirmPooColor"></u-picker>
-				</u-form-item>
-				<u-form-item
-				  label="便便质地"
-				  prop="pooTexture">
-				  <u-input
-				    v-model="form.pooTexture"
-				    :select-open="pooTextureShow"
-				    type="select"
-				    placeholder="请选择便便质地"
-				    @click="pooTextureShow = true" />
-				  <u-picker
-				    v-model="pooTextureShow"
-				    :default-selector="[0]"
-						:range="pooTextureSelector"
-				    mode="selector"
-				    confirm-color="#56ceab"
-				    @confirm="confirmPooTexture"></u-picker>
-				</u-form-item>
         <u-form-item :border-bottom="false">
-          <view>随手记</view>
+          <view>状态描述</view>
           <u-input
             v-model="form.note"
             :clearable="false"
             class="custom-input"
+						height="160px"
             auto-height
-            placeholder="记下嘘嘘和便便的颜色、质地和味道，能够知道宝宝身体是否正常运行哦"
+            placeholder="详细记录宝宝的症状，处理方法，上传患处图片，方便就医时问诊"
             type="textarea" />
         </u-form-item>
         <xc-media-upload
@@ -107,7 +57,7 @@
 import { addRecord, getRecord, updateRecord } from '@/service/toolbox'
 import uploadFiles, { deleteFiles } from '@/utils/upload'
 import toolboxConfig from '@/config/toolbox'
-const { changeDiapers: { collection } } = toolboxConfig
+const { uncomfortable: { collection } } = toolboxConfig
 
 export default {
   onLoad (opt) {
@@ -131,55 +81,20 @@ export default {
       id: undefined,
       form: {
         startTime: '',
-        peeColor: '',
-				pooColor: '',
-				pooTexture: '',
         note: ''
       },
       errorType: ['toast'],
-			peeColorSelector: [
-				'正常', '乳白色', '粉色', '黄色', '浓茶色', '红色'
-			],
-			pooColorSelector: [
-				'灰白色', '绿色', '黄褐色', '黑色',  '红色'
-			],
-			pooTextureSelector: [
-				'一般', '干硬', '较干', '粘稠', '粘稠', '水样'
-			],
       rules: {
         startTime: [
           {
             required: true,
-            message: '请选择换尿布时间',
+            message: '请选择时间',
             trigger: ['blur', 'change']
           }
         ],
-        peeColor: [
-          {
-            required: true,
-            message: '请选择嘘嘘颜色',
-            trigger: ['blur', 'change']
-          }
-        ],
-				pooColor: [
-				  {
-				    required: true,
-				    message: '请选择便便颜色',
-				    trigger: ['blur', 'change']
-				  }
-				],
-				pooTexture: [
-				  {
-				    required: true,
-				    message: '请选择便便质地',
-				    trigger: ['blur', 'change']
-				  }
-				]
       },
       startTimeShow: false,
-      peeColorShow: false,
-			pooColorShow: false,
-			pooTextureShow: false,
+      startTime: '',
       params: {
         year: true,
         month: true,
@@ -196,29 +111,10 @@ export default {
   methods: {
     confirmStartTime (e) {
       this.startTime = this.formatTime(e)
-			console.log('confirmStartTime', this.startTime)
+			console.log('confirmFeedingTime', this.startTime)
       this.form.startTime = this.startTime
       
     },
-    confirmPeeColor (e) {
-			const [idx] = e
-			const selected = this.peeColorSelector[idx]
-			console.log('confirmPeeColor', selected)
-      this.form.peeColor = selected
-      
-    },
-		confirmPooColor (e) {
-			const [idx] = e
-			const selected = this.pooColorSelector[idx]
-			console.log('confirmPooColor', selected)
-			this.form.pooColor = selected
-		},
-		confirmPooTexture (e) {
-			const [idx] = e
-			const selected = this.pooTextureSelector[idx]
-			console.log('confirmPooTexture', selected)
-			this.form.pooTexture = selected
-		},
     formatTime (e) {
       const { year, month, day, hour, minute } = e
       return `${year}-${month}-${day} ${hour}:${minute}`
@@ -232,11 +128,8 @@ export default {
 		  const { data } = result
 		  if (data.length) {
 		    const detail = data[0]
-        const { startTime, peeColor, pooColor, pooTexture, note, photos } = detail
+        const { startTime, note, photos } = detail
         this.form.startTime = startTime
-        this.form.peeColor = peeColor
-        this.form.pooColor = pooColor
-        this.form.pooTexture = pooTexture
         this.form.note = note
         this.uploadedFiles = photos ? photos.slice() : []
         this.photos = photos || []
@@ -288,7 +181,7 @@ export default {
             this.form.photos = remained
             console.log('formData', this.form)
             await this.updateRecord(this.id, this.form)
-            this.$navigateTo('/nurturingToolbox/changeDiapers/changeDiapers')
+            this.$navigateTo('/nurturingToolbox/uncomfortable/uncomfortable')
           } else { // 新增
             // 上传图片
             if (this.photos.length) {
@@ -298,8 +191,8 @@ export default {
             console.log('formData', this.form)
             const res = await addRecord(collection, this.form)
             console.log('submitForm', res)
-            // this.$navigateTo('/nurturingToolbox/changeDiapers/detail?params=' + res.id)
-            this.$navigateTo('/nurturingToolbox/changeDiapers/changeDiapers')
+            // this.$navigateTo('/nurturingToolbox/uncomfortable/detail?params=' + res.id)
+            this.$navigateTo('/nurturingToolbox/uncomfortable/uncomfortable')
           }
         }
       })
@@ -307,9 +200,6 @@ export default {
     resetForm () {
       this.form = {
         startTime: '',
-        peeColor: '',
-				pooColor: '',
-				pooTexture: '',
         note: ''
       }
       this.$refs.chooseMedia.clear()
@@ -322,7 +212,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-	.changeDiapers {
+	.uncomfortable {
 		width: 100%;
 		padding: 0 30rpx;
 	}

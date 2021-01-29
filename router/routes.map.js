@@ -26,5 +26,9 @@ export default [
 	{
 	  name: 'changeDiapers',
 	  path: '/nurturingToolbox/changeDiapers/changeDiapers'
+	},
+	{
+	  name: 'uncomfortable',
+	  path: '/nurturingToolbox/uncomfortable/uncomfortable'
 	}
 ]

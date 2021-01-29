@@ -126,6 +126,20 @@
 				"style": {
 					"navigationBarTitleText": "记录详情"
 				}
+			}, {
+				"path": "uncomfortable/uncomfortable",
+				"style": {
+					"navigationBarTitleText": "",
+					"enablePullDownRefresh": false
+				}
+			}, {
+				"path": "uncomfortable/add",
+				"style": {}
+			}, {
+				"path": "uncomfortable/detail",
+				"style": {
+					"navigationBarTitleText": "记录详情"
+				}
 			}]
 		},
 		{
