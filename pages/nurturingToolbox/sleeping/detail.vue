@@ -1,14 +1,10 @@
 <template>
-  <view class="food-supplement-detail">
+  <view class="sleeping">
     <detail-layout
       :detail="detail"
       :loading="loading"
-      module="foodSupplement"
-    >
-			<template v-slot:detail-extra="{detail}">
-				<view class="ingredients">{{ detail.ingredients }}</view>
-			</template>
-		</detail-layout>
+      module="sleeping"
+    />
   </view>
 </template>
 
@@ -17,7 +13,7 @@ import DetailLayout from '../components/detail-layout'
 import DetailMixin from '@/mixins/detail'
 import { getRecord } from '@/service/toolbox'
 import toolboxConfig from '@/config/toolbox'
-const { foodSupplement: { collection } } = toolboxConfig
+const { sleeping: { collection } } = toolboxConfig
 
 export default {
   components: {
@@ -42,9 +38,10 @@ export default {
       console.log('getRecord', data)
       if (data && data.length) {
         const detail = data[0]
-        detail.typeText = '辅食'
-        detail.type = -1
-        detail.title = detail.feedingTime
+				detail.typeText = '睡眠'
+				detail.type = 1
+        detail.title = `${detail.startTime}~${detail.endTime.split(' ')[1]}`
+        detail.extra = detail.duration
         detail.description = detail.note
         this.detail = detail
       }
@@ -55,13 +52,8 @@ export default {
 </script>
 
 <style lang="less" scoped>
-	.food-supplement-detail {
+	.sleeping {
 		width: 100%;
 		position: relative;
-	}
-	.ingredients {
-		margin-top: 20rpx;
-		font-size: 30rpx;
-		color: #333;
 	}
 </style>

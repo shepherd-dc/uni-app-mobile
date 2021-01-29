@@ -98,6 +98,34 @@
 				"style": {
 					"navigationBarTitleText": "记录详情"
 				}
+			}, {
+				"path": "sleeping/sleeping",
+				"style": {
+					"navigationBarTitleText": "睡眠",
+					"enablePullDownRefresh": false
+				}
+			}, {
+				"path": "sleeping/add",
+				"style": {}
+			}, {
+				"path": "sleeping/detail",
+				"style": {
+					"navigationBarTitleText": "记录详情"
+				}
+			}, {
+				"path": "changeDiapers/changeDiapers",
+				"style": {
+					"navigationBarTitleText": "换尿布",
+					"enablePullDownRefresh": false
+				}
+			}, {
+				"path": "changeDiapers/add",
+				"style": {}
+			}, {
+				"path": "changeDiapers/detail",
+				"style": {
+					"navigationBarTitleText": "记录详情"
+				}
 			}]
 		},
 		{

@@ -10,13 +10,15 @@
     <view
       v-else
       class="record">
-      <xc-list-body :body="detail">
-				<template v-slot:extra>
-					<slot
-						name="detail-extra"
-						:detail="detail" />
-				</template>
-			</xc-list-body>
+			<slot>
+				<xc-list-body :body="detail">
+					<template v-slot:extra>
+						<slot
+							name="detail-extra"
+							:detail="detail" />
+					</template>
+				</xc-list-body>
+			</slot>
       <view
         v-if="hasLogin && hasPermission"
         class="button-group">

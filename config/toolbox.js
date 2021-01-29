@@ -18,6 +18,16 @@ const ToolboxConfig = {
 		title: '辅食',
 		module: 'foodSupplement',
 		collection: 'toolbox-food-supplement'
+	},
+	sleeping: {
+		title: '睡眠',
+		module: 'sleeping',
+		collection: 'toolbox-sleeping'
+	},
+	changeDiapers: {
+		title: '换尿布',
+		module: 'changeDiapers',
+		collection: 'toolbox-change-diapers'
 	}
 }
 

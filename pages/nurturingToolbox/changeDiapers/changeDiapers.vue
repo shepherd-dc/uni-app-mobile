@@ -1,10 +1,10 @@
 <template>
-  <view class="food-supplement">
+  <view class="changeDiapers">
     <list-layout
       :list="list"
       :loading="loading"
 			:extra="true"
-      module="foodSupplement">
+      module="changeDiapers">
 				<template v-slot:list-extra="{item}">
 					<xc-list-body
 						:body="item"
@@ -22,7 +22,7 @@
 import { getRecordsList } from '@/service/toolbox'
 import ListLayout from '../components/list-layout'
 import toolboxConfig from '@/config/toolbox'
-const { foodSupplement: { collection } } = toolboxConfig
+const { changeDiapers: { collection } } = toolboxConfig
 
 export default {
   components: {
@@ -44,7 +44,7 @@ export default {
       const { data } = res
       if (data && data.length) {
         this.list = res.data.map(item => {
-          item.typeText = '辅食'
+          item.typeText = '换尿布'
           item.type = -1
           item.title = item.feedingTime
           item.description = item.note
@@ -54,14 +54,14 @@ export default {
       this.loading = false
     },
 		toDetail (id) {
-			this.$navigateTo('/nurturingToolbox/foodSupplement/detail?params=' + id)
+			this.$navigateTo('/nurturingToolbox/changeDiapers/detail?params=' + id)
 		}
   }
 }
 </script>
 
 <style lang="less" scoped>
-	.food-supplement {
+	.changeDiapers {
 		width: 100%;
 	}
 	.ingredients {

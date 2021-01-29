@@ -18,5 +18,13 @@ export default [
 	{
 	  name: 'foodSupplement',
 	  path: '/nurturingToolbox/foodSupplement/foodSupplement'
+	},
+	{
+	  name: 'sleeping',
+	  path: '/nurturingToolbox/sleeping/sleeping'
+	},
+	{
+	  name: 'changeDiapers',
+	  path: '/nurturingToolbox/changeDiapers/changeDiapers'
 	}
 ]
