@@ -140,6 +140,20 @@
 				"style": {
 					"navigationBarTitleText": "记录详情"
 				}
+			}, {
+				"path": "fever/fever",
+				"style": {
+					"navigationBarTitleText": "发烧体温",
+					"enablePullDownRefresh": false
+				}
+			}, {
+				"path": "fever/add",
+				"style": {}
+			}, {
+				"path": "fever/detail",
+				"style": {
+					"navigationBarTitleText": "记录详情"
+				}
 			}]
 		},
 		{

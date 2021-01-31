@@ -1,9 +1,9 @@
 <template>
-  <view class="uncomfortable">
+  <view class="fever">
     <list-layout
       :list="list"
       :loading="loading"
-      module="uncomfortable" />
+      module="fever" />
   </view>
 </template>
 
@@ -11,7 +11,7 @@
 import { getRecordsList } from '@/service/toolbox'
 import ListLayout from '../components/list-layout'
 import toolboxConfig from '@/config/toolbox'
-const { uncomfortable: { collection } } = toolboxConfig
+const { fever: { collection } } = toolboxConfig
 export default {
   components: {
     ListLayout
@@ -32,9 +32,10 @@ export default {
       const { data } = res
       if (data && data.length) {
         this.list = res.data.map(item => {
-          item.typeText = '²»Êæ·þ'
+          item.typeText = item.measurement
           item.type = 2
-          item.title = item.startTime
+          item.title = item.recordingTime
+					item.extra = item.temperature
           item.description = item.note
           return item
         })
@@ -46,7 +47,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-	.uncomfortable {
+	.fever {
 		width: 100%;
 	}
 </style>

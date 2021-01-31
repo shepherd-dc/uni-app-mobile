@@ -33,6 +33,11 @@ const ToolboxConfig = {
 		title: '不舒服',
 		module: 'uncomfortable',
 		collection: 'toolbox-uncomfortable'
+	},
+	fever: {
+		title: '发烧体温',
+		module: 'fever',
+		collection: 'toolbox-fever'
 	}
 }
 

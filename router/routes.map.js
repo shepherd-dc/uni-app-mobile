@@ -30,5 +30,9 @@ export default [
 	{
 	  name: 'uncomfortable',
 	  path: '/nurturingToolbox/uncomfortable/uncomfortable'
+	},
+	{
+	  name: 'fever',
+	  path: '/nurturingToolbox/fever/fever'
 	}
 ]
