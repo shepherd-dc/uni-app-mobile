@@ -154,6 +154,34 @@
 				"style": {
 					"navigationBarTitleText": "记录详情"
 				}
+			}, {
+				"path": "randomNote/randomNote",
+				"style": {
+					"navigationBarTitleText": "随意记",
+					"enablePullDownRefresh": false
+				}
+			}, {
+				"path": "randomNote/add",
+				"style": {}
+			}, {
+				"path": "randomNote/detail",
+				"style": {
+					"navigationBarTitleText": "记录详情"
+				}
+			}, {
+				"path": "medication/medication",
+				"style": {
+					"navigationBarTitleText": "用药",
+					"enablePullDownRefresh": false
+				}
+			}, {
+				"path": "medication/add",
+				"style": {}
+			}, {
+				"path": "medication/detail",
+				"style": {
+					"navigationBarTitleText": "记录详情"
+				}
 			}]
 		},
 		{

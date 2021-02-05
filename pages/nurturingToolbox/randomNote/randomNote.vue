@@ -1,20 +1,9 @@
 <template>
-  <view class="food-supplement">
+  <view class="randomNote">
     <list-layout
       :list="list"
       :loading="loading"
-			:extra="true"
-      module="foodSupplement">
-				<template v-slot:list-extra="{item}">
-					<xc-list-body
-						:body="item"
-						@click.native="toDetail(item._id)">
-						<template v-slot:extra>
-							<view class="ingredients">{{ item.ingredients }}</view>
-						</template>
-					</xc-list-body>
-				</template>
-		</list-layout>
+      module="randomNote" />
   </view>
 </template>
 
@@ -22,13 +11,12 @@
 import { getRecordsList } from '@/service/toolbox'
 import ListLayout from '../components/list-layout'
 import toolboxConfig from '@/config/toolbox'
-const { foodSupplement: { collection } } = toolboxConfig
-
+const { randomNote: { collection } } = toolboxConfig
 export default {
   components: {
     ListLayout
   },
-  created () {
+  onShow () {
     this.getRecordsList()
   },
   data () {
@@ -44,29 +32,21 @@ export default {
       const { data } = res
       if (data && data.length) {
         this.list = res.data.map(item => {
-          item.typeText = '辅食'
-          item.type = -1
-          item.title = item.feedingTime
+          item.typeText = '随意记'
+          item.type = 1
+          item.title = item.startTime
           item.description = item.note
           return item
         })
       }
       this.loading = false
-    },
-		toDetail (id) {
-			this.$navigateTo('/nurturingToolbox/foodSupplement/detail?params=' + id)
-		}
+    }
   }
 }
 </script>
 
 <style lang="less" scoped>
-	.food-supplement {
+	.randomNote {
 		width: 100%;
-	}
-	.ingredients {
-		margin-top: 20rpx;
-		font-size: 30rpx;
-		color: #333;
 	}
 </style>

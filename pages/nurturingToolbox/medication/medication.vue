@@ -1,16 +1,16 @@
 <template>
-  <view class="food-supplement">
+  <view class="medication">
     <list-layout
       :list="list"
       :loading="loading"
 			:extra="true"
-      module="foodSupplement">
+      module="medication">
 				<template v-slot:list-extra="{item}">
 					<xc-list-body
 						:body="item"
 						@click.native="toDetail(item._id)">
 						<template v-slot:extra>
-							<view class="ingredients">{{ item.ingredients }}</view>
+							<view class="medicine">{{ item.medicineName }}</view>
 						</template>
 					</xc-list-body>
 				</template>
@@ -22,7 +22,7 @@
 import { getRecordsList } from '@/service/toolbox'
 import ListLayout from '../components/list-layout'
 import toolboxConfig from '@/config/toolbox'
-const { foodSupplement: { collection } } = toolboxConfig
+const { medication: { collection } } = toolboxConfig
 
 export default {
   components: {
@@ -40,13 +40,14 @@ export default {
   methods: {
     async getRecordsList () {
       const res = await getRecordsList(collection)
-      console.log('getRecordsList', res)
+      // console.log('getRecordsList', res)
       const { data } = res
       if (data && data.length) {
         this.list = res.data.map(item => {
-          item.typeText = '辅食'
-          item.type = -1
+          item.typeText = '用药'
+          item.type = 2
           item.title = item.feedingTime
+					item.extra = item.volume
           item.description = item.note
           return item
         })
@@ -54,17 +55,17 @@ export default {
       this.loading = false
     },
 		toDetail (id) {
-			this.$navigateTo('/nurturingToolbox/foodSupplement/detail?params=' + id)
+			this.$navigateTo('/nurturingToolbox/medication/detail?params=' + id)
 		}
   }
 }
 </script>
 
 <style lang="less" scoped>
-	.food-supplement {
+	.medication {
 		width: 100%;
 	}
-	.ingredients {
+	.medicine {
 		margin-top: 20rpx;
 		font-size: 30rpx;
 		color: #333;

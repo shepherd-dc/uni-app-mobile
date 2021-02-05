@@ -34,5 +34,13 @@ export default [
 	{
 	  name: 'fever',
 	  path: '/nurturingToolbox/fever/fever'
+	},
+	{
+	  name: 'medication',
+	  path: '/nurturingToolbox/medication/medication'
+	},
+	{
+	  name: 'randomNote',
+	  path: '/nurturingToolbox/randomNote/randomNote'
 	}
 ]

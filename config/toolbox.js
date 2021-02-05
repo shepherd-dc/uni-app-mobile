@@ -38,6 +38,16 @@ const ToolboxConfig = {
 		title: '发烧体温',
 		module: 'fever',
 		collection: 'toolbox-fever'
+	},
+	medication: {
+		title: '用药',
+		module: 'medication',
+		collection: 'toolbox-medication'
+	},
+	randomNote: {
+		title: '随意记',
+		module: 'randomNote',
+		collection: 'toolbox-random-note'
 	}
 }
 

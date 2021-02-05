@@ -28,7 +28,7 @@ export default {
   components: {
     ListLayout
   },
-  onShow () {
+  created () {
     this.getRecordsList()
   },
   data () {
@@ -40,7 +40,7 @@ export default {
   methods: {
     async getRecordsList () {
       const res = await getRecordsList(collection)
-      // console.log('getRecordsList', res)
+      console.log('getRecordsList', res)
       const { data } = res
       if (data && data.length) {
         this.list = res.data.map(item => {

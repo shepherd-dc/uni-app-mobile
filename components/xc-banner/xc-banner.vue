@@ -31,11 +31,11 @@ export default {
   data () {
     return {
       info: [{
-        src: 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/images/shuijiao.jpg'
+        src: '../../static/img/1.jpg'
       }, {
-        src: 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/images/muwu.jpg'
+        src: '../../static/img/2.jpg'
       }, {
-        src: 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/images/cbd.jpg'
+        src: '../../static/img/3.jpg'
       }],
       current: 0,
       mode: 'round'
