@@ -32,7 +32,7 @@ export default {
       const { data } = res
       if (data && data.length) {
         this.list = res.data.map(item => {
-          item.typeText = '²»Êæ·ş'
+          item.typeText = 'ä¸èˆ’æœ'
           item.type = 2
           item.title = item.startTime
           item.description = item.note
