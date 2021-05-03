@@ -8,15 +8,23 @@
     <view
       v-if="hasLogin"
       class="main-box">
-      <view class="main-menus">
+      <view 
+				class="main-menus"
+				v-for="supmenu in supmenus"
+				:key="supmenu._id">
         <view class="card-header">
           <view class="header-item header-icon"></view>
-          <text class="header-item header-title">养育工具箱</text>
+          <text class="header-item header-title">{{ supmenu.name }}</text>
         </view>
         <xc-menus
+					v-if="supmenu.type === 'menu'"
           :menus="menus"
           :wrap="false"
           @navigateTo="navigateTo" />
+				<video
+					v-if="supmenu.type === 'video'"
+					src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-7d442ec4-8edf-4e99-8e52-4170f0c2ac6c/3c160445-7dd1-495d-a360-ae0ef72e126d.mp4"
+					controls />
       </view>
     </view>
 
@@ -36,7 +44,7 @@
 <script>
 import { mapState } from 'vuex'
 import { loginCheck } from '@/utils/loginCheck'
-import { getMenusList } from '@/service/menus'
+import { getSupmenusList, getMenusList } from '@/service/menus'
 import routesMap from '@/router/routes.map'
 
 export default {
@@ -44,15 +52,27 @@ export default {
     loginCheck()
   },
   onShow () {
-    if (this.hasLogin) this.queryMenus()
+    if (this.hasLogin) {
+			this.querySupmenus()
+			this.queryMenus()
+		}
   },
   data () {
 	  return {
+			supmenus: [],
 	    menus: []
 	  }
   },
   computed: mapState(['forcedLogin', 'hasLogin', 'username']),
   methods: {
+		async querySupmenus () {
+		  const res = await getSupmenusList()
+		  console.log('getSupmenusList', res.data)
+		  const { data } = res
+		  if (data && data.length) {
+		    this.supmenus = data
+		  }
+		},
 	  async queryMenus () {
       const res = await getMenusList()
       console.log('getMenusList', res.data)
@@ -85,12 +105,9 @@ export default {
 		width: 100%;
 		height: 100%;
 	}
-	.hello {
+	.main-menus {
 		color: #333;
-		padding: 0 30rpx;
-		.welcome {
-			margin: 20rpx 0;
-		}
+		margin-bottom: 40rpx;
 	}
 	.main-box {
 		padding: 30rpx 0 0 20rpx;

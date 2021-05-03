@@ -27,3 +27,29 @@ export async function getMenusList () {
   }
 	return res
 }
+
+export async function getSupmenusList () {
+	let res = {}
+	uni.showLoading()
+	try {
+		const { result } = await db.collection('supmenus')
+			.where({ status: 0 })
+			.field({
+				name: 1,
+				type: 1,
+				_id: 1
+			})
+			.orderBy('sort', 'desc')
+			.get()
+		res = result
+	} catch (e) {
+		console.error(e) // eslint-disable-line
+		uni.showModal({
+			content: e.message || '服务器异常，请稍后再试',
+			showCancel: false
+		})
+	} finally {
+    uni.hideLoading()
+  }
+	return res
+}
