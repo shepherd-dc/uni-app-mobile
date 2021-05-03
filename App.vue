@@ -1,6 +1,11 @@
 <script>
 export default {
   onLaunch () {
+		// // 调用 wx.cloud.init() 完成初始化后，方可再调用其他云 API
+		// wx.cloud.init({
+		// 	traceUser: true
+		// })
+		// 监听自动刷新用户 token
 		this.$db.auth.on('refreshToken', function({
 			token,
 			tokenExpired
