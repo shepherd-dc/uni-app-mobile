@@ -26,6 +26,7 @@ exports.main = async (event, context) => {
   })
   const session = result.data;
   const sessionKey = session.session_key;
+	const openid = session.openid
 	const appid = wx.appId
 	const encryptedData = event.encryptedData;
 	const iv = event.iv;
@@ -37,5 +38,6 @@ exports.main = async (event, context) => {
 
   const pc = new WXBizDataCrypt(appid, sessionKey);
   const data = pc.decryptData(encryptedData, iv);
+	data.openid = openid
   return data;
 }

@@ -38,6 +38,9 @@
 		<view class="btn-row">
 			<button type="default" @click="test">账号登录测试</button>
 		</view>
+		<view class="btn-row">
+			<button type="default" @click="syncGrowthValue">同步微信运动数据 {{ stepInfoList.step }}</button>
+		</view>
   </view>
 </template>
 
@@ -50,12 +53,14 @@ export default {
     loginCheck()
   },
 	onReady () {
-		//用户授权读取微信运动数据
-		this.authorizeWeRun()
+		// //用户授权读取微信运动数据
+		// this.authorizeWeRun()
 	},
 	data() {
 		return {
-			stepInfoList: []
+			stepInfoList: {
+				step: 0
+			}
 		}
 	},
   computed: {
@@ -81,6 +86,10 @@ export default {
 			uni.navigateTo({
 			  url: '../user/login'
 			})
+		},
+		syncGrowthValue () {
+			//用户授权读取微信运动数据
+			this.authorizeWeRun()
 		},
 		/**
 		 * 用户授权读取微信运动数据
@@ -146,9 +155,9 @@ export default {
 					iv
 				},
 				success: (res) => {
-					console.log('weRunData', res.result)
+					console.log('weRunData', res.result[res.result.length - 1])
 					//保存调用云函数得到的解密后微信运动步数，用于显示
-					this.stepInfoList = res.result
+					this.stepInfoList = res.result[res.result.length - 1]
 				},
 			})
 		},
