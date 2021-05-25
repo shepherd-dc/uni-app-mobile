@@ -24,6 +24,18 @@
 			"style": {
 				"navigationBarTitleText": "文章详情"
 			}
+		}, {
+			"path": "pages/mine/point",
+			"style": {
+				"navigationBarTitleText": "积分",
+				"enablePullDownRefresh": false
+			}
+		}, {
+			"path": "pages/mine/growth",
+			"style": {
+				"navigationBarTitleText": "成长值",
+				"enablePullDownRefresh": false
+			}
 		}
 	],
 	"subPackages": [{
