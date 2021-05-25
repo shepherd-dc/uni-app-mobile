@@ -101,10 +101,10 @@ async function syncGrowthValue(weRunData, openid) {
   //-----------------算法步骤 3 更新用户当前总成长值-------------------------end
 
   //算法步骤 4 调用风控规则校验
-  // await uniCloud.callFunction({
-  //   name: 'growthValueRiskControl',
-  //   data: {
-  //     openid: openid
-  //   }
-  // })
+  await uniCloud.callFunction({
+    name: 'growthValueRiskControl',
+    data: {
+      openid: openid
+    }
+  })
 }
