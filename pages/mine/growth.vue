@@ -13,7 +13,7 @@
 			@on-item-click="onLevelItemClick" />	
 		
 		<view class="btn-row">
-			<button type="default" @click="syncGrowthValue">同步微信运动数据 {{ stepInfoList.step }}</button>
+			<button type="default" @click="syncGrowthValue">同步微信运动数据 {{ stepInfoList.step || '' }}</button>
 		</view>
 		
 	</view>
@@ -45,9 +45,7 @@
 				selectedLevel: undefined,
 				growthValueToNextLevel: 0,
 				nextLevel: undefined,
-				stepInfoList: {
-					step: 0
-				},
+				stepInfoList: [],
 				inited: false
 			}
 		},
@@ -123,9 +121,9 @@
 						iv
 					},
 					success: (res) => {
-						console.log('weRunData', res.result[res.result.length - 1])
+						console.log('weRunData', res.result.stepInfoList[res.result.stepInfoList.length - 1])
 						//保存调用云函数得到的解密后微信运动步数，用于显示
-						this.stepInfoList = res.result[res.result.length - 1]
+						this.stepInfoList = res.result.stepInfoList[res.result.stepInfoList.length - 1]
 					},
 				})
 			},

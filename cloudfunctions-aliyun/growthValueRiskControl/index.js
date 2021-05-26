@@ -145,8 +145,8 @@ exports.main = async(event, context) => {
   }
 	
   return {
-		code: 0,
-		msg: '账户异常',
+		code: result ? 0 : 403,
+		msg: result ? '账户异常' : 'ok',
     data: {
 			isLocked: result
 		}

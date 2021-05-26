@@ -11,7 +11,7 @@ const getHandledValue = num => {
  * @param {Number} timeStamp 传入的时间戳
  * @param {Number} startType 要返回的时间字符串的格式类型，传入'year'则返回年开头的完整时间
  */
-export const getDate = (timeStamp = Date.now(), startType = 'date') => {
+export const getDate = (timeStamp = Date.now(), startType = 'date', split = '-') => {
 	const d = new Date(timeStamp)
 	const year = d.getFullYear()
 	const month = getHandledValue(d.getMonth() + 1)
@@ -20,9 +20,9 @@ export const getDate = (timeStamp = Date.now(), startType = 'date') => {
 	const minutes = getHandledValue(d.getMinutes())
 	const second = getHandledValue(d.getSeconds())
 	let resStr = ''
-	if (startType === 'year') resStr = year + '-' + month + '-' + date + ' ' + hours + ':' + minutes + ':' + second
+	if (startType === 'year') resStr = year + split + month + split + date + ' ' + hours + ':' + minutes + ':' + second
 	else if (startType === 'date') resStr = year + '年' + month + '月' + date + '日'
-	else resStr = month + '-' + date + ' ' + hours + ':' + minutes
+	else resStr = month + split + date + ' ' + hours + ':' + minutes
 	return resStr
 }
 
