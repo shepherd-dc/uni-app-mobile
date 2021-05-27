@@ -47,6 +47,28 @@ class UserService {
 	  }
 		return res
 	}
+	
+	async getOpenid (uid) {
+		let res = {}
+		uni.showLoading()
+		try {
+			const { result } = await db.collection('uni-id-users')
+				.where({
+					_id: uid
+				})
+				.get()
+			res = result
+		} catch (e) {
+			console.error(e) // eslint-disable-line
+			uni.showModal({
+				content: e.message || '服务器异常，请稍后再试',
+				showCancel: false
+			})
+		} finally {
+		  uni.hideLoading()
+		}
+		return res
+	}
 }
 
 export default UserService

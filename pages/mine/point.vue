@@ -5,7 +5,7 @@
 				积分记录 {{totalPoint}}
 			</view>
 			<view v-for="item in allPointRecords" :key="item._id" class="record">
-				{{item.time + ' - ' + item.changePoints}}
+				{{item.time + ' : ' + item.changePoints}}
 			</view>
 		</view>
 		<view class="btn-row">

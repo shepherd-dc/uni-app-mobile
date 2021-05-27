@@ -45,6 +45,10 @@
 				</view>
 			</view>
 			
+			<uni-list>
+				<uni-list-item class="member" title="我的会员卡" clickable link to="/pages/mine/card"></uni-list-item>
+			</uni-list>
+			
       <view class="btn-row">
         <button
           type="default"
@@ -104,13 +108,13 @@ export default {
 
 <style lang="less" scoped>
 .userinfo {
-  text-align: center;
   &-media {
     background-color: #fff;
     padding: 50rpx 40rpx;
     display: flex;
     align-items: center;
     position: relative;
+		text-align: center;
     .avatar {
       width: 120rpx;
       height: 120rpx;
@@ -140,5 +144,8 @@ export default {
 			color: #999;
 		}
 	}
+}
+/deep/.member .uni-list-item__content-title {
+	font-size: 32rpx;
 }
 </style>

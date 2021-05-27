@@ -65,6 +65,10 @@ export async function loginCheck () {
 			loginModal('登录已过期', '登录已过期，请重新登录')
 		} else if (res.code === 30204) {
 			loginModal('非法令牌', '非法令牌，请重新登录')
+		} else {
+			return new Promise((resolve, reject) => {
+				resolve(res.data)
+			})
 		}
 	}
 }

@@ -37,7 +37,25 @@
 				"enablePullDownRefresh": false
 			}
 		}
-	],
+	    ,{
+            "path" : "pages/mine/card",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "会员卡",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/mine/pay",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "加入会员",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	"subPackages": [{
 			"root": "pages/nurturingToolbox",
 			"pages": [{
