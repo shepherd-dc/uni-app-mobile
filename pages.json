@@ -20,11 +20,6 @@
 				"navigationBarTitleText": "我的"
 			}
 		}, {
-			"path": "pages/article/article",
-			"style": {
-				"navigationBarTitleText": "文章详情"
-			}
-		}, {
 			"path": "pages/community/community",
 			"style": {
 				"navigationBarTitleText": "社区",
@@ -244,11 +239,26 @@
 			}]
 		},
 		{
+			"root": "pages/article",
+			"pages": [{
+				"path": "article",
+				"style": {
+					"navigationBarTitleText": "文章详情"
+				}
+			}]
+		},
+		{
 			"root": "pages/ugc",
 			"pages": [{
 				"path": "ugc",
 				"style": {
-					"navigationBarTitleText": "UGC",
+					"navigationBarTitleText": "发表笔记",
+					"enablePullDownRefresh": false
+				}
+			}, {
+				"path": "detail",
+				"style": {
+					"navigationBarTitleText": "笔记详情",
 					"enablePullDownRefresh": false
 				}
 			}]

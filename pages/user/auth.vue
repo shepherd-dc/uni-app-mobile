@@ -4,7 +4,7 @@
       <view class="logo">
         <image
           class="logo-image"
-          src="../../static/img/logo.jpg" />
+          src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-7d442ec4-8edf-4e99-8e52-4170f0c2ac6c/88e2b232-c1de-4ad2-a53c-63d71d36fd7a.jpg" />
       </view>
       <view class="login">
         <button

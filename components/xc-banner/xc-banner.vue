@@ -31,11 +31,11 @@ export default {
   data () {
     return {
       info: [{
-        src: '../../static/img/1.jpg'
+        src: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-7d442ec4-8edf-4e99-8e52-4170f0c2ac6c/391b13bb-d8f6-435c-b182-25dfdf62635f.jpg'
       }, {
-        src: '../../static/img/2.jpg'
+        src: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-7d442ec4-8edf-4e99-8e52-4170f0c2ac6c/0ec708b5-2bf1-4156-b3a2-cf2ae8681d56.jpg'
       }, {
-        src: '../../static/img/3.jpg'
+        src: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-7d442ec4-8edf-4e99-8e52-4170f0c2ac6c/9a4f4a90-5a4f-49fe-a933-952bf915f943.jpg'
       }],
       current: 0,
       mode: 'round'
