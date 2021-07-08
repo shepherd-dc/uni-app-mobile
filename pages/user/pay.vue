@@ -173,7 +173,7 @@
 			},
 			confirm () {
 				uni.navigateTo({
-					url: '/pages/mine/card'
+					url: '/pages/user/card'
 				})
 			}
 		}

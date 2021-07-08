@@ -46,7 +46,7 @@
 			</view>
 			
 			<uni-list>
-				<uni-list-item class="member" title="我的会员卡" clickable link to="/pages/mine/card"></uni-list-item>
+				<uni-list-item class="member" title="我的会员卡" clickable link to="/pages/user/card"></uni-list-item>
 			</uni-list>
 			
       <view class="btn-row">
@@ -99,7 +99,7 @@ export default {
 		},
 		navigateToPage (p) {
 			uni.navigateTo({
-				url: `/pages/mine/${p}`
+				url: `/pages/user/${p}`
 			})
 		}
   }

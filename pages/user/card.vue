@@ -59,7 +59,7 @@
 		methods: {
 			join () {
 				uni.navigateTo({
-					url: '/pages/mine/pay'
+					url: '/pages/user/pay'
 				})
 			}
 		}

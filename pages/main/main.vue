@@ -22,7 +22,9 @@
           :wrap="false"
           @navigateTo="navigateTo" />
 				<video
+					class="video-demo"
 					v-if="supmenu.type === 'video'"
+					poster="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-7d442ec4-8edf-4e99-8e52-4170f0c2ac6c/b2570d14-7de5-455d-bec7-793338baeae4.jpg"
 					src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-7d442ec4-8edf-4e99-8e52-4170f0c2ac6c/3c160445-7dd1-495d-a360-ae0ef72e126d.mp4"
 					controls />
       </view>
@@ -127,5 +129,9 @@ export default {
 			height: 40rpx;
 			background-color: #56ceab;
 		}
+	}
+	.video-demo {
+		width: 640rpx;
+		height: 427rpx;
 	}
 </style>

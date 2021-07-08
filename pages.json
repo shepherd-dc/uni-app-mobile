@@ -25,37 +25,13 @@
 				"navigationBarTitleText": "文章详情"
 			}
 		}, {
-			"path": "pages/mine/point",
+			"path": "pages/community/community",
 			"style": {
-				"navigationBarTitleText": "积分",
-				"enablePullDownRefresh": false
-			}
-		}, {
-			"path": "pages/mine/growth",
-			"style": {
-				"navigationBarTitleText": "成长值",
+				"navigationBarTitleText": "社区",
 				"enablePullDownRefresh": false
 			}
 		}
-	    ,{
-            "path" : "pages/mine/card",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "会员卡",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/mine/pay",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "加入会员",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+	],
 	"subPackages": [{
 			"root": "pages/nurturingToolbox",
 			"pages": [{
@@ -159,7 +135,7 @@
 			}, {
 				"path": "uncomfortable/uncomfortable",
 				"style": {
-					"navigationBarTitleText": "",
+					"navigationBarTitleText": "不舒服",
 					"enablePullDownRefresh": false
 				}
 			}, {
@@ -241,6 +217,40 @@
 				"style": {
 					"navigationBarTitleText": "完善宝宝信息"
 				}
+			}, {
+				"path": "point",
+				"style": {
+					"navigationBarTitleText": "积分",
+					"enablePullDownRefresh": false
+				}
+			}, {
+				"path": "growth",
+				"style": {
+					"navigationBarTitleText": "成长值",
+					"enablePullDownRefresh": false
+				}
+			}, {
+				"path": "card",
+				"style": {
+					"navigationBarTitleText": "会员卡",
+					"enablePullDownRefresh": false
+				}
+			}, {
+				"path": "pay",
+				"style": {
+					"navigationBarTitleText": "加入会员",
+					"enablePullDownRefresh": false
+				}
+			}]
+		},
+		{
+			"root": "pages/ugc",
+			"pages": [{
+				"path": "ugc",
+				"style": {
+					"navigationBarTitleText": "UGC",
+					"enablePullDownRefresh": false
+				}
 			}]
 		}
 	],
@@ -253,6 +263,11 @@
 			"text": "首页",
 			"iconPath": "static/img/home.png",
 			"selectedIconPath": "static/img/homeHL.png"
+		}, {
+			"pagePath": "pages/community/community",
+			"text": "社区",
+			"iconPath": "static/img/ugc.png",
+			"selectedIconPath": "static/img/ugcHL.png"
 		}, {
 			"pagePath": "pages/mine/mine",
 			"text": "我的",
