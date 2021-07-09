@@ -8,11 +8,12 @@ const MAXPOSTNOTEPERDAY = 30000 //单日最大发表笔记获得成长值数
 //格式化日期
 const formatDate = date => {
   //将服务器时间转换为北京时间
-  var localTime = date.getTime();
-  var localOffset = date.getTimezoneOffset() * 60000; //获得当地时间偏移的毫秒数
-  var utc = localTime + localOffset; //utc即GMT时间
-  var wishTime = utc + (3600000 * 8); //offset 时区  中国为  8
-  date = new Date(wishTime)
+	date = new Date(date)
+  // var localTime = date.getTime();
+  // var localOffset = date.getTimezoneOffset() * 60000; //获得当地时间偏移的毫秒数
+  // var utc = localTime + localOffset; //utc即GMT时间
+  // var wishTime = utc + (3600000 * 8); //offset 时区  中国为  8
+  // date = new Date(wishTime)
 
   const year = date.getFullYear()
   const month = date.getMonth() + 1

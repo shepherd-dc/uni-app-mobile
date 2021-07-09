@@ -46,7 +46,9 @@
 
 <style lang="less" scoped>
 	.community {
+		width: 100%;
 		padding-top: 80rpx;
+		padding-bottom: 100rpx;
 		&-tabs {
 			width: 100%;
 			position: fixed;
